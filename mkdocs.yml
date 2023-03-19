@@ -1,9 +1,9 @@
 # Project information
-site_name: Sample Docs
+site_name: Excelbudget Docs
 site_url: https://patrick-5546.github.io/excelbudget/
-site_author: A. Random Developer
+site_author: Patrick Creighton
 site_description: >-
-  Documentation site for sample, a sample Python project
+  Documentation site for excelbudget, a personal bookkeeping assistant
 
 # Repository
 repo_name: patrick-5546/excelbudget
