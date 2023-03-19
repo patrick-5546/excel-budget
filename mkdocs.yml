@@ -6,8 +6,8 @@ site_description: >-
   Documentation site for sample, a sample Python project
 
 # Repository
-repo_name: patrick-5546/sampleproject
-repo_url: https://github.com/patrick-5546/sampleproject
+repo_name: patrick-5546/excelbudget
+repo_url: https://github.com/patrick-5546/excelbudget
 edit_uri: "edit/main/docs/"
 
 # Configuration

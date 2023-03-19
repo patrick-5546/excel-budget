@@ -9,12 +9,12 @@
 
 <!-- [versionbadge]: https://img.shields.io/pypi/v/sample -->
 <!-- [packageurl]: https://pypi.org/project/sample/ -->
-[testbadge]: https://github.com/patrick-5546/sampleproject/actions/workflows/ci.yml/badge.svg
-[testfile]: https://github.com/patrick-5546/sampleproject/actions/workflows/ci.yml
+[testbadge]: https://github.com/patrick-5546/excelbudget/actions/workflows/ci.yml/badge.svg
+[testfile]: https://github.com/patrick-5546/excelbudget/actions/workflows/ci.yml
 [covbadge]: https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/patrick-5546/845b19d91f3d03c94677f6fae6eb414c/raw/covbadge.json
 <!-- [pyversionbadge]: https://img.shields.io/pypi/pyversions/sample -->
-[licensebadge]: https://img.shields.io/github/license/patrick-5546/sampleproject
-[licenseurl]: https://github.com/patrick-5546/sampleproject/blob/main/LICENSE
+[licensebadge]: https://img.shields.io/github/license/patrick-5546/excelbudget
+[licenseurl]: https://github.com/patrick-5546/excelbudget/blob/main/LICENSE
 
 ![Python Logo](https://www.python.org/static/community_logos/python-logo.png "Sample inline image")
 
@@ -49,7 +49,7 @@ may be appropriate.
 
 [packaging guide]: https://packaging.python.org
 [distribution tutorial]: https://packaging.python.org/tutorials/packaging-projects/
-[src]: https://github.com/patrick-5546/sampleproject
+[src]: https://github.com/patrick-5546/excelbudget
 [rst]: http://docutils.sourceforge.net/rst.html
 [md]: https://tools.ietf.org/html/rfc7764#section-3.5 "CommonMark variant"
 [md use]: https://packaging.python.org/specifications/core-metadata/#description-content-type-optional

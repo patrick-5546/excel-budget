@@ -21,7 +21,7 @@ Notes:
 
 ??? quote "CI workflow source code"
 
-    [`.github/workflows/ci.yml`](https://github.com/patrick-5546/sampleproject/blob/main/.github/workflows/ci.yml)
+    [`.github/workflows/ci.yml`](https://github.com/patrick-5546/excelbudget/blob/main/.github/workflows/ci.yml)
 
     ```yaml
     --8<-- ".github/workflows/ci.yml"
@@ -33,7 +33,7 @@ Notes:
 
 ??? quote "Release workflow source code"
 
-    [`.github/workflows/release.yml`](https://github.com/patrick-5546/sampleproject/blob/main/.github/workflows/release.yml)
+    [`.github/workflows/release.yml`](https://github.com/patrick-5546/excelbudget/blob/main/.github/workflows/release.yml)
 
     ```yaml
     --8<-- ".github/workflows/release.yml"
