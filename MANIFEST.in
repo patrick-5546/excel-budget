@@ -1,0 +1,14 @@
+include *.md
+include .coveragerc
+include .flake8
+include .markdownlint.json
+include .mypy.ini
+include mkdocs.yml
+include tox.ini
+
+recursive-include .vscode *
+recursive-include docs *.js
+recursive-include docs *.md
+recursive-include docs *.py
+recursive-include requirements *.txt
+recursive-include tests *.py

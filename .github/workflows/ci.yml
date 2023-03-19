@@ -1,0 +1,242 @@
+name: CI
+
+on:
+  pull_request:
+    # default types + closed
+    types: [opened, synchronize, reopened, closed]
+  push:
+    branches:
+      - main
+
+defaults:
+  run:
+    shell: bash
+
+# cancel in-progress runs for the current workflow
+concurrency:
+  group: "${{ github.workflow }}-${{ github.ref }}"
+  cancel-in-progress: true
+
+env:
+  PIP_DISABLE_PIP_VERSION_CHECK: 1
+
+permissions:
+  contents: write
+
+jobs:
+  tests:
+    name: "Run tests using python-${{ matrix.python-version }} on ${{ matrix.os }}"
+    runs-on: "${{ matrix.os }}"
+    if: github.event_name != 'pull_request' || github.event.action != 'closed'
+
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+        python-version: ['3.8', '3.9', '3.10', '3.11']
+
+    steps:
+      - name: "Check out the repo"
+        uses: "actions/checkout@v3"
+
+      - name: "Set up Python"
+        uses: "actions/setup-python@v4"
+        with:
+          python-version: "${{ matrix.python-version }}"
+          cache: pip
+          cache-dependency-path: 'pyproject.toml'
+
+      - name: "Install dependencies"
+        run: python -m pip install tox tox-gh-actions
+
+      - name: "Run tox for python-${{ matrix.python-version }} on ${{ matrix.os }}"
+        run: python -m tox
+
+      - name: "Upload coverage data"
+        uses: actions/upload-artifact@v3
+        with:
+          name: covdata
+          path: .coverage.*
+
+  coverage:
+    name: Generate code coverage reports
+    needs: tests
+    runs-on: ubuntu-latest
+    if: github.event_name != 'pull_request' || github.event.action != 'closed'
+    steps:
+      - name: "Check out the repo"
+        uses: "actions/checkout@v3"
+
+      - name: "Set up Python"
+        uses: "actions/setup-python@v4"
+        with:
+          python-version: "3.x"
+          cache: pip
+          cache-dependency-path: 'pyproject.toml'
+
+      - name: "Install dependencies"
+        run: python -m pip install tox tox-gh-actions
+
+      - name: "Download coverage data from tests"
+        uses: actions/download-artifact@v3
+        with:
+          name: covdata
+
+      - name: "Combine coverage data from tests"
+        run: |
+          python -m tox -e coverage
+          export TOTAL=$(python -c "import json;print(json.load(open('coverage.json'))['totals']['percent_covered_display'])")
+          echo "total=$TOTAL" >> $GITHUB_ENV
+          echo "### Total coverage: ${TOTAL}%" >> $GITHUB_STEP_SUMMARY
+
+      - name: "Make coverage badge"
+        if: (github.repository == 'patrick-5546/sampleproject') && (github.ref == 'refs/heads/main')
+        # https://gist.github.com/patrick-5546/845b19d91f3d03c94677f6fae6eb414c
+        uses: schneegans/dynamic-badges-action@v1.6.0
+        with:
+          # GIST_TOKEN is a GitHub personal access token with scope "gist".
+          auth: ${{ secrets.GIST_TOKEN }}
+          gistID: 845b19d91f3d03c94677f6fae6eb414c   # replace with your real Gist id.
+          filename: covbadge.json
+          label: Coverage
+          message: ${{ env.total }}%
+          minColorRange: 50
+          maxColorRange: 90
+          valColorRange: ${{ env.total }}
+
+      - name: "Upload HTML coverage report"
+        uses: actions/upload-artifact@v3
+        with:
+          name: htmlcov
+          path: htmlcov/
+
+  docs-build:
+    name: Build Docs
+    runs-on: ubuntu-latest
+    if: github.event_name != 'pull_request' || github.event.action != 'closed'
+    steps:
+      - name: "Check out the repo"
+        uses: "actions/checkout@v3"
+
+      - name: "Set up Python"
+        uses: "actions/setup-python@v4"
+        with:
+          python-version: "3.x"
+          cache: pip
+          cache-dependency-path: 'pyproject.toml'
+
+      - name: "Install dependencies"
+        run: python -m pip install tox tox-gh-actions
+
+      - name: "Build docs"
+        run: python -m tox -e docs-build
+
+  # https://github.com/nosborn/github-action-markdown-cli
+  markdownlint:
+    name: Lint Markdown
+    runs-on: ubuntu-latest
+    if: github.event_name != 'pull_request' || github.event.action != 'closed'
+    needs: docs-build
+    steps:
+    - name: Check out code
+      uses: actions/checkout@v3
+
+    - name: Lint markdown pages
+      uses: nosborn/github-action-markdown-cli@v3
+      with:
+        files: .
+        config_file: '.markdownlint.json'
+        dot: true
+
+  # https://github.com/gaurav-nelson/github-action-markdown-link-check
+  markdown-link-check:
+    name: Check links in Markdown files
+    runs-on: ubuntu-latest
+    if: github.event_name != 'pull_request' || github.event.action != 'closed'
+    needs: docs-build
+    steps:
+    - name: Check out code
+      uses: actions/checkout@v3
+
+    - name: Check markdown pages for broken links
+      uses: gaurav-nelson/github-action-markdown-link-check@v1
+      with:
+        config-file: '.mlc_config.json'
+        folder-path: '.'
+
+  # https://squidfunk.github.io/mkdocs-material/publishing-your-site/#with-github-actions
+  docs-deploy:
+    name: Deploy Docs version
+    runs-on: ubuntu-latest
+    if: github.event_name != 'pull_request' || github.event.action != 'closed'
+    needs: [coverage, markdownlint, markdown-link-check]
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v3
+        with:
+          # checkout all commits to get accurate page revision times
+          # for the git-revision-date-localized plugin
+          fetch-depth: '0'
+
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.x
+          cache: pip
+          cache-dependency-path: 'pyproject.toml'
+
+      - name: Cache downloaded files
+        uses: actions/cache@v3
+        with:
+          key: ${{ github.ref }}
+          path: .cache
+
+      - name: Download HTML coverage report
+        uses: actions/download-artifact@v3
+        with:
+          name: htmlcov
+          path: htmlcov
+
+      - name: Install dependencies
+        run: python -m pip install -r requirements/docs.txt
+
+      - name: "Deploy pr-${{ github.event.number }} version of the Docs"
+        if: github.event_name == 'pull_request'
+        run: |
+          git config user.name ci-bot
+          git config user.email ci-bot@example.com
+          mike deploy --push pr-${{ github.event.number }}
+
+      - name: Deploy main version of the Docs
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        run: |
+          git config user.name ci-bot
+          git config user.email ci-bot@example.com
+          mike deploy --push --update-aliases main latest
+
+  docs-delete:
+    name: Delete Docs version
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request' && github.event.action == 'closed'
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v3
+        with:
+          # checkout all commits and branches to get gh-pages
+          fetch-depth: '0'
+
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.x
+          cache: pip
+          cache-dependency-path: 'pyproject.toml'
+
+      - name: Install dependencies
+        run: python -m pip install -r requirements/docs.txt
+
+      - name: "Delete pr-${{ github.event.number }} version of the Docs"
+        run: |
+          git config user.name ci-bot
+          git config user.email ci-bot@example.com
+          mike delete --push pr-${{ github.event.number }}

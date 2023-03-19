@@ -1,0 +1,6 @@
+[flake8]
+exclude = .tox,*.egg,build,data,venv,.venv
+max-line-length = 88
+extend-ignore =
+    # See https://github.com/PyCQA/pycodestyle/issues/373
+    E203,

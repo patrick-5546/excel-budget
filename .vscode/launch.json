@@ -1,0 +1,46 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Serve Docs",
+            "type": "python",
+            "request": "launch",
+            "module": "mkdocs",
+            "args": [
+                "serve"
+            ],
+            "console": "internalConsole",
+            "internalConsoleOptions": "openOnSessionStart"
+        },
+        {
+            "name": "Launch Chrome",
+            "request": "launch",
+            "type": "chrome",
+            "url": "http://localhost:8000",
+            "presentation": {
+                "hidden": true
+            }
+        },
+        {
+            "name": "Launch Edge",
+            "request": "launch",
+            "type": "msedge",
+            "url": "http://localhost:8000",
+            "presentation": {
+                "hidden": true
+            }
+        }
+    ],
+    "compounds": [
+        {
+            "name": "Open Docs in Chrome",
+            "configurations": ["Serve Docs", "Launch Chrome"],
+            "stopAll": true
+        },
+        {
+            "name": "Open Docs in Edge",
+            "configurations": ["Serve Docs", "Launch Edge"],
+            "stopAll": true
+        }
+    ]
+}

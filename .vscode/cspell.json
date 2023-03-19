@@ -1,0 +1,33 @@
+{
+    "version": "0.2",
+    "language": "en",
+    "words": [
+        "arithmatex",
+        "covbadge",
+        "coveragerc",
+        "devenv",
+        "envlist",
+        "htmlcov",
+        "inlinehilite",
+        "isort",
+        "linenums",
+        "materialx",
+        "mathjax",
+        "mkdocs",
+        "mkdocstrings",
+        "mypy",
+        "pymdownx",
+        "pypa",
+        "PYPI",
+        "pyproject",
+        "Pytest",
+        "testenv",
+        "twemoji",
+        "venv"
+    ],
+    "flagWords": [
+        "hte"
+    ],
+    "allowCompoundWords": true,
+    "ignorePaths": []
+}

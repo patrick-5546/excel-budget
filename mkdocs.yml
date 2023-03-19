@@ -1,0 +1,166 @@
+# Project information
+site_name: Sample Docs
+site_url: https://patrick-5546.github.io/sampleproject/
+site_author: A. Random Developer
+site_description: >-
+  Documentation site for sample, a sample Python project
+
+# Repository
+repo_name: patrick-5546/sampleproject
+repo_url: https://github.com/patrick-5546/sampleproject
+edit_uri: "edit/main/docs/"
+
+# Configuration
+theme:
+  name: material
+  custom_dir: docs/overrides
+  features:
+    - content.action.edit
+    - content.action.view
+    - content.code.annotate
+    - content.code.copy
+    - content.tabs.link
+    - navigation.footer
+    - navigation.instant
+    - navigation.tabs
+    - navigation.tabs.sticky
+    - navigation.top
+    - search.highlight
+    - search.share
+    - search.suggest
+    - toc.follow
+  palette:
+    - media: "(prefers-color-scheme: light)" 
+      scheme: default
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - media: "(prefers-color-scheme: dark)" 
+      scheme: slate
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+
+# Plugins
+plugins:
+  - coverage
+  - gen-files:
+      scripts:
+      - docs/gen_ref_pages.py
+  - git-revision-date-localized:
+      timezone: America/Vancouver
+      exclude:
+        # generated files
+        - coverage.md
+        - reference/*
+        # files that only contain snippets of other files
+        - developer_guide/contributing.md
+        - README.md
+        - license.md
+  - literate-nav:
+      nav_file: SUMMARY.md
+  - mkdocstrings:
+      handlers:
+        python:
+          paths: [src]
+          import:
+          - https://docs.python.org/3/objects.inv
+          options:
+            # heading options
+            show_root_toc_entry: no
+            show_category_heading: yes
+            # docstrings options
+            docstring_style: google
+            line_length: 88
+            # signatures/annotations
+            separate_signature: yes
+  # - offline
+  - search:
+      separator: '[\s\-,:!=\[\]()"/]+|(?!\b)(?=[A-Z][a-z])|\.(?!\d)|&[lg]t;'
+  - section-index
+
+# Customization
+extra:
+  social:
+    - icon: material/github
+      link: https://github.com/patrick-5546
+    - icon: material/email
+      link: mailto:author@example.com
+  version:
+    provider: mike
+
+extra_javascript:
+  - javascripts/mathjax.js
+  - https://polyfill.io/v3/polyfill.min.js?features=es6
+  - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
+
+# Extensions
+markdown_extensions:
+  # Python Markdown
+  - abbr
+  - admonition
+  - attr_list
+  - def_list
+  - footnotes
+  - md_in_html
+  - toc:
+      permalink: true
+
+  # Python Markdown Extensions
+  - pymdownx.arithmatex:
+      generic: true
+  - pymdownx.betterem:
+      smart_enable: all
+  - pymdownx.caret
+  - pymdownx.details
+  - pymdownx.emoji:
+      emoji_index: !!python/name:materialx.emoji.twemoji
+      emoji_generator: !!python/name:materialx.emoji.to_svg
+      options:
+        custom_icons:
+          - overrides/.icons
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.keys
+  - pymdownx.mark
+  - pymdownx.smartsymbols
+  - pymdownx.snippets:
+      check_paths: true
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.tilde
+
+# Page tree
+nav:
+  - Home:
+    - README: README.md
+    - Coverage Report: coverage.md
+    - License: license.md
+  - User Guide:
+    - Installation: user_guide/installation.md
+    - Getting Started: user_guide/getting_started.md
+    - Commands: user_guide/commands.md
+    - Configuration: user_guide/configuration.md
+  # defer to gen-files + literate-nav
+  - Code Reference: reference/
+  - Developer Guide:
+    - Contributing: developer_guide/contributing.md
+    - Docs: developer_guide/docs.md
+    - VS Code: developer_guide/vscode.md
+    - GitHub Actions: developer_guide/github_actions.md
+    - Releases: developer_guide/releases.md
+
+# Live reloading for snippets of files outside the `docs/` directory
+watch:
+  - CONTRIBUTING.md
+  - LICENSE
+  - README.md
+  - src

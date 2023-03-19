@@ -1,0 +1,25 @@
+{
+    "recommendations": [
+        "bierner.markdown-preview-github-styles",
+        "cameron.vscode-pytest",
+        "christian-kohler.path-intellisense",
+        "davidanson.vscode-markdownlint",
+        "dawhite.mustache",
+        "eamodio.gitlens",
+        "kevinrose.vsc-python-indent",
+        "matangover.mypy",
+        "ms-python.black-formatter",
+        "ms-python.flake8",
+        "ms-python.isort",
+        "ms-python.python",
+        "ms-python.vscode-pylance",
+        "njpwerner.autodocstring",
+        "njqdev.vscode-python-typehint",
+        "redhat.vscode-yaml",
+        "streetsidesoftware.code-spell-checker",
+        "tamasfe.even-better-toml",
+        "tushortz.python-extended-snippets",
+        "visualstudioexptteam.vscodeintellicode",
+        "yzhang.markdown-all-in-one"
+    ]
+}
