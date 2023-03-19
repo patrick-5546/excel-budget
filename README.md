@@ -1,4 +1,4 @@
-# A sample Python project
+# Excel Budget
 
 <!-- [![PyPI][versionbadge]][packageurl] -->
 [![Test][testbadge]][testfile]
