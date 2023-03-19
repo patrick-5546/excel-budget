@@ -8,7 +8,7 @@ branch = true
 parallel = true
 relative_files = true
 source =
-    sample
+    excelbudget
     tests
 
 [report]
