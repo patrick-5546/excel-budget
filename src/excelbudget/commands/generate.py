@@ -1,7 +1,6 @@
 from argparse import _SubParsersAction
 
 from excelbudget.commands.abstractcommand import AbstractCommand
-from excelbudget.configure import Configuration
 
 
 class Generate(AbstractCommand):
@@ -19,7 +18,7 @@ class Generate(AbstractCommand):
             "-f", "--force", action="store_true", help="overwrite file if it exists"
         )
 
-    def __init__(self, configuration: Configuration) -> None:
+    def __init__(self, configuration) -> None:
         raise NotImplementedError
 
     def execute(self) -> None:
