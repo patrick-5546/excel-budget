@@ -19,5 +19,5 @@ class AbstractCommand(ABC):
         pass
 
     @abstractmethod
-    def execute(self) -> None:
+    def run(self) -> None:
         pass

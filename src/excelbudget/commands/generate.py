@@ -29,5 +29,5 @@ class Generate(AbstractCommand):
     def __init__(self, state: State) -> None:
         raise NotImplementedError
 
-    def execute(self) -> None:
+    def run(self) -> None:
         raise NotImplementedError

@@ -29,4 +29,4 @@ def run(state: state.State) -> None:
 
     logger.info(f"Running the {cmd_name} command")
     cmd = cmd_cls(state)
-    cmd.execute()
+    cmd.run()
