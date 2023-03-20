@@ -2,6 +2,8 @@
 from abc import ABC, abstractmethod
 from argparse import _SubParsersAction
 
+from excelbudget.state import State
+
 
 class AbstractCommand(ABC):
     @staticmethod
@@ -9,8 +11,9 @@ class AbstractCommand(ABC):
     def configure_args(subparsers: _SubParsersAction) -> None:
         pass
 
+    @staticmethod
     @abstractmethod
-    def __init__(self, configuration) -> None:
+    def __init__(self, state: State) -> None:
         pass
 
     @abstractmethod
