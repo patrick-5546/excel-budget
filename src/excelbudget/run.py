@@ -1,5 +1,6 @@
 import logging
 
+import excelbudget.commands.abstractcommand as abstractcommand
 import excelbudget.commands.generate as generate
 import excelbudget.commands.update as update
 import excelbudget.commands.validate as validate
@@ -18,6 +19,7 @@ def run(state: state.State) -> None:
         ValueError: If an invalid command is received.
     """
     cmd_name = state.args.cmd
+    cmd_cls = abstractcommand.AbstractCommand  # initialize to parent class for mypy
     if cmd_name == "generate":
         cmd_cls = generate.Generate
     elif cmd_name == "update":
