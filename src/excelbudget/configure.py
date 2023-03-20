@@ -93,7 +93,9 @@ def configure_logger_args(parser: argparse.ArgumentParser) -> None:
 def configure_generate_args(subparsers) -> None:
     parser = subparsers.add_parser("generate", help="generate a new excelbudget file")
     parser.add_argument("path", help="path to generate file")
-    parser.add_argument("-f", "--force", type=bool, help="overwrite file if it exists")
+    parser.add_argument(
+        "-f", "--force", action="store_true", help="overwrite file if it exists"
+    )
 
 
 def configure_update_args(subparsers) -> None:
