@@ -166,7 +166,7 @@ upgrade = ["pip-tools"]
 # The following would provide a command line executable called `excelbudget`
 # which executes the function `main` from this package when invoked.
 [project.scripts]  # Optional
-excelbudget = "excelbudget:main"
+excelbudget = "excelbudget.__main__:main"
 
 # This is configuration specific to the `setuptools` build backend.
 # If you are using a different build backend, you will need to change this.
