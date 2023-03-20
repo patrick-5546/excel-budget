@@ -1,11 +1,14 @@
-"""The configuration for excelbudget is split into 2 sections: pre- and post- setup.
-The logger can only be used after `_configure_logger` is called in
-`post_setup_configuration`.
+"""The configuration for excelbudget.
+
+Notes:
+
+- The logger can only be used after `_configure_logger` is called in
+  `post_state_configuration`
 """
 
-import argparse
 import logging
-import typing
+from argparse import ArgumentParser
+from typing import NamedTuple
 
 from excelbudget.commands.generate import Generate
 from excelbudget.commands.update import Update
@@ -13,31 +16,46 @@ from excelbudget.commands.validate import Validate
 from excelbudget.state import State
 
 
-class PreSetupConfiguration(typing.NamedTuple):
-    parser: argparse.ArgumentParser
+class PreStateConfiguration(NamedTuple):
+    """A named tuple containing items that can be configured before state is set up.
+
+    Attributes:
+        parser (ArgumentParser): The argument parser.
+    """
+
+    parser: ArgumentParser
 
 
-def pre_setup_configuration() -> PreSetupConfiguration:
+def pre_state_configuration() -> PreStateConfiguration:
+    """Configuration before state is setup.
+
+    Returns:
+        A[n] `PreStateConfiguration` containing configured items.
+    """
     parser = _configure_argument_parser()
 
-    config = PreSetupConfiguration(
+    config = PreStateConfiguration(
         parser=parser,
     )
     return config
 
 
-def post_setup_configuration(state: State) -> None:
+def post_state_configuration(state: State) -> None:
+    """Configuration after state is set up.
+
+    Args:
+        state (State): The state.
+    """
     _configure_logger(state.args.log_level)
 
 
-def _configure_argument_parser() -> argparse.ArgumentParser:
-    """Configures the argument parser for all arguments using
-    [`argparse.ArgumentParser`](https://docs.python.org/3/library/argparse.html#argparse.ArgumentParser).
+def _configure_argument_parser() -> ArgumentParser:
+    """Configures the argument parser for all arguments.
 
     Returns:
-        A[n] `argparse.ArgumentParser` configured for this package.
+        A[n] `ArgumentParser` configured for this package.
     """
-    parser = argparse.ArgumentParser()
+    parser = ArgumentParser()
 
     _configure_logger_args(parser)
 
@@ -54,13 +72,13 @@ def _configure_argument_parser() -> argparse.ArgumentParser:
     return parser
 
 
-def _configure_logger_args(parser: argparse.ArgumentParser) -> None:
+def _configure_logger_args(parser: ArgumentParser) -> None:
     """Configures the argument parser for logger arguments.
     The log level configuration was adapted from
     [this Stack Overflow answer](https://stackoverflow.com/a/20663028).
 
     Args:
-        parser (argparse.ArgumentParser): The argument parser to update.
+        parser (ArgumentParser): The argument parser to update.
     """
     group_log = parser.add_argument_group(
         "logger configuration",
@@ -87,8 +105,7 @@ def _configure_logger_args(parser: argparse.ArgumentParser) -> None:
 
 
 def _configure_logger(level: int) -> None:
-    """Configures the logger using
-    [`logging.basicConfig`](https://docs.python.org/3/library/logging.html#logging.basicConfig).
+    """Configures the logger.
 
     Since this configuration is global, there is no need to return the logger.
     To use the logger in a file, add `logger = logging.getLogger(__name__)` at the top.

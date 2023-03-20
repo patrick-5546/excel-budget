@@ -5,8 +5,15 @@ from excelbudget.state import State
 
 
 class Generate(AbstractCommand):
+    """The `generate` command implementation."""
+
     @staticmethod
     def configure_args(subparsers: _SubParsersAction) -> None:
+        """Configures the argument parser for the `generate` command.
+
+        Args:
+            subparsers (_SubParsersAction): The command `subparsers`.
+        """
         parser = subparsers.add_parser(
             "generate", help="generate a new excelbudget file"
         )
