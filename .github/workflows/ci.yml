@@ -90,14 +90,14 @@ jobs:
           echo "### Total coverage: ${TOTAL}%" >> $GITHUB_STEP_SUMMARY
 
       - name: "Make coverage badge"
-        if: (github.repository == 'patrick-5546/sampleproject') && (github.ref == 'refs/heads/main')
+        if: (github.repository == 'patrick-5546/excelbudget') && (github.ref == 'refs/heads/main')
         # https://gist.github.com/patrick-5546/845b19d91f3d03c94677f6fae6eb414c
         uses: schneegans/dynamic-badges-action@v1.6.0
         with:
           # GIST_TOKEN is a GitHub personal access token with scope "gist".
           auth: ${{ secrets.GIST_TOKEN }}
           gistID: 845b19d91f3d03c94677f6fae6eb414c   # replace with your real Gist id.
-          filename: covbadge.json
+          filename: covbadge-excelbudget.json
           label: Coverage
           message: ${{ env.total }}%
           minColorRange: 50

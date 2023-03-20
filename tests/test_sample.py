@@ -2,8 +2,8 @@
 # testing in general, but rather to support the `find_packages` example in
 # setup.py that excludes installing the "tests" package
 
-import sample
+import excelbudget
 
 
 def test_main_run():
-    sample.main()
+    excelbudget.main()
