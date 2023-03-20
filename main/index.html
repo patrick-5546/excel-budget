@@ -408,33 +408,6 @@
     Using this Template Repository
   </a>
   
-    <nav class="md-nav" aria-label="Using this Template Repository">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#update-repository-and-package-names" class="md-nav__link">
-    Update Repository and Package Names
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#update-readme-badges" class="md-nav__link">
-    Update README Badges
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#update-infrastructure" class="md-nav__link">
-    Update Infrastructure
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
 </li>
       
         <li class="md-nav__item">
@@ -816,33 +789,6 @@
     Using this Template Repository
   </a>
   
-    <nav class="md-nav" aria-label="Using this Template Repository">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#update-repository-and-package-names" class="md-nav__link">
-    Update Repository and Package Names
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#update-readme-badges" class="md-nav__link">
-    Update README Badges
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#update-infrastructure" class="md-nav__link">
-    Update Infrastructure
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
 </li>
       
         <li class="md-nav__item">
@@ -932,27 +878,6 @@ pinned dependency management, a documentation site, VS Code integration,
 improved GitHub integration, and much more.</p>
 <p>After creating a repository using this template, some files need to be updated to
 make it your own:</p>
-<h3 id="update-repository-and-package-names">Update Repository and Package Names<a class="headerlink" href="#update-repository-and-package-names" title="Permanent link">&para;</a></h3>
-<ol>
-<li>Find and replace <code>patrick-5546/sampleproject</code> with the owner and name of your repository</li>
-<li>Rename the directory <code>src/sample/</code> to the name of your package</li>
-<li>Find and replace <code>sample</code> with the name of your package</li>
-</ol>
-<h3 id="update-readme-badges">Update README Badges<a class="headerlink" href="#update-readme-badges" title="Permanent link">&para;</a></h3>
-<ol>
-<li>In <code>README.md</code>, update <code>testbadge</code>, <code>testfile</code>, <code>licensebadge</code>, and <code>licenseurl</code>
-   with the repository owner and name where applicable</li>
-<li>Create an empty gist named <code>covbadge.json</code> and copy its ID</li>
-<li>In <code>README.md</code>, update <code>covbadge</code> with the repository owner and gist ID where applicable</li>
-<li>In <code>.github/workflows/tests.yml</code>, update the "Make badge" step of "Coverage" with the
-   repository owner, repository name, and gist ID where applicable</li>
-<li>Create a GitHub personal access token with the "gist" scope and copy its value</li>
-<li>Create a repository secret named <code>GIST_TOKEN</code> and paste the token</li>
-</ol>
-<h3 id="update-infrastructure">Update Infrastructure<a class="headerlink" href="#update-infrastructure" title="Permanent link">&para;</a></h3>
-<ol>
-<li>In <code>.github/CODEOWNERS</code>, update code owners accordingly</li>
-</ol>
 <h2 id="setup-docs">Setup Docs<a class="headerlink" href="#setup-docs" title="Permanent link">&para;</a></h2>
 <p>Some manual setup is required to publish the Docs using GitHub pages:</p>
 <ol>
@@ -970,7 +895,6 @@ make it your own:</p>
 <h3 id="update-readme">Update README<a class="headerlink" href="#update-readme" title="Permanent link">&para;</a></h3>
 <p>In <code>README.md</code>,</p>
 <ol>
-<li>update the title and</li>
 <li>delete everything after the badge URLs</li>
 </ol>
 
