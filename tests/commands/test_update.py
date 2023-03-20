@@ -4,7 +4,7 @@ import inspect
 import pytest
 
 from excelbudget.commands.update import Update
-from excelbudget.configure import Configuration
+from excelbudget.state import State
 
 
 def test_config_args_static() -> None:
@@ -20,6 +20,8 @@ def test_update() -> None:
     Update.configure_args(subparsers)
     args = parser.parse_args(["update", "."])
 
-    config = Configuration(args=args)
+    state = State(
+        args=args,
+    )
     with pytest.raises(NotImplementedError):
-        Update(config)
+        Update(state)

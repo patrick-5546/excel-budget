@@ -7,45 +7,27 @@ import typing
 from excelbudget.commands.generate import Generate
 from excelbudget.commands.update import Update
 from excelbudget.commands.validate import Validate
-
-logger = logging.getLogger(__name__)
-
-
-class Configuration(typing.NamedTuple):
-    args: argparse.Namespace
+from excelbudget.state import State
 
 
-def configure() -> Configuration:
-    parser = configure_argument_parser()
-    args = parser.parse_args()
+class PreSetupConfiguration(typing.NamedTuple):
+    parser: argparse.ArgumentParser
 
-    # don't log anything before `configure_logger` is called
-    configure_logger(args.log_level)
 
-    configuration = Configuration(
-        args=args,
+def pre_setup_configuration() -> PreSetupConfiguration:
+    parser = _configure_argument_parser()
+
+    config = PreSetupConfiguration(
+        parser=parser,
     )
-    logger.debug(f"{configuration = }")
-    return configuration
+    return config
 
 
-def configure_logger(level: int) -> None:
-    """Configures the logger using
-    [`logging.basicConfig`](https://docs.python.org/3/library/logging.html#logging.basicConfig).
-
-    Since this configuration is global, there is no need to return the logger.
-    To use the logger in a file, add `logger = logging.getLogger(__name__)` at the top.
-
-    Args:
-        level (int): The [logging level](https://docs.python.org/3/library/logging.html#logging-levels).
-    """  # noqa
-    logging.basicConfig(
-        level=level,
-        format="%(name)s:%(funcName)s() - %(levelname)s - %(message)s",
-    )
+def post_setup_configuration(state: State) -> None:
+    _configure_logger(state.args.log_level)
 
 
-def configure_argument_parser() -> argparse.ArgumentParser:
+def _configure_argument_parser() -> argparse.ArgumentParser:
     """Configures the argument parser using
     [`argparse.ArgumentParser`](https://docs.python.org/3/library/argparse.html#argparse.ArgumentParser).
 
@@ -54,7 +36,7 @@ def configure_argument_parser() -> argparse.ArgumentParser:
     """
     parser = argparse.ArgumentParser()
 
-    configure_logger_args(parser)
+    _configure_logger_args(parser)
 
     cmd_subparsers = parser.add_subparsers(
         title="command",
@@ -69,7 +51,7 @@ def configure_argument_parser() -> argparse.ArgumentParser:
     return parser
 
 
-def configure_logger_args(parser: argparse.ArgumentParser) -> None:
+def _configure_logger_args(parser: argparse.ArgumentParser) -> None:
     group_log = parser.add_argument_group(
         "logger configuration",
         description="Arguments that override the default logger configuration.",
@@ -91,4 +73,20 @@ def configure_logger_args(parser: argparse.ArgumentParser) -> None:
         action="store_const",
         dest="log_level",
         const=logging.INFO,
+    )
+
+
+def _configure_logger(level: int) -> None:
+    """Configures the logger using
+    [`logging.basicConfig`](https://docs.python.org/3/library/logging.html#logging.basicConfig).
+
+    Since this configuration is global, there is no need to return the logger.
+    To use the logger in a file, add `logger = logging.getLogger(__name__)` at the top.
+
+    Args:
+        level (int): The [logging level](https://docs.python.org/3/library/logging.html#logging-levels).
+    """  # noqa
+    logging.basicConfig(
+        level=level,
+        format="%(name)s:%(funcName)s() - %(levelname)s - %(message)s",
     )
