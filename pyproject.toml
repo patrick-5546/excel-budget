@@ -155,11 +155,9 @@ upgrade = ["pip-tools"]
 # maintainers, and where to support the project financially. The key is
 # what's used to render the link text on PyPI.
 [project.urls]  # Optional
-"Homepage" = "https://github.com/patrick-5546/excelbudget"
-"Bug Reports" = "https://github.com/patrick-5546/excelbudget/issues"
-"Funding" = "https://donate.pypi.org"
-"Say Thanks!" = "http://saythanks.io/to/example"
-"Source" = "https://github.com/patrick-5546/excelbudget/"
+"Documentation" = "https://patrick-5546.github.io/excelbudget"
+"Issues" = "https://github.com/patrick-5546/excelbudget/issues"
+"Source" = "https://github.com/patrick-5546/excelbudget"
 
 # The following would provide a command line executable called `excelbudget`
 # which executes the function `main` from this package when invoked.
