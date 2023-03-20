@@ -4,6 +4,10 @@ import argparse
 import logging
 import typing
 
+from excelbudget.commands.generate import Generate
+from excelbudget.commands.update import Update
+from excelbudget.commands.validate import Validate
+
 logger = logging.getLogger(__name__)
 
 
@@ -58,9 +62,9 @@ def configure_argument_parser() -> argparse.ArgumentParser:
         required=True,
         description="The excelbudget command to run.",
     )
-    configure_generate_args(cmd_subparsers)
-    configure_update_args(cmd_subparsers)
-    configure_validate_args(cmd_subparsers)
+    Generate.configure_args(cmd_subparsers)
+    Update.configure_args(cmd_subparsers)
+    Validate.configure_args(cmd_subparsers)
 
     return parser
 
@@ -88,23 +92,3 @@ def configure_logger_args(parser: argparse.ArgumentParser) -> None:
         dest="log_level",
         const=logging.INFO,
     )
-
-
-def configure_generate_args(subparsers) -> None:
-    parser = subparsers.add_parser("generate", help="generate a new excelbudget file")
-    parser.add_argument("path", help="path to generate file")
-    parser.add_argument(
-        "-f", "--force", action="store_true", help="overwrite file if it exists"
-    )
-
-
-def configure_update_args(subparsers) -> None:
-    parser = subparsers.add_parser("update", help="update an existing excelbudget file")
-    parser.add_argument("path", help="path to file")
-
-
-def configure_validate_args(subparsers) -> None:
-    parser = subparsers.add_parser(
-        "validate", help="validate an existing excelbudget file"
-    )
-    parser.add_argument("path", help="path to file")
