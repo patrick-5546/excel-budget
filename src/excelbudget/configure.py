@@ -71,19 +71,28 @@ def configure_argument_parser() -> argparse.ArgumentParser:
     )
 
     subparsers = parser.add_subparsers(
-        title="command", dest="cmd", required=True, help="command to run"
+        title="command",
+        dest="cmd",
+        required=True,
+        description="The excelbudget command to run.",
     )
 
-    parser_gen = subparsers.add_parser("generate")
+    parser_gen = subparsers.add_parser(
+        "generate", help="generate a new excelbudget file"
+    )
     parser_gen.add_argument("path", help="path to generate file")
     parser_gen.add_argument(
         "-f", "--force", type=bool, help="overwrite file if it exists"
     )
 
-    parser_val = subparsers.add_parser("validate")
-    parser_val.add_argument("path", help="path to file")
-
-    parser_upd = subparsers.add_parser("update")
+    parser_upd = subparsers.add_parser(
+        "update", help="update an existing excelbudget file"
+    )
     parser_upd.add_argument("path", help="path to file")
+
+    parser_val = subparsers.add_parser(
+        "validate", help="validate an existing excelbudget file"
+    )
+    parser_val.add_argument("path", help="path to file")
 
     return parser
