@@ -133,13 +133,11 @@ format = [
   "black",
   "isort"
 ]
-lint = [
-  "flake8",
-  "flake8-black",
-  "mypy"
-]
 test = [
   "coverage",
+  "flake8",
+  "flake8-black",
+  "mypy",
   "pytest",
   "pytest-cov",
   "pytest-sugar"
