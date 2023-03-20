@@ -1,4 +1,7 @@
-"""Package-level configuration."""
+"""The configuration for excelbudget is split into 2 sections: pre- and post- setup.
+The logger can only be used after `_configure_logger` is called in
+`post_setup_configuration`.
+"""
 
 import argparse
 import logging
@@ -28,7 +31,7 @@ def post_setup_configuration(state: State) -> None:
 
 
 def _configure_argument_parser() -> argparse.ArgumentParser:
-    """Configures the argument parser using
+    """Configures the argument parser for all arguments using
     [`argparse.ArgumentParser`](https://docs.python.org/3/library/argparse.html#argparse.ArgumentParser).
 
     Returns:
@@ -52,6 +55,13 @@ def _configure_argument_parser() -> argparse.ArgumentParser:
 
 
 def _configure_logger_args(parser: argparse.ArgumentParser) -> None:
+    """Configures the argument parser for logger arguments.
+    The log level configuration was adapted from
+    [this Stack Overflow answer](https://stackoverflow.com/a/20663028).
+
+    Args:
+        parser (argparse.ArgumentParser): The argument parser to update.
+    """
     group_log = parser.add_argument_group(
         "logger configuration",
         description="Arguments that override the default logger configuration.",
