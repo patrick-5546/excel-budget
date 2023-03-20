@@ -1,9 +1,8 @@
 """The configuration for excelbudget.
 
-Notes:
-
-- The logger can only be used after `_configure_logger` is called in
-  `post_state_configuration`
+Note: Logger usage in this file
+    The logger can only be used after `_configure_logger` is called in
+    `post_state_configuration`
 """
 
 import logging
@@ -14,6 +13,8 @@ from excelbudget.commands.generate import Generate
 from excelbudget.commands.update import Update
 from excelbudget.commands.validate import Validate
 from excelbudget.state import State
+
+logger = logging.getLogger(__name__)
 
 
 class PreStateConfiguration(NamedTuple):
@@ -47,6 +48,7 @@ def post_state_configuration(state: State) -> None:
         state (State): The state.
     """
     _configure_logger(state.args.log_level)
+    logger.debug(f"{state=}")
 
 
 def _configure_argument_parser() -> ArgumentParser:
