@@ -74,7 +74,7 @@ def configure_logger_args(parser: argparse.ArgumentParser) -> None:
     group_log_lvl.add_argument(
         "-d",
         "--debug",
-        help="print lots of debugging statements; do not use with -v/--verbose",
+        help="print lots of debugging statements; can't use with -v/--verbose",
         action="store_const",
         dest="log_level",
         const=logging.DEBUG,
@@ -83,7 +83,7 @@ def configure_logger_args(parser: argparse.ArgumentParser) -> None:
     group_log_lvl.add_argument(
         "-v",
         "--verbose",
-        help="be verbose; do not use with -d/--debug",
+        help="be verbose; can't use with -d/--debug",
         action="store_const",
         dest="log_level",
         const=logging.INFO,
