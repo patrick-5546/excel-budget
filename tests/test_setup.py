@@ -2,11 +2,11 @@ import logging
 
 import pytest
 
-import excelbudget.setup as setup
+import excelbudget.configure as configure
 
 
 def test_log_level_args() -> None:
-    parser = setup.configure_argument_parser()
+    parser = configure.configure_argument_parser()
 
     # -d/--debug should set log level to debug
     args = parser.parse_args(["--debug"])

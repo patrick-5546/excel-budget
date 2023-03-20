@@ -1,4 +1,4 @@
-"""Package-level setup."""
+"""Package-level configuration."""
 
 import argparse
 import logging
@@ -7,22 +7,22 @@ import typing
 logger = logging.getLogger(__name__)
 
 
-class Setup(typing.NamedTuple):
+class Configuration(typing.NamedTuple):
     args: argparse.Namespace
 
 
-def setup() -> Setup:
+def configure() -> Configuration:
     parser = configure_argument_parser()
     args = parser.parse_args()
 
     # don't log anything before `configure_logger` is called
     configure_logger(args.log_level)
 
-    setup = Setup(
+    configuration = Configuration(
         args=args,
     )
-    logger.debug(f"setup: {setup}")
-    return setup
+    logger.debug(f"{configuration = }")
+    return configuration
 
 
 def configure_logger(level: int) -> None:

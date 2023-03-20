@@ -1,8 +1,8 @@
-from excelbudget.setup import setup
+from excelbudget.configure import configure
 
 
 def main():
-    setup()
+    configure()
 
 
 if __name__ == "__main__":
