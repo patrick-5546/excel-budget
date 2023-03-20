@@ -1,7 +1,10 @@
+"testing."
+
 from excelbudget.configure import configure
 
 
-def main():
+def main() -> None:
+    "Entry point for the application script."
     configure()
 
 
