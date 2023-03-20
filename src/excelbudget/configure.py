@@ -50,7 +50,26 @@ def configure_argument_parser() -> argparse.ArgumentParser:
     """
     parser = argparse.ArgumentParser()
 
-    group_log = parser.add_argument_group("logger configuration")
+    configure_logger_args(parser)
+
+    cmd_subparsers = parser.add_subparsers(
+        title="command",
+        dest="cmd",
+        required=True,
+        description="The excelbudget command to run.",
+    )
+    configure_generate_args(cmd_subparsers)
+    configure_update_args(cmd_subparsers)
+    configure_validate_args(cmd_subparsers)
+
+    return parser
+
+
+def configure_logger_args(parser: argparse.ArgumentParser) -> None:
+    group_log = parser.add_argument_group(
+        "logger configuration",
+        description="Arguments that override the default logger configuration.",
+    )
     group_log_lvl = group_log.add_mutually_exclusive_group()
     group_log_lvl.add_argument(
         "-d",
@@ -69,18 +88,6 @@ def configure_argument_parser() -> argparse.ArgumentParser:
         dest="log_level",
         const=logging.INFO,
     )
-
-    cmd_subparsers = parser.add_subparsers(
-        title="command",
-        dest="cmd",
-        required=True,
-        description="The excelbudget command to run.",
-    )
-    configure_generate_args(cmd_subparsers)
-    configure_update_args(cmd_subparsers)
-    configure_validate_args(cmd_subparsers)
-
-    return parser
 
 
 def configure_generate_args(subparsers) -> None:
