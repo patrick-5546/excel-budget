@@ -50,24 +50,40 @@ def configure_argument_parser() -> argparse.ArgumentParser:
     """
     parser = argparse.ArgumentParser()
 
-    log_group = parser.add_argument_group("logger configuration")
-    log_level_group = log_group.add_mutually_exclusive_group()
-    log_level_group.add_argument(
+    group_log = parser.add_argument_group("logger configuration")
+    group_log_lvl = group_log.add_mutually_exclusive_group()
+    group_log_lvl.add_argument(
         "-d",
         "--debug",
-        help="Print lots of debugging statements; do not use with -v/--verbose",
+        help="print lots of debugging statements; do not use with -v/--verbose",
         action="store_const",
         dest="log_level",
         const=logging.DEBUG,
         default=logging.WARNING,
     )
-    log_level_group.add_argument(
+    group_log_lvl.add_argument(
         "-v",
         "--verbose",
-        help="Be verbose; do not use with -d/--debug",
+        help="be verbose; do not use with -d/--debug",
         action="store_const",
         dest="log_level",
         const=logging.INFO,
     )
+
+    subparsers = parser.add_subparsers(
+        title="command", dest="cmd", required=True, help="command to run"
+    )
+
+    parser_gen = subparsers.add_parser("generate")
+    parser_gen.add_argument("path", help="path to generate file")
+    parser_gen.add_argument(
+        "-f", "--force", type=bool, help="overwrite file if it exists"
+    )
+
+    parser_val = subparsers.add_parser("validate")
+    parser_val.add_argument("path", help="path to file")
+
+    parser_upd = subparsers.add_parser("update")
+    parser_upd.add_argument("path", help="path to file")
 
     return parser
