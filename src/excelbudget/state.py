@@ -33,11 +33,12 @@ def setup_state(config) -> State:
         typed in this file as it would cause a circular import
 
     Args:
-        config (configure.PreStateConfiguration): The configuration before state is set up.
+        config (configure.PreStateConfiguration): The configuration before
+            state is set up.
 
     Returns:
         A[n] `State` containing items that are set up.
-    """  # noqa
+    """
     args = config.parser.parse_args()
     cmd = args.init(args)
 
