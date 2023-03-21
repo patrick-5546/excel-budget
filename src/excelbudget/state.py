@@ -1,6 +1,6 @@
 """The state of excelbudget.
 
-Note: Logger usage in this file
+Warning: Logger usage in this file
     The logger shouldn't be used in this file because it hasn't been configured yet
 """
 
@@ -28,7 +28,7 @@ class State(typing.NamedTuple):
 def setup_state(config) -> State:
     """Sets up the state for the program.
 
-    Note: Statically typing `config`
+    Warning: Statically typing `config`
         `config`, which is type `configure.PreStateConfiguration`, can't be statically
         typed in this file as it would cause a circular import
 

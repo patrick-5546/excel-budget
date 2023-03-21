@@ -1,6 +1,6 @@
 """The configuration for excelbudget.
 
-Note: Logger usage in this file
+Warning: Logger usage in this file
     The logger can only be used after `_configure_logger` is called in
     `post_state_configuration`
 """
