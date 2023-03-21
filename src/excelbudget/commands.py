@@ -1,11 +1,4 @@
-"""The commands implementation.
-
-Note: Steps to add a new class.
-
-    1. Inherit `AbstractCommand` and implement it's abstract methods
-    2. Import the class in this file
-    3. Add to tests
-"""
+"""The commands, implemented as implementations of the abstract class `Command`."""
 
 import sys
 from abc import ABC, abstractmethod
@@ -13,8 +6,8 @@ from argparse import ArgumentParser, Namespace, _SubParsersAction
 from typing import List, Type
 
 
-class AbstractCommand(ABC):
-    """The abstract class that the commands inherit."""
+class Command(ABC):
+    """The abstract class that the command implementations implement."""
 
     @property
     @abstractmethod
@@ -40,7 +33,7 @@ class AbstractCommand(ABC):
         pass
 
 
-class Generate(AbstractCommand):
+class Generate(Command):
     """The `generate` command implementation.
 
     Attributes:
@@ -77,7 +70,7 @@ class Generate(AbstractCommand):
         raise NotImplementedError
 
 
-class Update(AbstractCommand):
+class Update(Command):
     """The `update` command implementation.
 
     Attributes:
@@ -110,7 +103,7 @@ class Update(AbstractCommand):
         raise NotImplementedError
 
 
-class Validate(AbstractCommand):
+class Validate(Command):
     """The `validate` command implementation.
 
     Attributes:
@@ -143,7 +136,7 @@ class Validate(AbstractCommand):
         raise NotImplementedError
 
 
-def get_cmd_cls_from_str(cls_name: str) -> Type[AbstractCommand]:
+def get_cmd_cls_from_str(cls_name: str) -> Type[Command]:
     return getattr(sys.modules[__name__], cls_name)
 
 
@@ -152,7 +145,7 @@ def common_arg_config(
     name: str,
     aliases: List[str],
     help: str,
-    init: Type[AbstractCommand],
+    init: Type[Command],
 ) -> ArgumentParser:
     parser = subparsers.add_parser(name, aliases=aliases, help=help)
     parser.set_defaults(init=init)

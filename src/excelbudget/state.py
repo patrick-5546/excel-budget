@@ -9,7 +9,7 @@ import logging
 import typing
 from argparse import Namespace
 
-from excelbudget.commands import AbstractCommand
+from excelbudget.commands import Command
 
 logger = logging.getLogger(__name__)
 
@@ -19,11 +19,11 @@ class State(typing.NamedTuple):
 
     Attributes:
         args (Namespace): The parsed arguments.
-        cmd (AbstractCommand): The command instance.
+        cmd (Command): The command instance.
     """
 
     args: Namespace
-    cmd: AbstractCommand
+    cmd: Command
 
 
 def setup_state(config) -> State:
