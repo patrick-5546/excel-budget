@@ -48,7 +48,7 @@ def post_state_configuration(state: State) -> None:
         state (State): The state.
     """
     _configure_logger(state.args.log_level)
-    logger.debug(f"{state=}")
+    logger.info(f"{state=}")  # log state after `_configure_logger` is called
 
 
 def _configure_argument_parser() -> ArgumentParser:
