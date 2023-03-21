@@ -25,9 +25,11 @@ List all tox environments and their descriptions with `tox list`.
 
 Details about each environment are given below:
 
-- `py*`: for a particular python version,
-    1. checks if the package can be built (may be commented out), and
-    2. runs tests and generates a coverage report source file `.coverage`
+- `py*`: for a particular python version, it
+    1. checks if the package can be built (may be commented out),
+    2. runs the linters,
+    3. runs the test suite, and
+    4. generates a coverage report source file `.coverage`
 - `check-release`: checks that the package is ready to be released
 - `coverage`: converts `.coverage` to human readable formats
     - `html`: used to create the Coverage Report page
@@ -38,7 +40,6 @@ Details about each environment are given below:
 - `docs-build`: builds the docs to ensure that they are in a valid state
 - `docs-serve`: runs the docs development server
 - `format`: runs the formatters
-- `lint`: runs the linters
 - `upgrade`: updates the [dependencies](#dependencies)
 
 #### Running Tox Environments
