@@ -574,92 +574,10 @@
   
   
   
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-      
-      
-      
-      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_1_1" >
-      
-      
-      
-        
-        
-        <div class="md-nav__link md-nav__link--index ">
-          <a href="../commands/">commands</a>
-          
-            <label for="__nav_3_1_1">
-              <span class="md-nav__icon md-icon"></span>
-            </label>
-          
-        </div>
-      
-      <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_3_1_1_label" aria-expanded="false">
-        <label class="md-nav__title" for="__nav_3_1_1">
-          <span class="md-nav__icon md-icon"></span>
-          commands
-        </label>
-        <ul class="md-nav__list" data-md-scrollfix>
-          
-            
-              
-  
-  
-  
     <li class="md-nav__item">
-      <a href="../commands/abstractcommand/" class="md-nav__link">
-        abstractcommand
+      <a href="../commands/" class="md-nav__link">
+        commands
       </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../commands/generate/" class="md-nav__link">
-        generate
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../commands/update/" class="md-nav__link">
-        update
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../commands/validate/" class="md-nav__link">
-        validate
-      </a>
-    </li>
-  
-
-            
-          
-        </ul>
-      </nav>
     </li>
   
 
@@ -1039,7 +957,7 @@
         <tr>
           <td><code>cmd</code></td>
           <td>
-                <code><a class="autorefs autorefs-internal" title="excelbudget.commands.abstractcommand.AbstractCommand" href="../commands/abstractcommand/#excelbudget.commands.abstractcommand.AbstractCommand">AbstractCommand</a></code>
+                <code><a class="autorefs autorefs-internal" title="excelbudget.commands.Command" href="../commands/#excelbudget.commands.Command">Command</a></code>
           </td>
           <td><p>The command instance.</p></td>
         </tr>
@@ -1049,8 +967,7 @@
 
         <details class="quote">
           <summary>Source code in <code>excelbudget/state.py</code></summary>
-          <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-16">16</a></span>
-<span class="normal"><a href="#__codelineno-0-17">17</a></span>
+          <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-17">17</a></span>
 <span class="normal"><a href="#__codelineno-0-18">18</a></span>
 <span class="normal"><a href="#__codelineno-0-19">19</a></span>
 <span class="normal"><a href="#__codelineno-0-20">20</a></span>
@@ -1058,16 +975,17 @@
 <span class="normal"><a href="#__codelineno-0-22">22</a></span>
 <span class="normal"><a href="#__codelineno-0-23">23</a></span>
 <span class="normal"><a href="#__codelineno-0-24">24</a></span>
-<span class="normal"><a href="#__codelineno-0-25">25</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-16" name="__codelineno-0-16"></a><span class="k">class</span> <span class="nc">State</span><span class="p">(</span><span class="n">typing</span><span class="o">.</span><span class="n">NamedTuple</span><span class="p">):</span>
-<a id="__codelineno-0-17" name="__codelineno-0-17"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;A named tuple containing items that make up the state of the program.</span>
-<a id="__codelineno-0-18" name="__codelineno-0-18"></a>
-<a id="__codelineno-0-19" name="__codelineno-0-19"></a><span class="sd">    Attributes:</span>
-<a id="__codelineno-0-20" name="__codelineno-0-20"></a><span class="sd">        args (Namespace): The parsed arguments.</span>
-<a id="__codelineno-0-21" name="__codelineno-0-21"></a><span class="sd">        cmd (AbstractCommand): The command instance.</span>
-<a id="__codelineno-0-22" name="__codelineno-0-22"></a><span class="sd">    &quot;&quot;&quot;</span>
-<a id="__codelineno-0-23" name="__codelineno-0-23"></a>
-<a id="__codelineno-0-24" name="__codelineno-0-24"></a>    <span class="n">args</span><span class="p">:</span> <span class="n">Namespace</span>
-<a id="__codelineno-0-25" name="__codelineno-0-25"></a>    <span class="n">cmd</span><span class="p">:</span> <span class="n">AbstractCommand</span>
+<span class="normal"><a href="#__codelineno-0-25">25</a></span>
+<span class="normal"><a href="#__codelineno-0-26">26</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-17" name="__codelineno-0-17"></a><span class="k">class</span> <span class="nc">State</span><span class="p">(</span><span class="n">typing</span><span class="o">.</span><span class="n">NamedTuple</span><span class="p">):</span>
+<a id="__codelineno-0-18" name="__codelineno-0-18"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;A named tuple containing items that make up the state of the program.</span>
+<a id="__codelineno-0-19" name="__codelineno-0-19"></a>
+<a id="__codelineno-0-20" name="__codelineno-0-20"></a><span class="sd">    Attributes:</span>
+<a id="__codelineno-0-21" name="__codelineno-0-21"></a><span class="sd">        args (Namespace): The parsed arguments.</span>
+<a id="__codelineno-0-22" name="__codelineno-0-22"></a><span class="sd">        cmd (Command): The command instance.</span>
+<a id="__codelineno-0-23" name="__codelineno-0-23"></a><span class="sd">    &quot;&quot;&quot;</span>
+<a id="__codelineno-0-24" name="__codelineno-0-24"></a>
+<a id="__codelineno-0-25" name="__codelineno-0-25"></a>    <span class="n">args</span><span class="p">:</span> <span class="n">Namespace</span>
+<a id="__codelineno-0-26" name="__codelineno-0-26"></a>    <span class="n">cmd</span><span class="p">:</span> <span class="n">Command</span>
 </code></pre></div></td></tr></table></div>
         </details>
 
@@ -1158,8 +1076,7 @@ state is set up.</p></td>
 
       <details class="quote">
         <summary>Source code in <code>excelbudget/state.py</code></summary>
-        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-28">28</a></span>
-<span class="normal"><a href="#__codelineno-0-29">29</a></span>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-29">29</a></span>
 <span class="normal"><a href="#__codelineno-0-30">30</a></span>
 <span class="normal"><a href="#__codelineno-0-31">31</a></span>
 <span class="normal"><a href="#__codelineno-0-32">32</a></span>
@@ -1179,28 +1096,29 @@ state is set up.</p></td>
 <span class="normal"><a href="#__codelineno-0-46">46</a></span>
 <span class="normal"><a href="#__codelineno-0-47">47</a></span>
 <span class="normal"><a href="#__codelineno-0-48">48</a></span>
-<span class="normal"><a href="#__codelineno-0-49">49</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-28" name="__codelineno-0-28"></a><span class="k">def</span> <span class="nf">setup_state</span><span class="p">(</span><span class="n">config</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">State</span><span class="p">:</span>
-<a id="__codelineno-0-29" name="__codelineno-0-29"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Sets up the state for the program.</span>
-<a id="__codelineno-0-30" name="__codelineno-0-30"></a>
-<a id="__codelineno-0-31" name="__codelineno-0-31"></a><span class="sd">    Warning: Statically typing `config`</span>
-<a id="__codelineno-0-32" name="__codelineno-0-32"></a><span class="sd">        `config`, which is type `configure.PreStateConfiguration`, can&#39;t be statically</span>
-<a id="__codelineno-0-33" name="__codelineno-0-33"></a><span class="sd">        typed in this file as it would cause a circular import</span>
-<a id="__codelineno-0-34" name="__codelineno-0-34"></a>
-<a id="__codelineno-0-35" name="__codelineno-0-35"></a><span class="sd">    Args:</span>
-<a id="__codelineno-0-36" name="__codelineno-0-36"></a><span class="sd">        config (configure.PreStateConfiguration): The configuration before</span>
-<a id="__codelineno-0-37" name="__codelineno-0-37"></a><span class="sd">            state is set up.</span>
-<a id="__codelineno-0-38" name="__codelineno-0-38"></a>
-<a id="__codelineno-0-39" name="__codelineno-0-39"></a><span class="sd">    Returns:</span>
-<a id="__codelineno-0-40" name="__codelineno-0-40"></a><span class="sd">        A[n] `State` containing items that are set up.</span>
-<a id="__codelineno-0-41" name="__codelineno-0-41"></a><span class="sd">    &quot;&quot;&quot;</span>
-<a id="__codelineno-0-42" name="__codelineno-0-42"></a>    <span class="n">args</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">()</span>
-<a id="__codelineno-0-43" name="__codelineno-0-43"></a>    <span class="n">cmd</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">init</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
-<a id="__codelineno-0-44" name="__codelineno-0-44"></a>
-<a id="__codelineno-0-45" name="__codelineno-0-45"></a>    <span class="n">state</span> <span class="o">=</span> <span class="n">State</span><span class="p">(</span>
-<a id="__codelineno-0-46" name="__codelineno-0-46"></a>        <span class="n">args</span><span class="o">=</span><span class="n">args</span><span class="p">,</span>
-<a id="__codelineno-0-47" name="__codelineno-0-47"></a>        <span class="n">cmd</span><span class="o">=</span><span class="n">cmd</span><span class="p">,</span>
-<a id="__codelineno-0-48" name="__codelineno-0-48"></a>    <span class="p">)</span>
-<a id="__codelineno-0-49" name="__codelineno-0-49"></a>    <span class="k">return</span> <span class="n">state</span>
+<span class="normal"><a href="#__codelineno-0-49">49</a></span>
+<span class="normal"><a href="#__codelineno-0-50">50</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-29" name="__codelineno-0-29"></a><span class="k">def</span> <span class="nf">setup_state</span><span class="p">(</span><span class="n">config</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">State</span><span class="p">:</span>
+<a id="__codelineno-0-30" name="__codelineno-0-30"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Sets up the state for the program.</span>
+<a id="__codelineno-0-31" name="__codelineno-0-31"></a>
+<a id="__codelineno-0-32" name="__codelineno-0-32"></a><span class="sd">    Warning: Statically typing `config`</span>
+<a id="__codelineno-0-33" name="__codelineno-0-33"></a><span class="sd">        `config`, which is type `configure.PreStateConfiguration`, can&#39;t be statically</span>
+<a id="__codelineno-0-34" name="__codelineno-0-34"></a><span class="sd">        typed in this file as it would cause a circular import</span>
+<a id="__codelineno-0-35" name="__codelineno-0-35"></a>
+<a id="__codelineno-0-36" name="__codelineno-0-36"></a><span class="sd">    Args:</span>
+<a id="__codelineno-0-37" name="__codelineno-0-37"></a><span class="sd">        config (configure.PreStateConfiguration): The configuration before</span>
+<a id="__codelineno-0-38" name="__codelineno-0-38"></a><span class="sd">            state is set up.</span>
+<a id="__codelineno-0-39" name="__codelineno-0-39"></a>
+<a id="__codelineno-0-40" name="__codelineno-0-40"></a><span class="sd">    Returns:</span>
+<a id="__codelineno-0-41" name="__codelineno-0-41"></a><span class="sd">        A[n] `State` containing items that are set up.</span>
+<a id="__codelineno-0-42" name="__codelineno-0-42"></a><span class="sd">    &quot;&quot;&quot;</span>
+<a id="__codelineno-0-43" name="__codelineno-0-43"></a>    <span class="n">args</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">()</span>
+<a id="__codelineno-0-44" name="__codelineno-0-44"></a>    <span class="n">cmd</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">init</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+<a id="__codelineno-0-45" name="__codelineno-0-45"></a>
+<a id="__codelineno-0-46" name="__codelineno-0-46"></a>    <span class="n">state</span> <span class="o">=</span> <span class="n">State</span><span class="p">(</span>
+<a id="__codelineno-0-47" name="__codelineno-0-47"></a>        <span class="n">args</span><span class="o">=</span><span class="n">args</span><span class="p">,</span>
+<a id="__codelineno-0-48" name="__codelineno-0-48"></a>        <span class="n">cmd</span><span class="o">=</span><span class="n">cmd</span><span class="p">,</span>
+<a id="__codelineno-0-49" name="__codelineno-0-49"></a>    <span class="p">)</span>
+<a id="__codelineno-0-50" name="__codelineno-0-50"></a>    <span class="k">return</span> <span class="n">state</span>
 </code></pre></div></td></tr></table></div>
       </details>
   </div>
