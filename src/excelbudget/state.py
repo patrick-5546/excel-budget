@@ -1,6 +1,7 @@
 """The state of excelbudget.
 
 Warning: Logger usage in this file
+
     The logger shouldn't be used in this file because it hasn't been configured yet
 """
 
