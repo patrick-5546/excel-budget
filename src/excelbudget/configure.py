@@ -10,8 +10,8 @@ import logging
 from argparse import ArgumentParser
 from typing import NamedTuple
 
-from excelbudget.commands import get_command_classes
-from excelbudget.state import State
+from .commands import get_command_classes
+from .state import State
 
 logger = logging.getLogger(__name__)
 

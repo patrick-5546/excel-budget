@@ -9,7 +9,7 @@ import logging
 import typing
 from argparse import Namespace
 
-from excelbudget.commands import Command
+from .commands import Command
 
 logger = logging.getLogger(__name__)
 

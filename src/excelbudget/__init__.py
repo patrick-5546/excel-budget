@@ -1,7 +1,7 @@
 """Excelbudget: a personal bookkeeping assistant."""
 
-from excelbudget.configure import post_state_configuration, pre_state_configuration
-from excelbudget.state import setup_state
+from .configure import post_state_configuration, pre_state_configuration
+from .state import setup_state
 
 
 def main():
