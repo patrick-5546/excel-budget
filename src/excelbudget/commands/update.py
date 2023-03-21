@@ -15,7 +15,7 @@ class Update(AbstractCommand):
             subparsers (_SubParsersAction): The command `subparsers`.
         """
         parser = subparsers.add_parser(
-            "update", help="update an existing excelbudget file"
+            "update", aliases=["u"], help="update an existing excelbudget file"
         )
 
         # positional arguments

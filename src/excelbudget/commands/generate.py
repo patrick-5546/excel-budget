@@ -15,7 +15,7 @@ class Generate(AbstractCommand):
             subparsers (_SubParsersAction): The command `subparsers`.
         """
         parser = subparsers.add_parser(
-            "generate", help="generate a new excelbudget file"
+            "generate", aliases=["g"], help="generate a new excelbudget file"
         )
 
         # positional arguments

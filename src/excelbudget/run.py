@@ -20,11 +20,11 @@ def run(state: state.State) -> None:
     """
     cmd_name = state.args.cmd
     cmd_cls = abstractcommand.AbstractCommand  # initialize to parent class for mypy
-    if cmd_name == "generate":
+    if cmd_name in {"generate", "g"}:
         cmd_cls = generate.Generate
-    elif cmd_name == "update":
+    elif cmd_name in {"update", "u"}:
         cmd_cls = update.Update
-    elif cmd_name == "validate":
+    elif cmd_name in {"validate", "v"}:
         cmd_cls = validate.Validate
     else:
         raise ValueError(f"{cmd_name} is not a valid command")

@@ -15,7 +15,7 @@ class Validate(AbstractCommand):
             subparsers (_SubParsersAction): The command `subparsers`.
         """
         parser = subparsers.add_parser(
-            "validate", help="validate an existing excelbudget file"
+            "validate", aliases=["v"], help="validate an existing excelbudget file"
         )
 
         # positional arguments
