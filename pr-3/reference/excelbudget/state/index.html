@@ -986,7 +986,7 @@
   
       <p>The state of excelbudget.</p>
 
-<details class="note">
+<details class="warning">
   <summary>Logger usage in this file</summary>
   <p>The logger shouldn't be used in this file because it hasn't been configured yet</p>
 </details>
@@ -1108,7 +1108,7 @@
   
       <p>Sets up the state for the program.</p>
 
-<details class="note">
+<details class="warning">
   <summary>Statically typing <code>config</code></summary>
   <p><code>config</code>, which is type <code>configure.PreStateConfiguration</code>, can't be statically
 typed in this file as it would cause a circular import</p>
@@ -1182,7 +1182,7 @@ state is set up.</p></td>
 <span class="normal"><a href="#__codelineno-0-49">49</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-28" name="__codelineno-0-28"></a><span class="k">def</span> <span class="nf">setup_state</span><span class="p">(</span><span class="n">config</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">State</span><span class="p">:</span>
 <a id="__codelineno-0-29" name="__codelineno-0-29"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Sets up the state for the program.</span>
 <a id="__codelineno-0-30" name="__codelineno-0-30"></a>
-<a id="__codelineno-0-31" name="__codelineno-0-31"></a><span class="sd">    Note: Statically typing `config`</span>
+<a id="__codelineno-0-31" name="__codelineno-0-31"></a><span class="sd">    Warning: Statically typing `config`</span>
 <a id="__codelineno-0-32" name="__codelineno-0-32"></a><span class="sd">        `config`, which is type `configure.PreStateConfiguration`, can&#39;t be statically</span>
 <a id="__codelineno-0-33" name="__codelineno-0-33"></a><span class="sd">        typed in this file as it would cause a circular import</span>
 <a id="__codelineno-0-34" name="__codelineno-0-34"></a>
