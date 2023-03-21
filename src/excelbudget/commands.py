@@ -12,29 +12,43 @@ class Command(ABC):
     @property
     @abstractmethod
     def name(self) -> str:
+        """The command's CLI name. Should be implemented as a class attribute"""
         pass
 
     @property
     @abstractmethod
     def aliases(self) -> List[str]:
+        """The command's CLI aliases. Should be implemented as a class attribute"""
         pass
 
     @classmethod
     @abstractmethod
     def configure_args(cls, subparsers: _SubParsersAction) -> None:
+        """Adds the command's CLI arguments to the argument parser.
+
+        Args:
+            subparsers (_SubParsersAction): The command `subparsers`.
+        """
         pass
 
     @abstractmethod
     def __init__(self, args: Namespace) -> None:
+        """Initializes the command instance, storing the relevant CLI arguments as
+        instance variables.
+
+        Args:
+            args (Namespace): The CLI arguments.
+        """
         pass
 
     @abstractmethod
     def run(self) -> None:
+        """Runs the command."""
         pass
 
 
 class Generate(Command):
-    """The `generate` command implementation.
+    """The `generate` command generates a new excelbudget file.
 
     Attributes:
         name (str): The command's CLI name.
@@ -51,12 +65,12 @@ class Generate(Command):
         Args:
             subparsers (_SubParsersAction): The command `subparsers`.
         """
-        parser = common_arg_config(
+        parser = _add_parser(
             subparsers,
             name=cls.name,
             aliases=cls.aliases,
             help="generate a new excelbudget file",
-            init=Generate,
+            cls=Generate,
         )
 
         parser.add_argument(
@@ -71,7 +85,7 @@ class Generate(Command):
 
 
 class Update(Command):
-    """The `update` command implementation.
+    """The `update` command updates an existing excelbudget file.
 
     Attributes:
         name (str): The command's CLI name.
@@ -88,12 +102,12 @@ class Update(Command):
         Args:
             subparsers (_SubParsersAction): The command `subparsers`.
         """
-        common_arg_config(
+        _add_parser(
             subparsers,
             name=cls.name,
             aliases=cls.aliases,
             help="update an existing excelbudget file",
-            init=Update,
+            cls=Update,
         )
 
     def __init__(self, args: Namespace) -> None:
@@ -104,7 +118,7 @@ class Update(Command):
 
 
 class Validate(Command):
-    """The `validate` command implementation.
+    """The `validate` command validates an existing excelbudget file.
 
     Attributes:
         name (str): The command's CLI name.
@@ -121,12 +135,12 @@ class Validate(Command):
         Args:
             subparsers (_SubParsersAction): The command `subparsers`.
         """
-        common_arg_config(
+        _add_parser(
             subparsers,
             name=cls.name,
             aliases=cls.aliases,
             help="validate an existing excelbudget file",
-            init=Validate,
+            cls=Validate,
         )
 
     def __init__(self, args: Namespace) -> None:
@@ -140,13 +154,29 @@ def get_cmd_cls_from_str(cls_name: str) -> Type[Command]:
     return getattr(sys.modules[__name__], cls_name)
 
 
-def common_arg_config(
+def _add_parser(
     subparsers: _SubParsersAction,
     name: str,
     aliases: List[str],
     help: str,
-    init: Type[Command],
+    cls: Type[Command],
 ) -> ArgumentParser:
+    """Adds an argument parser for a command. Any configuration that is common
+    across commands should go here.
+
+    Args:
+        subparsers (_SubParsersAction): The subparsers object.
+        name (str): The command name.
+        aliases (List[str]): The command aliases.
+        help (str): The command help message.
+        cls (Type[Command]): The command class.
+
+    Returns:
+        A[n] `ArgumentParser` for a command.
+    """
     parser = subparsers.add_parser(name, aliases=aliases, help=help)
-    parser.set_defaults(init=init)
+
+    # initialize the command with args.init(...)
+    parser.set_defaults(init=cls)
+
     return parser
