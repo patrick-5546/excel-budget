@@ -150,8 +150,14 @@ class Validate(Command):
         raise NotImplementedError
 
 
-def get_cmd_cls_from_str(cls_name: str) -> Type[Command]:
-    return getattr(sys.modules[__name__], cls_name)
+def get_command_classes() -> List[Type[Command]]:
+    """Gets all classes that implement the `Command` abstract class.
+
+    Returns:
+        A[n] `List[Type[Command]]` of all command classes.
+    """
+    command_module = sys.modules[__name__]
+    return [getattr(command_module, cls.__name__) for cls in Command.__subclasses__()]
 
 
 def _add_parser(

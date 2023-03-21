@@ -3,7 +3,13 @@ import inspect
 
 import pytest
 
-from excelbudget.commands import Generate, Update, Validate
+from excelbudget.commands import Generate, Update, Validate, get_command_classes
+
+AVAILABLE_COMMANDS = {
+    Generate,
+    Update,
+    Validate,
+}
 
 
 def test_config_args_is_classmethod() -> None:
@@ -46,3 +52,11 @@ def test_validate() -> None:
 
     with pytest.raises(NotImplementedError):
         cmd.run()
+
+
+def test_get_command_classes() -> None:
+    command_classes = get_command_classes()
+
+    assert len(command_classes) == len(AVAILABLE_COMMANDS)
+    for cmd in command_classes:
+        assert cmd in AVAILABLE_COMMANDS

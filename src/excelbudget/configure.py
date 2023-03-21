@@ -10,7 +10,7 @@ import logging
 from argparse import ArgumentParser
 from typing import NamedTuple
 
-from excelbudget.commands import Command, get_cmd_cls_from_str
+from excelbudget.commands import get_command_classes
 from excelbudget.state import State
 
 logger = logging.getLogger(__name__)
@@ -67,8 +67,7 @@ def _configure_argument_parser() -> ArgumentParser:
         required=True,
         description="The excelbudget command to run.",
     )
-    for cls in Command.__subclasses__():
-        cmd_cls = get_cmd_cls_from_str(cls.__name__)
+    for cmd_cls in get_command_classes():
         cmd_cls.configure_args(cmd_subparsers)
 
     return parser
