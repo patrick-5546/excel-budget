@@ -6,7 +6,7 @@ import pytest
 import excelbudget.configure as configure
 
 
-def test_log_level_args() -> None:
+def test__configure_logger_args() -> None:
     parser = argparse.ArgumentParser()
     configure._configure_logger_args(parser)
 
