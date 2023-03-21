@@ -17,7 +17,7 @@ def test_update() -> None:
     parser = argparse.ArgumentParser()
     subparsers = parser.add_subparsers()
     Update.configure_args(subparsers)
-    args = parser.parse_args(["update", "."])
+    args = parser.parse_args(["update"])
 
     with pytest.raises(NotImplementedError):
         Update(args)

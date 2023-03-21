@@ -17,7 +17,7 @@ def test_validate() -> None:
     parser = argparse.ArgumentParser()
     subparsers = parser.add_subparsers()
     Validate.configure_args(subparsers)
-    args = parser.parse_args(["validate", "."])
+    args = parser.parse_args(["validate"])
 
     with pytest.raises(NotImplementedError):
         Validate(args)

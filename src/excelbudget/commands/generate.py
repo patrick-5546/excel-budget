@@ -27,10 +27,6 @@ class Generate(AbstractCommand):
         )
         parser.set_defaults(init=Generate)
 
-        # positional arguments
-        parser.add_argument("path", help="path to generate file")
-
-        # optional arguments
         parser.add_argument(
             "-f", "--force", action="store_true", help="overwrite file if it exists"
         )

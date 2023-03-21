@@ -59,6 +59,8 @@ def _configure_argument_parser() -> ArgumentParser:
     """
     parser = ArgumentParser()
 
+    parser.add_argument("-p", "--path", help="path to the excelbudget file")
+
     _configure_logger_args(parser)
 
     cmd_subparsers = parser.add_subparsers(

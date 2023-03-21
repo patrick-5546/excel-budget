@@ -17,7 +17,7 @@ def test_generate() -> None:
     parser = argparse.ArgumentParser()
     subparsers = parser.add_subparsers()
     Generate.configure_args(subparsers)
-    args = parser.parse_args(["generate", ".", "--force"])
+    args = parser.parse_args(["generate", "--force"])
 
     with pytest.raises(NotImplementedError):
         Generate(args)

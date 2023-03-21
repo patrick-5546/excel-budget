@@ -27,9 +27,6 @@ class Update(AbstractCommand):
         )
         parser.set_defaults(init=Update)
 
-        # positional arguments
-        parser.add_argument("path", help="path to file")
-
     def __init__(self, args: Namespace) -> None:
         raise NotImplementedError
 

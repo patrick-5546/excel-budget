@@ -27,9 +27,6 @@ class Validate(AbstractCommand):
         )
         parser.set_defaults(init=Validate)
 
-        # positional arguments
-        parser.add_argument("path", help="path to file")
-
     def __init__(self, args: Namespace) -> None:
         raise NotImplementedError
 
