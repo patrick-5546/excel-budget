@@ -1,20 +1,29 @@
 from argparse import Namespace, _SubParsersAction
+from typing import List
 
 from excelbudget.commands.abstractcommand import AbstractCommand
 
 
 class Generate(AbstractCommand):
-    """The `generate` command implementation."""
+    """The `generate` command implementation.
 
-    @staticmethod
-    def configure_args(subparsers: _SubParsersAction) -> None:
+    Attributes:
+        name (str): The command's CLI name.
+        aliases (List[str]): The command's CLI aliases.
+    """
+
+    name: str = "generate"
+    aliases: List[str] = ["g"]
+
+    @classmethod
+    def configure_args(cls, subparsers: _SubParsersAction) -> None:
         """Configures the argument parser for the `generate` command.
 
         Args:
             subparsers (_SubParsersAction): The command `subparsers`.
         """
         parser = subparsers.add_parser(
-            "generate", aliases=["g"], help="generate a new excelbudget file"
+            cls.name, aliases=cls.aliases, help="generate a new excelbudget file"
         )
         parser.set_defaults(init=Generate)
 

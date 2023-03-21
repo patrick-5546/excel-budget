@@ -6,11 +6,11 @@ import pytest
 from excelbudget.commands.update import Update
 
 
-def test_config_args_static() -> None:
+def test_config_args_is_classmethod() -> None:
     """Check if `config_args` is static
     as this is not guaranteed by the current implementation.
     """
-    assert isinstance(inspect.getattr_static(Update, "configure_args"), staticmethod)
+    assert isinstance(inspect.getattr_static(Update, "configure_args"), classmethod)
 
 
 def test_update() -> None:
