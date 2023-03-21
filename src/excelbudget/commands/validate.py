@@ -1,7 +1,7 @@
 from argparse import Namespace, _SubParsersAction
 from typing import List
 
-from excelbudget.commands.abstractcommand import AbstractCommand
+from excelbudget.commands.abstractcommand import AbstractCommand, common_arg_config
 
 
 class Validate(AbstractCommand):
@@ -22,10 +22,13 @@ class Validate(AbstractCommand):
         Args:
             subparsers (_SubParsersAction): The command `subparsers`.
         """
-        parser = subparsers.add_parser(
-            cls.name, aliases=cls.aliases, help="validate an existing excelbudget file"
+        common_arg_config(
+            subparsers,
+            name=cls.name,
+            aliases=cls.aliases,
+            help="validate an existing excelbudget file",
+            init=Validate,
         )
-        parser.set_defaults(init=Validate)
 
     def __init__(self, args: Namespace) -> None:
         raise NotImplementedError

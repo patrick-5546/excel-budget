@@ -1,7 +1,7 @@
 from argparse import Namespace, _SubParsersAction
 from typing import List
 
-from excelbudget.commands.abstractcommand import AbstractCommand
+from excelbudget.commands.abstractcommand import AbstractCommand, common_arg_config
 
 
 class Update(AbstractCommand):
@@ -22,10 +22,13 @@ class Update(AbstractCommand):
         Args:
             subparsers (_SubParsersAction): The command `subparsers`.
         """
-        parser = subparsers.add_parser(
-            cls.name, aliases=cls.aliases, help="update an existing excelbudget file"
+        common_arg_config(
+            subparsers,
+            name=cls.name,
+            aliases=cls.aliases,
+            help="update an existing excelbudget file",
+            init=Update,
         )
-        parser.set_defaults(init=Update)
 
     def __init__(self, args: Namespace) -> None:
         raise NotImplementedError

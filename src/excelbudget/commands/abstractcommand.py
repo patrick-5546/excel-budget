@@ -1,7 +1,7 @@
 # from argparse import ArgumentParser, _SubParsersAction
 from abc import ABC, abstractmethod
-from argparse import Namespace, _SubParsersAction
-from typing import List
+from argparse import ArgumentParser, Namespace, _SubParsersAction
+from typing import List, Type
 
 
 class AbstractCommand(ABC):
@@ -29,3 +29,15 @@ class AbstractCommand(ABC):
     @abstractmethod
     def run(self) -> None:
         pass
+
+
+def common_arg_config(
+    subparsers: _SubParsersAction,
+    name: str,
+    aliases: List[str],
+    help: str,
+    init: Type[AbstractCommand],
+) -> ArgumentParser:
+    parser = subparsers.add_parser(name, aliases=aliases, help=help)
+    parser.set_defaults(init=init)
+    return parser

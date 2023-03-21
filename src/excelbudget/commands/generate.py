@@ -1,7 +1,7 @@
 from argparse import Namespace, _SubParsersAction
 from typing import List
 
-from excelbudget.commands.abstractcommand import AbstractCommand
+from excelbudget.commands.abstractcommand import AbstractCommand, common_arg_config
 
 
 class Generate(AbstractCommand):
@@ -22,10 +22,13 @@ class Generate(AbstractCommand):
         Args:
             subparsers (_SubParsersAction): The command `subparsers`.
         """
-        parser = subparsers.add_parser(
-            cls.name, aliases=cls.aliases, help="generate a new excelbudget file"
+        parser = common_arg_config(
+            subparsers,
+            name=cls.name,
+            aliases=cls.aliases,
+            help="generate a new excelbudget file",
+            init=Generate,
         )
-        parser.set_defaults(init=Generate)
 
         parser.add_argument(
             "-f", "--force", action="store_true", help="overwrite file if it exists"
