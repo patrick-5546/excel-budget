@@ -9,9 +9,8 @@ import logging
 from argparse import ArgumentParser
 from typing import NamedTuple
 
-from excelbudget.commands.generate import Generate
-from excelbudget.commands.update import Update
-from excelbudget.commands.validate import Validate
+from excelbudget.commands import get_cmd_cls_from_str
+from excelbudget.commands.abstractcommand import AbstractCommand
 from excelbudget.state import State
 
 logger = logging.getLogger(__name__)
@@ -68,9 +67,9 @@ def _configure_argument_parser() -> ArgumentParser:
         required=True,
         description="The excelbudget command to run.",
     )
-    Generate.configure_args(cmd_subparsers)
-    Update.configure_args(cmd_subparsers)
-    Validate.configure_args(cmd_subparsers)
+    for cls in AbstractCommand.__subclasses__():
+        cmd_cls = get_cmd_cls_from_str(cls.__name__)
+        cmd_cls.configure_args(cmd_subparsers)
 
     return parser
 
