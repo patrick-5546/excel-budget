@@ -1,7 +1,6 @@
-from argparse import _SubParsersAction
+from argparse import Namespace, _SubParsersAction
 
 from excelbudget.commands.abstractcommand import AbstractCommand
-from excelbudget.state import State
 
 
 class Validate(AbstractCommand):
@@ -17,11 +16,12 @@ class Validate(AbstractCommand):
         parser = subparsers.add_parser(
             "validate", aliases=["v"], help="validate an existing excelbudget file"
         )
+        parser.set_defaults(init=Validate)
 
         # positional arguments
         parser.add_argument("path", help="path to file")
 
-    def __init__(self, state: State) -> None:
+    def __init__(self, args: Namespace) -> None:
         raise NotImplementedError
 
     def run(self) -> None:

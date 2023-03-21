@@ -63,7 +63,6 @@ def _configure_argument_parser() -> ArgumentParser:
 
     cmd_subparsers = parser.add_subparsers(
         title="command",
-        dest="cmd",
         required=True,
         description="The excelbudget command to run.",
     )

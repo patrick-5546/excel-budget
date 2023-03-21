@@ -4,9 +4,11 @@ Note: Logger usage in this file
     The logger shouldn't be used in this file because it hasn't been configured yet
 """
 
-import argparse
 import logging
 import typing
+from argparse import Namespace
+
+from excelbudget.commands.abstractcommand import AbstractCommand
 
 logger = logging.getLogger(__name__)
 
@@ -15,10 +17,12 @@ class State(typing.NamedTuple):
     """A named tuple containing items that make up the state of the program.
 
     Attributes:
-        args (argparse.Namespace): The parsed arguments.
+        args (Namespace): The parsed arguments.
+        cmd (AbstractCommand): The command instance.
     """
 
-    args: argparse.Namespace
+    args: Namespace
+    cmd: AbstractCommand
 
 
 def setup_state(config) -> State:
@@ -35,8 +39,10 @@ def setup_state(config) -> State:
         A[n] `State` containing items that are set up.
     """  # noqa
     args = config.parser.parse_args()
+    cmd = args.init(args)
 
     state = State(
         args=args,
+        cmd=cmd,
     )
     return state

@@ -1,7 +1,6 @@
-from argparse import _SubParsersAction
+from argparse import Namespace, _SubParsersAction
 
 from excelbudget.commands.abstractcommand import AbstractCommand
-from excelbudget.state import State
 
 
 class Generate(AbstractCommand):
@@ -17,6 +16,7 @@ class Generate(AbstractCommand):
         parser = subparsers.add_parser(
             "generate", aliases=["g"], help="generate a new excelbudget file"
         )
+        parser.set_defaults(init=Generate)
 
         # positional arguments
         parser.add_argument("path", help="path to generate file")
@@ -26,7 +26,7 @@ class Generate(AbstractCommand):
             "-f", "--force", action="store_true", help="overwrite file if it exists"
         )
 
-    def __init__(self, state: State) -> None:
+    def __init__(self, args: Namespace) -> None:
         raise NotImplementedError
 
     def run(self) -> None:

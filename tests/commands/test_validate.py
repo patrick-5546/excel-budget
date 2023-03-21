@@ -4,7 +4,6 @@ import inspect
 import pytest
 
 from excelbudget.commands.validate import Validate
-from excelbudget.state import State
 
 
 def test_config_args_static() -> None:
@@ -20,8 +19,5 @@ def test_validate() -> None:
     Validate.configure_args(subparsers)
     args = parser.parse_args(["validate", "."])
 
-    state = State(
-        args=args,
-    )
     with pytest.raises(NotImplementedError):
-        Validate(state)
+        Validate(args)

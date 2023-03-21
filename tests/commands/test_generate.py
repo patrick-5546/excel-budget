@@ -4,7 +4,6 @@ import inspect
 import pytest
 
 from excelbudget.commands.generate import Generate
-from excelbudget.state import State
 
 
 def test_config_args_static() -> None:
@@ -20,8 +19,5 @@ def test_generate() -> None:
     Generate.configure_args(subparsers)
     args = parser.parse_args(["generate", ".", "--force"])
 
-    state = State(
-        args=args,
-    )
     with pytest.raises(NotImplementedError):
-        Generate(state)
+        Generate(args)

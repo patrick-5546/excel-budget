@@ -1,7 +1,6 @@
-from argparse import _SubParsersAction
+from argparse import Namespace, _SubParsersAction
 
 from excelbudget.commands.abstractcommand import AbstractCommand
-from excelbudget.state import State
 
 
 class Update(AbstractCommand):
@@ -17,11 +16,12 @@ class Update(AbstractCommand):
         parser = subparsers.add_parser(
             "update", aliases=["u"], help="update an existing excelbudget file"
         )
+        parser.set_defaults(init=Update)
 
         # positional arguments
         parser.add_argument("path", help="path to file")
 
-    def __init__(self, state: State) -> None:
+    def __init__(self, args: Namespace) -> None:
         raise NotImplementedError
 
     def run(self) -> None:
