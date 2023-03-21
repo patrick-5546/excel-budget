@@ -31,7 +31,7 @@ class Validate(AbstractCommand):
         )
 
     def __init__(self, args: Namespace) -> None:
-        raise NotImplementedError
+        pass
 
     def run(self) -> None:
         raise NotImplementedError

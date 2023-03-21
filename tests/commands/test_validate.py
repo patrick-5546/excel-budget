@@ -18,6 +18,7 @@ def test_validate() -> None:
     subparsers = parser.add_subparsers()
     Validate.configure_args(subparsers)
     args = parser.parse_args(["validate"])
+    cmd = Validate(args)
 
     with pytest.raises(NotImplementedError):
-        Validate(args)
+        cmd.run()
