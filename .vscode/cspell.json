@@ -25,7 +25,8 @@
         "testenv",
         "twemoji",
         "venv",
-        "xlbudget"
+        "xlbudget",
+        "xlfunctions"
     ],
     "flagWords": [
         "hte"

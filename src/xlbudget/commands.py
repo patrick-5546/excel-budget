@@ -1,10 +1,15 @@
 """The commands, implemented as implementations of the abstract class `Command`."""
 
+import datetime
 import sys
 from abc import ABC, abstractmethod
 from argparse import ArgumentParser, Namespace, _SubParsersAction
 from logging import getLogger
 from typing import List, Type
+
+from openpyxl import Workbook
+
+from .xlfunctions import create_year_sheet
 
 logger = getLogger(__name__)
 
@@ -94,7 +99,14 @@ class Generate(Command):
         logger.info(f"instance variables: {vars(self)}")
 
     def run(self) -> None:
-        raise NotImplementedError
+        """Creates an empty excelbudget file populated with:
+
+        - A sheet for the current year.
+        """
+        wb = Workbook()
+        year = str(datetime.date.today().year)
+        create_year_sheet(wb, year)
+        wb.save(self.path)
 
 
 class Update(Command):
