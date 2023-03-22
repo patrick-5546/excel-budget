@@ -96,5 +96,5 @@ def _configure_logger(level: int) -> None:
     """  # noqa
     logging.basicConfig(
         level=level,
-        format="%(name)s:%(funcName)s() - %(levelname)s - %(message)s",
+        format="%(levelname)s - %(name)s:%(lineno)s - %(message)s",
     )
