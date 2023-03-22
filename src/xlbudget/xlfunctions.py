@@ -1,5 +1,6 @@
 import calendar
 
+from openpyxl import Workbook
 from openpyxl.utils import get_column_letter
 from openpyxl.worksheet.table import Table, TableStyleInfo
 
@@ -8,11 +9,11 @@ FORMAT_DATE = "MM/DD/YYYY"
 MONTH_NAME_0_IND = calendar.month_name[1:]
 
 
-def create_year_sheet(wb, year):
+def create_year_sheet(wb: Workbook, year: str):
     """Creates a year sheet, with a table for each month.
 
     Args:
-        wb (openpyxl.Workbook): The workbook to create the sheet in.
+        wb (openpyxl.workbook.workbook.Workbook): The workbook to create the sheet in.
         year (str): The year.
     """
     ws = wb.create_sheet(year)
