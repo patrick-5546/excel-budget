@@ -8,50 +8,11 @@ Warning: Logger usage in this file
 
 import logging
 from argparse import ArgumentParser
-from typing import NamedTuple
 
 from .commands import get_command_classes
-from .state import State
 
 
-class PreStateConfiguration(NamedTuple):
-    """A named tuple containing items that can be configured before state is set up.
-
-    Attributes:
-        parser (ArgumentParser): The argument parser.
-    """
-
-    parser: ArgumentParser
-
-
-def pre_state_configuration() -> PreStateConfiguration:
-    """Configuration before state is setup.
-
-    Returns:
-        A[n] `PreStateConfiguration` containing configured items.
-    """
-    parser = _configure_argument_parser()
-
-    config = PreStateConfiguration(
-        parser=parser,
-    )
-    return config
-
-
-def post_state_configuration(state: State) -> None:
-    """Configuration after state is set up.
-
-    Args:
-        state (State): The state.
-    """
-    _configure_logger(state.args.log_level)
-
-    # log state after `_configure_logger` is called
-    logger = logging.getLogger(__name__)
-    logger.info(f"{state=}")
-
-
-def _configure_argument_parser() -> ArgumentParser:
+def configure_argument_parser() -> ArgumentParser:
     """Configures the argument parser for all arguments.
 
     Returns:
@@ -74,6 +35,21 @@ def _configure_argument_parser() -> ArgumentParser:
         cmd_cls.configure_args(cmd_subparsers)
 
     return parser
+
+
+def configure_logger(level: int) -> None:
+    """Configures the logger.
+
+    Since this configuration is global, there is no need to return the logger.
+    To use the logger in a file, add `logger = logging.getLogger(__name__)` at the top.
+
+    Args:
+        level (int): The [logging level](https://docs.python.org/3/library/logging.html#logging-levels).
+    """  # noqa
+    logging.basicConfig(
+        level=level,
+        format="%(name)s:%(funcName)s() - %(levelname)s - %(message)s",
+    )
 
 
 def _configure_logger_args(parser: ArgumentParser) -> None:
@@ -105,19 +81,4 @@ def _configure_logger_args(parser: ArgumentParser) -> None:
         action="store_const",
         dest="log_level",
         const=logging.INFO,
-    )
-
-
-def _configure_logger(level: int) -> None:
-    """Configures the logger.
-
-    Since this configuration is global, there is no need to return the logger.
-    To use the logger in a file, add `logger = logging.getLogger(__name__)` at the top.
-
-    Args:
-        level (int): The [logging level](https://docs.python.org/3/library/logging.html#logging-levels).
-    """  # noqa
-    logging.basicConfig(
-        level=level,
-        format="%(name)s:%(funcName)s() - %(levelname)s - %(message)s",
     )

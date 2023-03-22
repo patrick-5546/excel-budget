@@ -1,12 +1,13 @@
 """Xlbudget: a personal bookkeeping assistant."""
 
-from .configure import post_state_configuration, pre_state_configuration
-from .state import setup_state
+from .configure import configure_argument_parser, configure_logger
 
 
 def main():
     "Entry point for the application script."
-    pre_config = pre_state_configuration()
-    state = setup_state(pre_config)
-    post_state_configuration(state)
-    state.cmd.run()
+    parser = configure_argument_parser()
+    args = parser.parse_args()
+    configure_logger(args.log_level)
+
+    cmd = args.init(args)
+    cmd.run()
