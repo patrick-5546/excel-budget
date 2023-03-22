@@ -6,33 +6,33 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Documentation site for excelbudget, a personal bookkeeping assistant">
+        <meta name="description" content="Documentation site for xlbudget, a personal bookkeeping assistant">
       
       
         <meta name="author" content="Patrick Creighton">
       
       
-        <link rel="canonical" href="https://patrick-5546.github.io/excelbudget/main/reference/excelbudget/state/">
+        <link rel="canonical" href="https://patrick-5546.github.io/xlbudget/main/reference/xlbudget/">
       
       
-        <link rel="prev" href="../configure/">
+        <link rel="prev" href="../../user_guide/configuration/">
       
       
-        <link rel="next" href="../../../developer_guide/contributing/">
+        <link rel="next" href="commands/">
       
-      <link rel="icon" href="../../../assets/images/favicon.png">
+      <link rel="icon" href="../../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-9.1.3">
     
     
       
-        <title>state - Excelbudget Docs</title>
+        <title>xlbudget - Xlbudget Docs</title>
       
     
     
-      <link rel="stylesheet" href="../../../assets/stylesheets/main.c4a75a56.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.c4a75a56.min.css">
       
         
-        <link rel="stylesheet" href="../../../assets/stylesheets/palette.a0c5b2b5.min.css">
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.a0c5b2b5.min.css">
       
       
 
@@ -48,9 +48,9 @@
       
     
     
-      <link rel="stylesheet" href="../../../assets/_mkdocstrings.css">
+      <link rel="stylesheet" href="../../assets/_mkdocstrings.css">
     
-    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
@@ -79,7 +79,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#excelbudget.state-classes" class="md-skip">
+        <a href="#xlbudget-functions" class="md-skip">
           Skip to content
         </a>
       
@@ -94,7 +94,7 @@
             <div class="md-banner__inner md-grid md-typeset">
               
   You're not viewing the latest version.
-  <a href="../../../.."> 
+  <a href="../../.."> 
     <strong>Click here to go to latest.</strong>
   </a>
 
@@ -111,7 +111,7 @@
 
 <header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="../../.." title="Excelbudget Docs" class="md-header__button md-logo" aria-label="Excelbudget Docs" data-md-component="logo">
+    <a href="../.." title="Xlbudget Docs" class="md-header__button md-logo" aria-label="Xlbudget Docs" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
@@ -124,13 +124,13 @@
       <div class="md-header__ellipsis">
         <div class="md-header__topic">
           <span class="md-ellipsis">
-            Excelbudget Docs
+            Xlbudget Docs
           </span>
         </div>
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              state
+              xlbudget
             
           </span>
         </div>
@@ -200,13 +200,13 @@
     
     
       <div class="md-header__source">
-        <a href="https://github.com/patrick-5546/excelbudget" title="Go to repository" class="md-source" data-md-component="source">
+        <a href="https://github.com/patrick-5546/xlbudget" title="Go to repository" class="md-source" data-md-component="source">
   <div class="md-source__icon md-icon">
     
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
   </div>
   <div class="md-source__repository">
-    patrick-5546/excelbudget
+    patrick-5546/xlbudget
   </div>
 </a>
       </div>
@@ -228,7 +228,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="../../.." class="md-tabs__link">
+      <a href="../.." class="md-tabs__link">
         Home
       </a>
     </li>
@@ -244,7 +244,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="../../../user_guide/installation/" class="md-tabs__link">
+      <a href="../../user_guide/installation/" class="md-tabs__link">
         User Guide
       </a>
     </li>
@@ -262,7 +262,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="../" class="md-tabs__link md-tabs__link--active">
+      <a href="./" class="md-tabs__link md-tabs__link--active">
         Code Reference
       </a>
     </li>
@@ -278,7 +278,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="../../../developer_guide/contributing/" class="md-tabs__link">
+      <a href="../../developer_guide/contributing/" class="md-tabs__link">
         Developer Guide
       </a>
     </li>
@@ -312,23 +312,23 @@
 
 <nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="../../.." title="Excelbudget Docs" class="md-nav__button md-logo" aria-label="Excelbudget Docs" data-md-component="logo">
+    <a href="../.." title="Xlbudget Docs" class="md-nav__button md-logo" aria-label="Xlbudget Docs" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
 
     </a>
-    Excelbudget Docs
+    Xlbudget Docs
   </label>
   
     <div class="md-nav__source">
-      <a href="https://github.com/patrick-5546/excelbudget" title="Go to repository" class="md-source" data-md-component="source">
+      <a href="https://github.com/patrick-5546/xlbudget" title="Go to repository" class="md-source" data-md-component="source">
   <div class="md-source__icon md-icon">
     
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
   </div>
   <div class="md-source__repository">
-    patrick-5546/excelbudget
+    patrick-5546/xlbudget
   </div>
 </a>
     </div>
@@ -370,7 +370,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../.." class="md-nav__link">
+      <a href="../.." class="md-nav__link">
         README
       </a>
     </li>
@@ -384,7 +384,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../coverage/" class="md-nav__link">
+      <a href="../../coverage/" class="md-nav__link">
         Coverage Report
       </a>
     </li>
@@ -398,7 +398,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../license/" class="md-nav__link">
+      <a href="../../license/" class="md-nav__link">
         License
       </a>
     </li>
@@ -447,7 +447,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../user_guide/installation/" class="md-nav__link">
+      <a href="../../user_guide/installation/" class="md-nav__link">
         Installation
       </a>
     </li>
@@ -461,7 +461,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../user_guide/getting_started/" class="md-nav__link">
+      <a href="../../user_guide/getting_started/" class="md-nav__link">
         Getting Started
       </a>
     </li>
@@ -475,7 +475,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../user_guide/commands/" class="md-nav__link">
+      <a href="../../user_guide/commands/" class="md-nav__link">
         Commands
       </a>
     </li>
@@ -489,7 +489,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../user_guide/configuration/" class="md-nav__link">
+      <a href="../../user_guide/configuration/" class="md-nav__link">
         Configuration
       </a>
     </li>
@@ -553,8 +553,8 @@
       
         
         
-        <div class="md-nav__link md-nav__link--index ">
-          <a href="../">excelbudget</a>
+        <div class="md-nav__link md-nav__link--index md-nav__link--active">
+          <a href="./">xlbudget</a>
           
             <label for="__nav_3_1">
               <span class="md-nav__icon md-icon"></span>
@@ -565,7 +565,7 @@
       <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_1_label" aria-expanded="true">
         <label class="md-nav__title" for="__nav_3_1">
           <span class="md-nav__icon md-icon"></span>
-          excelbudget
+          xlbudget
         </label>
         <ul class="md-nav__list" data-md-scrollfix>
           
@@ -575,7 +575,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../commands/" class="md-nav__link">
+      <a href="commands/" class="md-nav__link">
         commands
       </a>
     </li>
@@ -589,7 +589,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../configure/" class="md-nav__link">
+      <a href="configure/" class="md-nav__link">
         configure
       </a>
     </li>
@@ -601,81 +601,11 @@
               
   
   
-    
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          state
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="state/" class="md-nav__link">
         state
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#excelbudget.state-classes" class="md-nav__link">
-    Classes
-  </a>
-  
-    <nav class="md-nav" aria-label="Classes">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#excelbudget.state.State" class="md-nav__link">
-    State
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#excelbudget.state-functions" class="md-nav__link">
-    Functions
-  </a>
-  
-    <nav class="md-nav" aria-label="Functions">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#excelbudget.state.setup_state" class="md-nav__link">
-    setup_state()
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -729,7 +659,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../developer_guide/contributing/" class="md-nav__link">
+      <a href="../../developer_guide/contributing/" class="md-nav__link">
         Contributing
       </a>
     </li>
@@ -743,7 +673,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../developer_guide/docs/" class="md-nav__link">
+      <a href="../../developer_guide/docs/" class="md-nav__link">
         Docs
       </a>
     </li>
@@ -757,7 +687,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../developer_guide/vscode/" class="md-nav__link">
+      <a href="../../developer_guide/vscode/" class="md-nav__link">
         VS Code
       </a>
     </li>
@@ -771,7 +701,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../developer_guide/github_actions/" class="md-nav__link">
+      <a href="../../developer_guide/github_actions/" class="md-nav__link">
         GitHub Actions
       </a>
     </li>
@@ -785,7 +715,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../developer_guide/releases/" class="md-nav__link">
+      <a href="../../developer_guide/releases/" class="md-nav__link">
         Releases
       </a>
     </li>
@@ -824,27 +754,7 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#excelbudget.state-classes" class="md-nav__link">
-    Classes
-  </a>
-  
-    <nav class="md-nav" aria-label="Classes">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#excelbudget.state.State" class="md-nav__link">
-    State
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#excelbudget.state-functions" class="md-nav__link">
+  <a href="#xlbudget-functions" class="md-nav__link">
     Functions
   </a>
   
@@ -852,8 +762,8 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#excelbudget.state.setup_state" class="md-nav__link">
-    setup_state()
+  <a href="#xlbudget.main" class="md-nav__link">
+    main()
   </a>
   
 </li>
@@ -878,7 +788,7 @@
                   
 
   
-    <a href="https://github.com/patrick-5546/excelbudget/edit/main/src/excelbudget/state.py" title="Edit this page" class="md-content__button md-icon">
+    <a href="https://github.com/patrick-5546/xlbudget/edit/main/src/xlbudget/__init__.py" title="Edit this page" class="md-content__button md-icon">
       
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4v-2m10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1 2.1 2.1Z"/></svg>
     </a>
@@ -887,14 +797,14 @@
     
       
     
-    <a href="https://github.com/patrick-5546/excelbudget/raw/main/src/excelbudget/state.py" title="View source of this page" class="md-content__button md-icon">
+    <a href="https://github.com/patrick-5546/xlbudget/raw/main/src/xlbudget/__init__.py" title="View source of this page" class="md-content__button md-icon">
       
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 18c.56 0 1 .44 1 1s-.44 1-1 1-1-.44-1-1 .44-1 1-1m0-3c-2.73 0-5.06 1.66-6 4 .94 2.34 3.27 4 6 4s5.06-1.66 6-4c-.94-2.34-3.27-4-6-4m0 6.5a2.5 2.5 0 0 1-2.5-2.5 2.5 2.5 0 0 1 2.5-2.5 2.5 2.5 0 0 1 2.5 2.5 2.5 2.5 0 0 1-2.5 2.5M9.27 20H6V4h7v5h5v4.07c.7.08 1.36.25 2 .49V8l-6-6H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h4.5a8.15 8.15 0 0 1-1.23-2Z"/></svg>
     </a>
   
 
 
-  <h1>state</h1>
+  <h1>xlbudget</h1>
 
 <div class="doc doc-object doc-module">
 
@@ -902,92 +812,7 @@
 
   <div class="doc doc-contents first">
   
-      <p>The state of excelbudget.</p>
-
-<details class="warning">
-  <summary>Logger usage in this file</summary>
-  <p>The logger shouldn't be used in this file because it hasn't been configured yet</p>
-</details>
-  
-
-  <div class="doc doc-children">
-
-
-
-
-
-
-<h2 id="excelbudget.state-classes">Classes<a href="#excelbudget.state-classes" class="headerlink" title="Permanent link">&para;</a></h2>
-
-<div class="doc doc-object doc-class">
-
-
-
-<h3 id="excelbudget.state.State" class="doc doc-heading">
-        <span class="doc doc-object-name doc-class-name">State</span>
-
-
-<a href="#excelbudget.state.State" class="headerlink" title="Permanent link">&para;</a></h3>
-
-
-  <div class="doc doc-contents ">
-      <p class="doc doc-class-bases">
-        Bases: <code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/typing.html#module-typing">typing</a>.<a class="autorefs autorefs-external" title="typing.NamedTuple" href="https://docs.python.org/3/library/typing.html#typing.NamedTuple">NamedTuple</a></code></p>
-
-  
-      <p>A named tuple containing items that make up the state of the program.</p>
-
-  <p><strong>Attributes:</strong></p>
-  <table>
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-        <tr>
-          <td><code>args</code></td>
-          <td>
-                <code><a class="autorefs autorefs-external" title="argparse.Namespace" href="https://docs.python.org/3/library/argparse.html#argparse.Namespace">Namespace</a></code>
-          </td>
-          <td><p>The parsed arguments.</p></td>
-        </tr>
-        <tr>
-          <td><code>cmd</code></td>
-          <td>
-                <code><a class="autorefs autorefs-internal" title="excelbudget.commands.Command" href="../commands/#excelbudget.commands.Command">Command</a></code>
-          </td>
-          <td><p>The command instance.</p></td>
-        </tr>
-    </tbody>
-  </table>
-
-
-        <details class="quote">
-          <summary>Source code in <code>excelbudget/state.py</code></summary>
-          <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-17">17</a></span>
-<span class="normal"><a href="#__codelineno-0-18">18</a></span>
-<span class="normal"><a href="#__codelineno-0-19">19</a></span>
-<span class="normal"><a href="#__codelineno-0-20">20</a></span>
-<span class="normal"><a href="#__codelineno-0-21">21</a></span>
-<span class="normal"><a href="#__codelineno-0-22">22</a></span>
-<span class="normal"><a href="#__codelineno-0-23">23</a></span>
-<span class="normal"><a href="#__codelineno-0-24">24</a></span>
-<span class="normal"><a href="#__codelineno-0-25">25</a></span>
-<span class="normal"><a href="#__codelineno-0-26">26</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-17" name="__codelineno-0-17"></a><span class="k">class</span> <span class="nc">State</span><span class="p">(</span><span class="n">typing</span><span class="o">.</span><span class="n">NamedTuple</span><span class="p">):</span>
-<a id="__codelineno-0-18" name="__codelineno-0-18"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;A named tuple containing items that make up the state of the program.</span>
-<a id="__codelineno-0-19" name="__codelineno-0-19"></a>
-<a id="__codelineno-0-20" name="__codelineno-0-20"></a><span class="sd">    Attributes:</span>
-<a id="__codelineno-0-21" name="__codelineno-0-21"></a><span class="sd">        args (Namespace): The parsed arguments.</span>
-<a id="__codelineno-0-22" name="__codelineno-0-22"></a><span class="sd">        cmd (Command): The command instance.</span>
-<a id="__codelineno-0-23" name="__codelineno-0-23"></a><span class="sd">    &quot;&quot;&quot;</span>
-<a id="__codelineno-0-24" name="__codelineno-0-24"></a>
-<a id="__codelineno-0-25" name="__codelineno-0-25"></a>    <span class="n">args</span><span class="p">:</span> <span class="n">Namespace</span>
-<a id="__codelineno-0-26" name="__codelineno-0-26"></a>    <span class="n">cmd</span><span class="p">:</span> <span class="n">Command</span>
-</code></pre></div></td></tr></table></div>
-        </details>
+      <p>Xlbudget: a personal bookkeeping assistant.</p>
 
   
 
@@ -999,126 +824,37 @@
 
 
 
-
-
-
-
-  </div>
-
-  </div>
-
-</div>
-<h2 id="excelbudget.state-functions">Functions<a href="#excelbudget.state-functions" class="headerlink" title="Permanent link">&para;</a></h2>
+<h2 id="xlbudget-functions">Functions<a href="#xlbudget-functions" class="headerlink" title="Permanent link">&para;</a></h2>
 
 <div class="doc doc-object doc-function">
 
 
 
-<h3 id="excelbudget.state.setup_state" class="doc doc-heading">
-        <span class="doc doc-object-name doc-function-name">setup_state</span>
+<h3 id="xlbudget.main" class="doc doc-heading">
+        <span class="doc doc-object-name doc-function-name">main</span>
 
 
-<a href="#excelbudget.state.setup_state" class="headerlink" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">setup_state</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
+<a href="#xlbudget.main" class="headerlink" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">main</span><span class="p">()</span>
 </code></pre></div>
 
   <div class="doc doc-contents ">
   
-      <p>Sets up the state for the program.</p>
-
-<details class="warning">
-  <summary>Statically typing <code>config</code></summary>
-  <p><code>config</code>, which is type <code>configure.PreStateConfiguration</code>, can't be statically
-typed in this file as it would cause a circular import</p>
-</details>
-  <p><strong>Parameters:</strong></p>
-  <table>
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Description</th>
-        <th>Default</th>
-      </tr>
-    </thead>
-    <tbody>
-        <tr>
-          <td><code>config</code></td>
-          <td>
-                <code><span title="excelbudget.configure">configure</span>.<a class="autorefs autorefs-internal" title="excelbudget.configure.PreStateConfiguration" href="../configure/#excelbudget.configure.PreStateConfiguration">PreStateConfiguration</a></code>
-          </td>
-          <td><p>The configuration before
-state is set up.</p></td>
-          <td>
-              <em>required</em>
-          </td>
-        </tr>
-    </tbody>
-  </table>
-
-  <p><strong>Returns:</strong></p>
-  <table>
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-        <tr>
-          <td>
-                <code><a class="autorefs autorefs-internal" title="excelbudget.state.State" href="#excelbudget.state.State">State</a></code>
-          </td>
-          <td><p>A[n] <code>State</code> containing items that are set up.</p></td>
-        </tr>
-    </tbody>
-  </table>
+      <p>Entry point for the application script.</p>
 
       <details class="quote">
-        <summary>Source code in <code>excelbudget/state.py</code></summary>
-        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-29">29</a></span>
-<span class="normal"><a href="#__codelineno-0-30">30</a></span>
-<span class="normal"><a href="#__codelineno-0-31">31</a></span>
-<span class="normal"><a href="#__codelineno-0-32">32</a></span>
-<span class="normal"><a href="#__codelineno-0-33">33</a></span>
-<span class="normal"><a href="#__codelineno-0-34">34</a></span>
-<span class="normal"><a href="#__codelineno-0-35">35</a></span>
-<span class="normal"><a href="#__codelineno-0-36">36</a></span>
-<span class="normal"><a href="#__codelineno-0-37">37</a></span>
-<span class="normal"><a href="#__codelineno-0-38">38</a></span>
-<span class="normal"><a href="#__codelineno-0-39">39</a></span>
-<span class="normal"><a href="#__codelineno-0-40">40</a></span>
-<span class="normal"><a href="#__codelineno-0-41">41</a></span>
-<span class="normal"><a href="#__codelineno-0-42">42</a></span>
-<span class="normal"><a href="#__codelineno-0-43">43</a></span>
-<span class="normal"><a href="#__codelineno-0-44">44</a></span>
-<span class="normal"><a href="#__codelineno-0-45">45</a></span>
-<span class="normal"><a href="#__codelineno-0-46">46</a></span>
-<span class="normal"><a href="#__codelineno-0-47">47</a></span>
-<span class="normal"><a href="#__codelineno-0-48">48</a></span>
-<span class="normal"><a href="#__codelineno-0-49">49</a></span>
-<span class="normal"><a href="#__codelineno-0-50">50</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-29" name="__codelineno-0-29"></a><span class="k">def</span> <span class="nf">setup_state</span><span class="p">(</span><span class="n">config</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">State</span><span class="p">:</span>
-<a id="__codelineno-0-30" name="__codelineno-0-30"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Sets up the state for the program.</span>
-<a id="__codelineno-0-31" name="__codelineno-0-31"></a>
-<a id="__codelineno-0-32" name="__codelineno-0-32"></a><span class="sd">    Warning: Statically typing `config`</span>
-<a id="__codelineno-0-33" name="__codelineno-0-33"></a><span class="sd">        `config`, which is type `configure.PreStateConfiguration`, can&#39;t be statically</span>
-<a id="__codelineno-0-34" name="__codelineno-0-34"></a><span class="sd">        typed in this file as it would cause a circular import</span>
-<a id="__codelineno-0-35" name="__codelineno-0-35"></a>
-<a id="__codelineno-0-36" name="__codelineno-0-36"></a><span class="sd">    Args:</span>
-<a id="__codelineno-0-37" name="__codelineno-0-37"></a><span class="sd">        config (configure.PreStateConfiguration): The configuration before</span>
-<a id="__codelineno-0-38" name="__codelineno-0-38"></a><span class="sd">            state is set up.</span>
-<a id="__codelineno-0-39" name="__codelineno-0-39"></a>
-<a id="__codelineno-0-40" name="__codelineno-0-40"></a><span class="sd">    Returns:</span>
-<a id="__codelineno-0-41" name="__codelineno-0-41"></a><span class="sd">        A[n] `State` containing items that are set up.</span>
-<a id="__codelineno-0-42" name="__codelineno-0-42"></a><span class="sd">    &quot;&quot;&quot;</span>
-<a id="__codelineno-0-43" name="__codelineno-0-43"></a>    <span class="n">args</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">()</span>
-<a id="__codelineno-0-44" name="__codelineno-0-44"></a>    <span class="n">cmd</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">init</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
-<a id="__codelineno-0-45" name="__codelineno-0-45"></a>
-<a id="__codelineno-0-46" name="__codelineno-0-46"></a>    <span class="n">state</span> <span class="o">=</span> <span class="n">State</span><span class="p">(</span>
-<a id="__codelineno-0-47" name="__codelineno-0-47"></a>        <span class="n">args</span><span class="o">=</span><span class="n">args</span><span class="p">,</span>
-<a id="__codelineno-0-48" name="__codelineno-0-48"></a>        <span class="n">cmd</span><span class="o">=</span><span class="n">cmd</span><span class="p">,</span>
-<a id="__codelineno-0-49" name="__codelineno-0-49"></a>    <span class="p">)</span>
-<a id="__codelineno-0-50" name="__codelineno-0-50"></a>    <span class="k">return</span> <span class="n">state</span>
+        <summary>Source code in <code>xlbudget/__init__.py</code></summary>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-0-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-0-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-0-10">10</a></span>
+<span class="normal"><a href="#__codelineno-0-11">11</a></span>
+<span class="normal"><a href="#__codelineno-0-12">12</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-7" name="__codelineno-0-7"></a><span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+<a id="__codelineno-0-8" name="__codelineno-0-8"></a>    <span class="s2">&quot;Entry point for the application script.&quot;</span>
+<a id="__codelineno-0-9" name="__codelineno-0-9"></a>    <span class="n">pre_config</span> <span class="o">=</span> <span class="n">pre_state_configuration</span><span class="p">()</span>
+<a id="__codelineno-0-10" name="__codelineno-0-10"></a>    <span class="n">state</span> <span class="o">=</span> <span class="n">setup_state</span><span class="p">(</span><span class="n">pre_config</span><span class="p">)</span>
+<a id="__codelineno-0-11" name="__codelineno-0-11"></a>    <span class="n">post_state_configuration</span><span class="p">(</span><span class="n">state</span><span class="p">)</span>
+<a id="__codelineno-0-12" name="__codelineno-0-12"></a>    <span class="n">state</span><span class="o">.</span><span class="n">cmd</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
 </code></pre></div></td></tr></table></div>
       </details>
   </div>
@@ -1160,7 +896,7 @@ state is set up.</p></td>
       <nav class="md-footer__inner md-grid" aria-label="Footer" >
         
           
-          <a href="../configure/" class="md-footer__link md-footer__link--prev" aria-label="Previous: configure" rel="prev">
+          <a href="../../user_guide/configuration/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Configuration" rel="prev">
             <div class="md-footer__button md-icon">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
             </div>
@@ -1169,20 +905,20 @@ state is set up.</p></td>
                 <span class="md-footer__direction">
                   Previous
                 </span>
-                configure
+                Configuration
               </div>
             </div>
           </a>
         
         
           
-          <a href="../../../developer_guide/contributing/" class="md-footer__link md-footer__link--next" aria-label="Next: Contributing" rel="next">
+          <a href="commands/" class="md-footer__link md-footer__link--next" aria-label="Next: commands" rel="next">
             <div class="md-footer__title">
               <div class="md-ellipsis">
                 <span class="md-footer__direction">
                   Next
                 </span>
-                Contributing
+                commands
               </div>
             </div>
             <div class="md-footer__button md-icon">
@@ -1237,12 +973,12 @@ state is set up.</p></td>
       <div class="md-dialog__inner md-typeset"></div>
     </div>
     
-    <script id="__config" type="application/json">{"base": "../../..", "features": ["content.action.edit", "content.action.view", "content.code.annotate", "content.code.copy", "content.tabs.link", "navigation.footer", "navigation.instant", "navigation.tabs", "navigation.tabs.sticky", "navigation.top", "search.highlight", "search.share", "search.suggest", "toc.follow"], "search": "../../../assets/javascripts/workers/search.208ed371.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
+    <script id="__config" type="application/json">{"base": "../..", "features": ["content.action.edit", "content.action.view", "content.code.annotate", "content.code.copy", "content.tabs.link", "navigation.footer", "navigation.instant", "navigation.tabs", "navigation.tabs.sticky", "navigation.top", "search.highlight", "search.share", "search.suggest", "toc.follow"], "search": "../../assets/javascripts/workers/search.208ed371.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
     
     
-      <script src="../../../assets/javascripts/bundle.efa0ade1.min.js"></script>
+      <script src="../../assets/javascripts/bundle.efa0ade1.min.js"></script>
       
-        <script src="../../../javascripts/mathjax.js"></script>
+        <script src="../../javascripts/mathjax.js"></script>
       
         <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
       
