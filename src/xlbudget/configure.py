@@ -1,18 +1,34 @@
-"""The configuration for xlbudget.
+"""The setup for xlbudget.
 
 Warning: Logger usage in this file
 
-    The logger can only be used after `_configure_logger` is called in
-    `post_state_configuration`
+    The logger can only be used after `_configure_logger` is called in `setup`.
 """
 
 import logging
-from argparse import ArgumentParser
+from argparse import ArgumentParser, Namespace
 
 from .commands import get_command_classes
 
 
-def configure_argument_parser() -> ArgumentParser:
+def setup() -> Namespace:
+    """Package-level setup and configuration.
+
+    Returns:
+        A[n] `Namespace` containing the parsed CLI arguments.
+    """
+    parser = _configure_argument_parser()
+    args = parser.parse_args()
+    _configure_logger(args.log_level)
+
+    # log args after call to _configure_logger
+    logger = logging.getLogger(__name__)
+    logger.info(args)
+
+    return args
+
+
+def _configure_argument_parser() -> ArgumentParser:
     """Configures the argument parser for all arguments.
 
     Returns:
@@ -37,7 +53,7 @@ def configure_argument_parser() -> ArgumentParser:
     return parser
 
 
-def configure_logger(level: int) -> None:
+def _configure_logger(level: int) -> None:
     """Configures the logger.
 
     Since this configuration is global, there is no need to return the logger.
