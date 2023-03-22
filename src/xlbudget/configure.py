@@ -53,21 +53,6 @@ def _configure_argument_parser() -> ArgumentParser:
     return parser
 
 
-def _configure_logger(level: int) -> None:
-    """Configures the logger.
-
-    Since this configuration is global, there is no need to return the logger.
-    To use the logger in a file, add `logger = logging.getLogger(__name__)` at the top.
-
-    Args:
-        level (int): The [logging level](https://docs.python.org/3/library/logging.html#logging-levels).
-    """  # noqa
-    logging.basicConfig(
-        level=level,
-        format="%(name)s:%(funcName)s() - %(levelname)s - %(message)s",
-    )
-
-
 def _configure_logger_args(parser: ArgumentParser) -> None:
     """Configures the argument parser for logger arguments.
     The log level configuration was adapted from
@@ -97,4 +82,19 @@ def _configure_logger_args(parser: ArgumentParser) -> None:
         action="store_const",
         dest="log_level",
         const=logging.INFO,
+    )
+
+
+def _configure_logger(level: int) -> None:
+    """Configures the logger.
+
+    Since this configuration is global, there is no need to return the logger.
+    To use the logger in a file, add `logger = logging.getLogger(__name__)` at the top.
+
+    Args:
+        level (int): The [logging level](https://docs.python.org/3/library/logging.html#logging-levels).
+    """  # noqa
+    logging.basicConfig(
+        level=level,
+        format="%(name)s:%(funcName)s() - %(levelname)s - %(message)s",
     )
