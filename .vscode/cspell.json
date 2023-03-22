@@ -16,6 +16,7 @@
         "mkdocs",
         "mkdocstrings",
         "mypy",
+        "openpyxl",
         "pymdownx",
         "pypa",
         "PYPI",
@@ -24,7 +25,8 @@
         "testenv",
         "twemoji",
         "venv",
-        "xlbudget"
+        "xlbudget",
+        "xlfunctions"
     ],
     "flagWords": [
         "hte"

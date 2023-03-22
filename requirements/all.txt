@@ -44,6 +44,8 @@ cryptography==39.0.2
     # via secretstorage
 docutils==0.19
     # via readme-renderer
+et-xmlfile==1.1.0
+    # via openpyxl
 exceptiongroup==1.1.1
     # via pytest
 flake8==6.0.0
@@ -144,6 +146,8 @@ mypy-extensions==1.0.0
     # via
     #   black
     #   mypy
+openpyxl==3.1.2
+    # via xlbudget (pyproject.toml)
 packaging==23.0
     # via
     #   black
@@ -153,8 +157,6 @@ packaging==23.0
     #   pytest-sugar
 pathspec==0.11.1
     # via black
-peppercorn==0.6
-    # via xlbudget (pyproject.toml)
 pip-tools==6.12.3
     # via xlbudget (pyproject.toml)
 pkginfo==1.9.6
@@ -237,6 +239,8 @@ tomli==2.0.1
     #   pyproject-hooks
     #   pytest
 twine==4.0.2
+    # via xlbudget (pyproject.toml)
+types-openpyxl==3.1.0.0
     # via xlbudget (pyproject.toml)
 typing-extensions==4.5.0
     # via mypy

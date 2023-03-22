@@ -69,6 +69,7 @@ plugins:
           paths: [src]
           import:
           - https://docs.python.org/3/objects.inv
+          - https://openpyxl.readthedocs.io/en/stable/objects.inv
           options:
             # heading options
             show_root_toc_entry: no

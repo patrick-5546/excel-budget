@@ -19,6 +19,7 @@
         "streetsidesoftware.code-spell-checker",
         "tamasfe.even-better-toml",
         "visualstudioexptteam.vscodeintellicode",
-        "yzhang.markdown-all-in-one"
+        "yzhang.markdown-all-in-one",
+        "grapecity.gc-excelviewer"
     ]
 }
