@@ -1,6 +1,7 @@
 """The commands, implemented as implementations of the abstract class `Command`."""
 
 import datetime
+import os
 import sys
 from abc import ABC, abstractmethod
 from argparse import ArgumentParser, Namespace, _SubParsersAction
@@ -88,7 +89,13 @@ class Generate(Command):
         """Creates an empty excelbudget file populated with:
 
         - A sheet for the current year.
+
+        Raises:
+            FileExistsError: If `self.force` is false and the file exists.
         """
+        if not self.force and os.path.exists(self.path):
+            raise FileExistsError
+
         wb = Workbook()
         year = str(datetime.date.today().year)
         create_year_sheet(wb, year)
