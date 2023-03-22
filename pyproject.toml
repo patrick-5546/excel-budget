@@ -3,14 +3,14 @@
 # package, this name will be registered for you. It will determine how
 # users can install this project, e.g.:
 #
-# $ pip install excelbudget
+# $ pip install xlbudget
 #
-# And where it will live on PyPI: https://pypi.org/project/excelbudget/
+# And where it will live on PyPI: https://pypi.org/project/xlbudget/
 #
 # There are some restrictions on what makes a valid project name
 # specification here:
 # https://packaging.python.org/specifications/core-metadata/#name
-name = "excelbudget"  # Required
+name = "xlbudget"  # Required
 
 # Versions should comply with PEP 440:
 # https://www.python.org/dev/peps/pep-0440/
@@ -109,7 +109,7 @@ dependencies = [ # Optional
 # dependencies). Users will be able to install these using the "extras"
 # syntax, for example:
 #
-#   $ pip install excelbudget[dev]
+#   $ pip install xlbudget[dev]
 #
 # Similar to `dependencies` above, these must be valid existing
 # projects.
@@ -155,21 +155,21 @@ upgrade = ["pip-tools"]
 # maintainers, and where to support the project financially. The key is
 # what's used to render the link text on PyPI.
 [project.urls]  # Optional
-"Documentation" = "https://patrick-5546.github.io/excelbudget"
-"Issues" = "https://github.com/patrick-5546/excelbudget/issues"
-"Source" = "https://github.com/patrick-5546/excelbudget"
+"Documentation" = "https://patrick-5546.github.io/xlbudget"
+"Issues" = "https://github.com/patrick-5546/xlbudget/issues"
+"Source" = "https://github.com/patrick-5546/xlbudget"
 
-# The following would provide a command line executable called `excelbudget`
+# The following would provide a command line executable called `xlbudget`
 # which executes the function `main` from this package when invoked.
 [project.scripts]  # Optional
-excelbudget = "excelbudget:main"
+xlb = "xlbudget:main"
 
 # This is configuration specific to the `setuptools` build backend.
 # If you are using a different build backend, you will need to change this.
 [tool.setuptools]
 # If there are data files included in your packages that need to be
 # installed, specify them here.
-# package-data = {"excelbudget" = ["*.dat"]}
+# package-data = {"xlbudget" = ["*.dat"]}
 
 [build-system]
 # These are the assumed default build requirements from pip:

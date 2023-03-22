@@ -48,7 +48,7 @@ class Command(ABC):
 
 
 class Generate(Command):
-    """The `generate` command generates a new excelbudget file.
+    """The `generate` command generates a new xlbudget file.
 
     Attributes:
         name (str): The command's CLI name.
@@ -69,7 +69,7 @@ class Generate(Command):
             subparsers,
             name=cls.name,
             aliases=cls.aliases,
-            help="generate a new excelbudget file",
+            help="generate a new xlbudget file",
             cls=Generate,
         )
 
@@ -85,7 +85,7 @@ class Generate(Command):
 
 
 class Update(Command):
-    """The `update` command updates an existing excelbudget file.
+    """The `update` command updates an existing xlbudget file.
 
     Attributes:
         name (str): The command's CLI name.
@@ -106,7 +106,7 @@ class Update(Command):
             subparsers,
             name=cls.name,
             aliases=cls.aliases,
-            help="update an existing excelbudget file",
+            help="update an existing xlbudget file",
             cls=Update,
         )
 
@@ -118,7 +118,7 @@ class Update(Command):
 
 
 class Validate(Command):
-    """The `validate` command validates an existing excelbudget file.
+    """The `validate` command validates an existing xlbudget file.
 
     Attributes:
         name (str): The command's CLI name.
@@ -139,7 +139,7 @@ class Validate(Command):
             subparsers,
             name=cls.name,
             aliases=cls.aliases,
-            help="validate an existing excelbudget file",
+            help="validate an existing xlbudget file",
             cls=Validate,
         )
 

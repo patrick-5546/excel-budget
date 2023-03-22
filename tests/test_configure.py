@@ -3,7 +3,7 @@ import logging
 
 import pytest
 
-import excelbudget.configure as configure
+import xlbudget.configure as configure
 
 
 def test__configure_logger_args() -> None:

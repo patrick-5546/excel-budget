@@ -1,4 +1,4 @@
-"""The configuration for excelbudget.
+"""The configuration for xlbudget.
 
 Warning: Logger usage in this file
 
@@ -58,14 +58,14 @@ def _configure_argument_parser() -> ArgumentParser:
     """
     parser = ArgumentParser()
 
-    parser.add_argument("-p", "--path", help="path to the excelbudget file")
+    parser.add_argument("-p", "--path", help="path to the xlbudget file")
 
     _configure_logger_args(parser)
 
     cmd_subparsers = parser.add_subparsers(
         title="command",
         required=True,
-        description="The excelbudget command to run.",
+        description="The xlbudget command to run.",
     )
     for cmd_cls in get_command_classes():
         cmd_cls.configure_args(cmd_subparsers)
