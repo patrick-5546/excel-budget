@@ -140,7 +140,8 @@ test = [
   "mypy",
   "pytest",
   "pytest-cov",
-  "pytest-sugar"
+  "pytest-sugar",
+  "types-openpyxl"
 ]
 upgrade = ["pip-tools"]
 

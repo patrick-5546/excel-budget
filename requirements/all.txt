@@ -240,6 +240,8 @@ tomli==2.0.1
     #   pytest
 twine==4.0.2
     # via xlbudget (pyproject.toml)
+types-openpyxl==3.1.0.0
+    # via xlbudget (pyproject.toml)
 typing-extensions==4.5.0
     # via mypy
 urllib3==1.26.15
