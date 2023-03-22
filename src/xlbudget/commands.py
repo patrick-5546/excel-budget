@@ -3,7 +3,10 @@
 import sys
 from abc import ABC, abstractmethod
 from argparse import ArgumentParser, Namespace, _SubParsersAction
+from logging import getLogger
 from typing import List, Type
+
+logger = getLogger(__name__)
 
 
 class Command(ABC):
