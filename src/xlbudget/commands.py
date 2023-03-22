@@ -160,39 +160,6 @@ class Update(Command):
         raise NotImplementedError
 
 
-class Validate(Command):
-    """The `validate` command validates an existing xlbudget file.
-
-    Attributes: Class Attributes
-        name (str): The command's CLI name.
-        aliases (List[str]): The command's CLI aliases.
-    """
-
-    name: str = "validate"
-    aliases: List[str] = ["v"]
-
-    @classmethod
-    def configure_args(cls, subparsers: _SubParsersAction) -> None:
-        """Configures the argument parser for the `validate` command.
-
-        Args:
-            subparsers (_SubParsersAction): The command `subparsers`.
-        """
-        _add_parser(
-            subparsers,
-            name=cls.name,
-            aliases=cls.aliases,
-            help="validate an existing xlbudget file",
-            cls=Validate,
-        )
-
-    def __init__(self, args: Namespace) -> None:
-        pass
-
-    def run(self) -> None:
-        raise NotImplementedError
-
-
 def get_command_classes() -> List[Type[Command]]:
     """Gets all classes that implement the `Command` abstract class.
 

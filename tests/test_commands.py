@@ -10,7 +10,6 @@ import xlbudget.commands as commands
 AVAILABLE_COMMANDS = {
     commands.Generate,
     commands.Update,
-    commands.Validate,
 }
 
 
