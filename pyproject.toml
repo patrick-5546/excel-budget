@@ -162,7 +162,7 @@ upgrade = ["pip-tools"]
 # The following would provide a command line executable called `xlbudget`
 # which executes the function `main` from this package when invoked.
 [project.scripts]  # Optional
-xlbudget = "xlbudget:main"
+xlb = "xlbudget:main"
 
 # This is configuration specific to the `setuptools` build backend.
 # If you are using a different build backend, you will need to change this.
