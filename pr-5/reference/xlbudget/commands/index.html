@@ -799,6 +799,13 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#xlbudget.commands._add_parser" class="md-nav__link">
+    _add_parser()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#xlbudget.commands.get_command_classes" class="md-nav__link">
     get_command_classes()
   </a>
@@ -1170,6 +1177,13 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#xlbudget.commands._add_parser" class="md-nav__link">
+    _add_parser()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#xlbudget.commands.get_command_classes" class="md-nav__link">
     get_command_classes()
   </a>
@@ -1353,8 +1367,8 @@
 
   
   <span class="doc doc-labels">
-      <small class="doc doc-label doc-label-property"><code>property</code></small>
       <small class="doc doc-label doc-label-abstractmethod"><code>abstractmethod</code></small>
+      <small class="doc doc-label doc-label-property"><code>property</code></small>
   </span>
 
 <a href="#xlbudget.commands.Command.aliases" class="headerlink" title="Permanent link">&para;</a></h5>
@@ -1377,8 +1391,8 @@
 
   
   <span class="doc doc-labels">
-      <small class="doc doc-label doc-label-property"><code>property</code></small>
       <small class="doc doc-label doc-label-abstractmethod"><code>abstractmethod</code></small>
+      <small class="doc doc-label doc-label-property"><code>property</code></small>
   </span>
 
 <a href="#xlbudget.commands.Command.name" class="headerlink" title="Permanent link">&para;</a></h5>
@@ -1473,8 +1487,8 @@ instance variables.</p>
 
   
   <span class="doc doc-labels">
-      <small class="doc doc-label doc-label-classmethod"><code>classmethod</code></small>
       <small class="doc doc-label doc-label-abstractmethod"><code>abstractmethod</code></small>
+      <small class="doc doc-label doc-label-classmethod"><code>classmethod</code></small>
   </span>
 
 <a href="#xlbudget.commands.Command.configure_args" class="headerlink" title="Permanent link">&para;</a></h5>
@@ -2226,6 +2240,164 @@ instance variables.</p>
 
 </div>
 <h2 id="xlbudget.commands-functions">Functions<a href="#xlbudget.commands-functions" class="headerlink" title="Permanent link">&para;</a></h2>
+
+<div class="doc doc-object doc-function">
+
+
+
+<h3 id="xlbudget.commands._add_parser" class="doc doc-heading">
+        <span class="doc doc-object-name doc-function-name">_add_parser</span>
+
+
+<a href="#xlbudget.commands._add_parser" class="headerlink" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">_add_parser</span><span class="p">(</span><span class="n">subparsers</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">aliases</span><span class="p">,</span> <span class="n">help</span><span class="p">,</span> <span class="bp">cls</span><span class="p">)</span>
+</code></pre></div>
+
+  <div class="doc doc-contents ">
+  
+      <p>Adds an argument parser for a command. Any configuration that is common
+across commands should go here.</p>
+
+  <p><strong>Parameters:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Default</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><code>subparsers</code></td>
+          <td>
+                <code><span title="argparse._SubParsersAction">_SubParsersAction</span></code>
+          </td>
+          <td><p>The subparsers object.</p></td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+        <tr>
+          <td><code>name</code></td>
+          <td>
+                <code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a></code>
+          </td>
+          <td><p>The command name.</p></td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+        <tr>
+          <td><code>aliases</code></td>
+          <td>
+                <code><a class="autorefs autorefs-external" title="typing.List" href="https://docs.python.org/3/library/typing.html#typing.List">List</a>[<a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a>]</code>
+          </td>
+          <td><p>The command aliases.</p></td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+        <tr>
+          <td><code>help</code></td>
+          <td>
+                <code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a></code>
+          </td>
+          <td><p>The command help message.</p></td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+        <tr>
+          <td><code>cls</code></td>
+          <td>
+                <code><a class="autorefs autorefs-external" title="typing.Type" href="https://docs.python.org/3/library/typing.html#typing.Type">Type</a>[<a class="autorefs autorefs-internal" title="xlbudget.commands.Command" href="#xlbudget.commands.Command">Command</a>]</code>
+          </td>
+          <td><p>The command class.</p></td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+  <p><strong>Returns:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td>
+                <code><a class="autorefs autorefs-external" title="argparse.ArgumentParser" href="https://docs.python.org/3/library/argparse.html#argparse.ArgumentParser">ArgumentParser</a></code>
+          </td>
+          <td><p>A[n] <code>ArgumentParser</code> for a command.</p></td>
+        </tr>
+    </tbody>
+  </table>
+
+      <details class="quote">
+        <summary>Source code in <code>xlbudget/commands.py</code></summary>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-166">166</a></span>
+<span class="normal"><a href="#__codelineno-0-167">167</a></span>
+<span class="normal"><a href="#__codelineno-0-168">168</a></span>
+<span class="normal"><a href="#__codelineno-0-169">169</a></span>
+<span class="normal"><a href="#__codelineno-0-170">170</a></span>
+<span class="normal"><a href="#__codelineno-0-171">171</a></span>
+<span class="normal"><a href="#__codelineno-0-172">172</a></span>
+<span class="normal"><a href="#__codelineno-0-173">173</a></span>
+<span class="normal"><a href="#__codelineno-0-174">174</a></span>
+<span class="normal"><a href="#__codelineno-0-175">175</a></span>
+<span class="normal"><a href="#__codelineno-0-176">176</a></span>
+<span class="normal"><a href="#__codelineno-0-177">177</a></span>
+<span class="normal"><a href="#__codelineno-0-178">178</a></span>
+<span class="normal"><a href="#__codelineno-0-179">179</a></span>
+<span class="normal"><a href="#__codelineno-0-180">180</a></span>
+<span class="normal"><a href="#__codelineno-0-181">181</a></span>
+<span class="normal"><a href="#__codelineno-0-182">182</a></span>
+<span class="normal"><a href="#__codelineno-0-183">183</a></span>
+<span class="normal"><a href="#__codelineno-0-184">184</a></span>
+<span class="normal"><a href="#__codelineno-0-185">185</a></span>
+<span class="normal"><a href="#__codelineno-0-186">186</a></span>
+<span class="normal"><a href="#__codelineno-0-187">187</a></span>
+<span class="normal"><a href="#__codelineno-0-188">188</a></span>
+<span class="normal"><a href="#__codelineno-0-189">189</a></span>
+<span class="normal"><a href="#__codelineno-0-190">190</a></span>
+<span class="normal"><a href="#__codelineno-0-191">191</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-166" name="__codelineno-0-166"></a><span class="k">def</span> <span class="nf">_add_parser</span><span class="p">(</span>
+<a id="__codelineno-0-167" name="__codelineno-0-167"></a>    <span class="n">subparsers</span><span class="p">:</span> <span class="n">_SubParsersAction</span><span class="p">,</span>
+<a id="__codelineno-0-168" name="__codelineno-0-168"></a>    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+<a id="__codelineno-0-169" name="__codelineno-0-169"></a>    <span class="n">aliases</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
+<a id="__codelineno-0-170" name="__codelineno-0-170"></a>    <span class="n">help</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+<a id="__codelineno-0-171" name="__codelineno-0-171"></a>    <span class="bp">cls</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">Command</span><span class="p">],</span>
+<a id="__codelineno-0-172" name="__codelineno-0-172"></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ArgumentParser</span><span class="p">:</span>
+<a id="__codelineno-0-173" name="__codelineno-0-173"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Adds an argument parser for a command. Any configuration that is common</span>
+<a id="__codelineno-0-174" name="__codelineno-0-174"></a><span class="sd">    across commands should go here.</span>
+<a id="__codelineno-0-175" name="__codelineno-0-175"></a>
+<a id="__codelineno-0-176" name="__codelineno-0-176"></a><span class="sd">    Args:</span>
+<a id="__codelineno-0-177" name="__codelineno-0-177"></a><span class="sd">        subparsers (_SubParsersAction): The subparsers object.</span>
+<a id="__codelineno-0-178" name="__codelineno-0-178"></a><span class="sd">        name (str): The command name.</span>
+<a id="__codelineno-0-179" name="__codelineno-0-179"></a><span class="sd">        aliases (List[str]): The command aliases.</span>
+<a id="__codelineno-0-180" name="__codelineno-0-180"></a><span class="sd">        help (str): The command help message.</span>
+<a id="__codelineno-0-181" name="__codelineno-0-181"></a><span class="sd">        cls (Type[Command]): The command class.</span>
+<a id="__codelineno-0-182" name="__codelineno-0-182"></a>
+<a id="__codelineno-0-183" name="__codelineno-0-183"></a><span class="sd">    Returns:</span>
+<a id="__codelineno-0-184" name="__codelineno-0-184"></a><span class="sd">        A[n] `ArgumentParser` for a command.</span>
+<a id="__codelineno-0-185" name="__codelineno-0-185"></a><span class="sd">    &quot;&quot;&quot;</span>
+<a id="__codelineno-0-186" name="__codelineno-0-186"></a>    <span class="n">parser</span> <span class="o">=</span> <span class="n">subparsers</span><span class="o">.</span><span class="n">add_parser</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">aliases</span><span class="o">=</span><span class="n">aliases</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="n">help</span><span class="p">)</span>
+<a id="__codelineno-0-187" name="__codelineno-0-187"></a>
+<a id="__codelineno-0-188" name="__codelineno-0-188"></a>    <span class="c1"># initialize the command with args.init(...)</span>
+<a id="__codelineno-0-189" name="__codelineno-0-189"></a>    <span class="n">parser</span><span class="o">.</span><span class="n">set_defaults</span><span class="p">(</span><span class="n">init</span><span class="o">=</span><span class="bp">cls</span><span class="p">)</span>
+<a id="__codelineno-0-190" name="__codelineno-0-190"></a>
+<a id="__codelineno-0-191" name="__codelineno-0-191"></a>    <span class="k">return</span> <span class="n">parser</span>
+</code></pre></div></td></tr></table></div>
+      </details>
+  </div>
+
+</div>
 
 <div class="doc doc-object doc-function">
 
