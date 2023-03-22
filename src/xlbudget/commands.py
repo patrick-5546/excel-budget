@@ -18,9 +18,14 @@ logger = getLogger(__name__)
 class Command(ABC):
     """The abstract class that the command implementations implement.
 
+    Attributes: Class Attributes
+        default_path (str): The default path of the xlbudget file.
+
     Attributes:
         path (str): The path to the xlbudget file.
     """
+
+    default_path: str = "xlbudget.xlsx"
 
     @property
     @abstractmethod
@@ -31,6 +36,17 @@ class Command(ABC):
     @abstractmethod
     def aliases(self) -> List[str]:
         pass
+
+    @classmethod
+    def configure_common_args(cls, parser: ArgumentParser) -> None:
+        """Configures the arguments that are used by all commands.
+
+        Args:
+            parser (ArgumentParser): The argument parser.
+        """
+        parser.add_argument(
+            "-p", "--path", help="path to the xlbudget file", default=cls.default_path
+        )
 
     @classmethod
     @abstractmethod
