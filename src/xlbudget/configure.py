@@ -23,7 +23,7 @@ def setup() -> Namespace:
 
     # log args after call to _configure_logger
     logger = logging.getLogger(__name__)
-    logger.info(args)
+    logger.debug(f"parsed CLI arguments: {args}")
 
     return args
 
