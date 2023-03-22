@@ -83,22 +83,28 @@ class Generate(Command):
         super().__init__(args)
         self.force = args.force
 
-        logger.info(f"instance variables: {vars(self)}")
+        logger.debug(f"instance variables: {vars(self)}")
 
     def run(self) -> None:
-        """Creates an empty excelbudget file populated with:
+        """Creates an empty xlbudget file populated with:
 
         - A sheet for the current year.
 
         Raises:
             FileExistsError: If `self.force` is false and the file exists.
         """
+        logger.info("generating an empty xlbudget file")
+
         if not self.force and os.path.exists(self.path):
-            raise FileExistsError
+            raise FileExistsError(
+                f"File {self.path} exists, run with -f/--force to overwrite"
+            )
 
         wb = Workbook()
         year = str(datetime.date.today().year)
+        logger.info(f"creating {year} sheet")
         create_year_sheet(wb, year)
+        logger.info(f"saving to {self.path}")
         wb.save(self.path)
 
 
