@@ -18,7 +18,7 @@
         <link rel="prev" href="../commands/">
       
       
-        <link rel="next" href="../state/">
+        <link rel="next" href="../../../developer_guide/contributing/">
       
       <link rel="icon" href="../../../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-9.1.3">
@@ -79,7 +79,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#xlbudget.configure-classes" class="md-skip">
+        <a href="#xlbudget.configure-functions" class="md-skip">
           Skip to content
         </a>
       
@@ -619,26 +619,6 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#xlbudget.configure-classes" class="md-nav__link">
-    Classes
-  </a>
-  
-    <nav class="md-nav" aria-label="Classes">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#xlbudget.configure.PreStateConfiguration" class="md-nav__link">
-    PreStateConfiguration
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#xlbudget.configure-functions" class="md-nav__link">
     Functions
   </a>
@@ -647,15 +627,29 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#xlbudget.configure.post_state_configuration" class="md-nav__link">
-    post_state_configuration()
+  <a href="#xlbudget.configure._configure_argument_parser" class="md-nav__link">
+    _configure_argument_parser()
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#xlbudget.configure.pre_state_configuration" class="md-nav__link">
-    pre_state_configuration()
+  <a href="#xlbudget.configure._configure_logger" class="md-nav__link">
+    _configure_logger()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#xlbudget.configure._configure_logger_args" class="md-nav__link">
+    _configure_logger_args()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#xlbudget.configure.setup" class="md-nav__link">
+    setup()
   </a>
   
 </li>
@@ -669,20 +663,6 @@
   
 </nav>
       
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../state/" class="md-nav__link">
-        state
-      </a>
     </li>
   
 
@@ -831,26 +811,6 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#xlbudget.configure-classes" class="md-nav__link">
-    Classes
-  </a>
-  
-    <nav class="md-nav" aria-label="Classes">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#xlbudget.configure.PreStateConfiguration" class="md-nav__link">
-    PreStateConfiguration
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#xlbudget.configure-functions" class="md-nav__link">
     Functions
   </a>
@@ -859,15 +819,29 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#xlbudget.configure.post_state_configuration" class="md-nav__link">
-    post_state_configuration()
+  <a href="#xlbudget.configure._configure_argument_parser" class="md-nav__link">
+    _configure_argument_parser()
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#xlbudget.configure.pre_state_configuration" class="md-nav__link">
-    pre_state_configuration()
+  <a href="#xlbudget.configure._configure_logger" class="md-nav__link">
+    _configure_logger()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#xlbudget.configure._configure_logger_args" class="md-nav__link">
+    _configure_logger_args()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#xlbudget.configure.setup" class="md-nav__link">
+    setup()
   </a>
   
 </li>
@@ -916,12 +890,11 @@
 
   <div class="doc doc-contents first">
   
-      <p>The configuration for xlbudget.</p>
+      <p>The setup and configuration for xlbudget.</p>
 
 <details class="warning">
   <summary>Logger usage in this file</summary>
-  <p>The logger can only be used after <code>_configure_logger</code> is called in
-<code>post_state_configuration</code></p>
+  <p>The logger can only be used after <code>_configure_logger</code> is called in <code>setup</code>.</p>
 </details>
   
 
@@ -932,103 +905,113 @@
 
 
 
-<h2 id="xlbudget.configure-classes">Classes<a href="#xlbudget.configure-classes" class="headerlink" title="Permanent link">&para;</a></h2>
 
-<div class="doc doc-object doc-class">
-
-
-
-<h3 id="xlbudget.configure.PreStateConfiguration" class="doc doc-heading">
-        <span class="doc doc-object-name doc-class-name">PreStateConfiguration</span>
-
-
-<a href="#xlbudget.configure.PreStateConfiguration" class="headerlink" title="Permanent link">&para;</a></h3>
-
-
-  <div class="doc doc-contents ">
-      <p class="doc doc-class-bases">
-        Bases: <code><a class="autorefs autorefs-external" title="typing.NamedTuple" href="https://docs.python.org/3/library/typing.html#typing.NamedTuple">NamedTuple</a></code></p>
-
-  
-      <p>A named tuple containing items that can be configured before state is set up.</p>
-
-  <p><strong>Attributes:</strong></p>
-  <table>
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-        <tr>
-          <td><code>parser</code></td>
-          <td>
-                <code><a class="autorefs autorefs-external" title="argparse.ArgumentParser" href="https://docs.python.org/3/library/argparse.html#argparse.ArgumentParser">ArgumentParser</a></code>
-          </td>
-          <td><p>The argument parser.</p></td>
-        </tr>
-    </tbody>
-  </table>
-
-
-        <details class="quote">
-          <summary>Source code in <code>xlbudget/configure.py</code></summary>
-          <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-19">19</a></span>
-<span class="normal"><a href="#__codelineno-0-20">20</a></span>
-<span class="normal"><a href="#__codelineno-0-21">21</a></span>
-<span class="normal"><a href="#__codelineno-0-22">22</a></span>
-<span class="normal"><a href="#__codelineno-0-23">23</a></span>
-<span class="normal"><a href="#__codelineno-0-24">24</a></span>
-<span class="normal"><a href="#__codelineno-0-25">25</a></span>
-<span class="normal"><a href="#__codelineno-0-26">26</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-19" name="__codelineno-0-19"></a><span class="k">class</span> <span class="nc">PreStateConfiguration</span><span class="p">(</span><span class="n">NamedTuple</span><span class="p">):</span>
-<a id="__codelineno-0-20" name="__codelineno-0-20"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;A named tuple containing items that can be configured before state is set up.</span>
-<a id="__codelineno-0-21" name="__codelineno-0-21"></a>
-<a id="__codelineno-0-22" name="__codelineno-0-22"></a><span class="sd">    Attributes:</span>
-<a id="__codelineno-0-23" name="__codelineno-0-23"></a><span class="sd">        parser (ArgumentParser): The argument parser.</span>
-<a id="__codelineno-0-24" name="__codelineno-0-24"></a><span class="sd">    &quot;&quot;&quot;</span>
-<a id="__codelineno-0-25" name="__codelineno-0-25"></a>
-<a id="__codelineno-0-26" name="__codelineno-0-26"></a>    <span class="n">parser</span><span class="p">:</span> <span class="n">ArgumentParser</span>
-</code></pre></div></td></tr></table></div>
-        </details>
-
-  
-
-  <div class="doc doc-children">
-
-
-
-
-
-
-
-
-
-
-
-  </div>
-
-  </div>
-
-</div>
 <h2 id="xlbudget.configure-functions">Functions<a href="#xlbudget.configure-functions" class="headerlink" title="Permanent link">&para;</a></h2>
 
 <div class="doc doc-object doc-function">
 
 
 
-<h3 id="xlbudget.configure.post_state_configuration" class="doc doc-heading">
-        <span class="doc doc-object-name doc-function-name">post_state_configuration</span>
+<h3 id="xlbudget.configure._configure_argument_parser" class="doc doc-heading">
+        <span class="doc doc-object-name doc-function-name">_configure_argument_parser</span>
 
 
-<a href="#xlbudget.configure.post_state_configuration" class="headerlink" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">post_state_configuration</span><span class="p">(</span><span class="n">state</span><span class="p">)</span>
+<a href="#xlbudget.configure._configure_argument_parser" class="headerlink" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">_configure_argument_parser</span><span class="p">()</span>
 </code></pre></div>
 
   <div class="doc doc-contents ">
   
-      <p>Configuration after state is set up.</p>
+      <p>Configures the argument parser for all arguments.</p>
+
+  <p><strong>Returns:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td>
+                <code><a class="autorefs autorefs-external" title="argparse.ArgumentParser" href="https://docs.python.org/3/library/argparse.html#argparse.ArgumentParser">ArgumentParser</a></code>
+          </td>
+          <td><p>A[n] <code>ArgumentParser</code> configured for this package.</p></td>
+        </tr>
+    </tbody>
+  </table>
+
+      <details class="quote">
+        <summary>Source code in <code>xlbudget/configure.py</code></summary>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-31">31</a></span>
+<span class="normal"><a href="#__codelineno-0-32">32</a></span>
+<span class="normal"><a href="#__codelineno-0-33">33</a></span>
+<span class="normal"><a href="#__codelineno-0-34">34</a></span>
+<span class="normal"><a href="#__codelineno-0-35">35</a></span>
+<span class="normal"><a href="#__codelineno-0-36">36</a></span>
+<span class="normal"><a href="#__codelineno-0-37">37</a></span>
+<span class="normal"><a href="#__codelineno-0-38">38</a></span>
+<span class="normal"><a href="#__codelineno-0-39">39</a></span>
+<span class="normal"><a href="#__codelineno-0-40">40</a></span>
+<span class="normal"><a href="#__codelineno-0-41">41</a></span>
+<span class="normal"><a href="#__codelineno-0-42">42</a></span>
+<span class="normal"><a href="#__codelineno-0-43">43</a></span>
+<span class="normal"><a href="#__codelineno-0-44">44</a></span>
+<span class="normal"><a href="#__codelineno-0-45">45</a></span>
+<span class="normal"><a href="#__codelineno-0-46">46</a></span>
+<span class="normal"><a href="#__codelineno-0-47">47</a></span>
+<span class="normal"><a href="#__codelineno-0-48">48</a></span>
+<span class="normal"><a href="#__codelineno-0-49">49</a></span>
+<span class="normal"><a href="#__codelineno-0-50">50</a></span>
+<span class="normal"><a href="#__codelineno-0-51">51</a></span>
+<span class="normal"><a href="#__codelineno-0-52">52</a></span>
+<span class="normal"><a href="#__codelineno-0-53">53</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-31" name="__codelineno-0-31"></a><span class="k">def</span> <span class="nf">_configure_argument_parser</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">ArgumentParser</span><span class="p">:</span>
+<a id="__codelineno-0-32" name="__codelineno-0-32"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Configures the argument parser for all arguments.</span>
+<a id="__codelineno-0-33" name="__codelineno-0-33"></a>
+<a id="__codelineno-0-34" name="__codelineno-0-34"></a><span class="sd">    Returns:</span>
+<a id="__codelineno-0-35" name="__codelineno-0-35"></a><span class="sd">        A[n] `ArgumentParser` configured for this package.</span>
+<a id="__codelineno-0-36" name="__codelineno-0-36"></a><span class="sd">    &quot;&quot;&quot;</span>
+<a id="__codelineno-0-37" name="__codelineno-0-37"></a>    <span class="n">parser</span> <span class="o">=</span> <span class="n">ArgumentParser</span><span class="p">()</span>
+<a id="__codelineno-0-38" name="__codelineno-0-38"></a>
+<a id="__codelineno-0-39" name="__codelineno-0-39"></a>    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+<a id="__codelineno-0-40" name="__codelineno-0-40"></a>        <span class="s2">&quot;-p&quot;</span><span class="p">,</span> <span class="s2">&quot;--path&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;path to the xlbudget file&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s2">&quot;xlbudget.xlsx&quot;</span>
+<a id="__codelineno-0-41" name="__codelineno-0-41"></a>    <span class="p">)</span>
+<a id="__codelineno-0-42" name="__codelineno-0-42"></a>
+<a id="__codelineno-0-43" name="__codelineno-0-43"></a>    <span class="n">_configure_logger_args</span><span class="p">(</span><span class="n">parser</span><span class="p">)</span>
+<a id="__codelineno-0-44" name="__codelineno-0-44"></a>
+<a id="__codelineno-0-45" name="__codelineno-0-45"></a>    <span class="n">cmd_subparsers</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">add_subparsers</span><span class="p">(</span>
+<a id="__codelineno-0-46" name="__codelineno-0-46"></a>        <span class="n">title</span><span class="o">=</span><span class="s2">&quot;command&quot;</span><span class="p">,</span>
+<a id="__codelineno-0-47" name="__codelineno-0-47"></a>        <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<a id="__codelineno-0-48" name="__codelineno-0-48"></a>        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;The xlbudget command to run.&quot;</span><span class="p">,</span>
+<a id="__codelineno-0-49" name="__codelineno-0-49"></a>    <span class="p">)</span>
+<a id="__codelineno-0-50" name="__codelineno-0-50"></a>    <span class="k">for</span> <span class="n">cmd_cls</span> <span class="ow">in</span> <span class="n">get_command_classes</span><span class="p">():</span>
+<a id="__codelineno-0-51" name="__codelineno-0-51"></a>        <span class="n">cmd_cls</span><span class="o">.</span><span class="n">configure_args</span><span class="p">(</span><span class="n">cmd_subparsers</span><span class="p">)</span>
+<a id="__codelineno-0-52" name="__codelineno-0-52"></a>
+<a id="__codelineno-0-53" name="__codelineno-0-53"></a>    <span class="k">return</span> <span class="n">parser</span>
+</code></pre></div></td></tr></table></div>
+      </details>
+  </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+
+<h3 id="xlbudget.configure._configure_logger" class="doc doc-heading">
+        <span class="doc doc-object-name doc-function-name">_configure_logger</span>
+
+
+<a href="#xlbudget.configure._configure_logger" class="headerlink" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">_configure_logger</span><span class="p">(</span><span class="n">level</span><span class="p">)</span>
+</code></pre></div>
+
+  <div class="doc doc-contents ">
+  
+      <p>Configures the logger.</p>
+<p>Since this configuration is global, there is no need to return the logger.
+To use the logger in a file, add <code>logger = logging.getLogger(__name__)</code> at the top.</p>
 
   <p><strong>Parameters:</strong></p>
   <table>
@@ -1042,11 +1025,11 @@
     </thead>
     <tbody>
         <tr>
-          <td><code>state</code></td>
+          <td><code>level</code></td>
           <td>
-                <code><a class="autorefs autorefs-internal" title="xlbudget.state.State" href="../state/#xlbudget.state.State">State</a></code>
+                <code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#int">int</a></code>
           </td>
-          <td><p>The state.</p></td>
+          <td><p>The <a href="https://docs.python.org/3/library/logging.html#logging-levels">logging level</a>.</p></td>
           <td>
               <em>required</em>
           </td>
@@ -1056,21 +1039,31 @@
 
       <details class="quote">
         <summary>Source code in <code>xlbudget/configure.py</code></summary>
-        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-43">43</a></span>
-<span class="normal"><a href="#__codelineno-0-44">44</a></span>
-<span class="normal"><a href="#__codelineno-0-45">45</a></span>
-<span class="normal"><a href="#__codelineno-0-46">46</a></span>
-<span class="normal"><a href="#__codelineno-0-47">47</a></span>
-<span class="normal"><a href="#__codelineno-0-48">48</a></span>
-<span class="normal"><a href="#__codelineno-0-49">49</a></span>
-<span class="normal"><a href="#__codelineno-0-50">50</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-43" name="__codelineno-0-43"></a><span class="k">def</span> <span class="nf">post_state_configuration</span><span class="p">(</span><span class="n">state</span><span class="p">:</span> <span class="n">State</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<a id="__codelineno-0-44" name="__codelineno-0-44"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Configuration after state is set up.</span>
-<a id="__codelineno-0-45" name="__codelineno-0-45"></a>
-<a id="__codelineno-0-46" name="__codelineno-0-46"></a><span class="sd">    Args:</span>
-<a id="__codelineno-0-47" name="__codelineno-0-47"></a><span class="sd">        state (State): The state.</span>
-<a id="__codelineno-0-48" name="__codelineno-0-48"></a><span class="sd">    &quot;&quot;&quot;</span>
-<a id="__codelineno-0-49" name="__codelineno-0-49"></a>    <span class="n">_configure_logger</span><span class="p">(</span><span class="n">state</span><span class="o">.</span><span class="n">args</span><span class="o">.</span><span class="n">log_level</span><span class="p">)</span>
-<a id="__codelineno-0-50" name="__codelineno-0-50"></a>    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">state</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>  <span class="c1"># log state after `_configure_logger` is called</span>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-88"> 88</a></span>
+<span class="normal"><a href="#__codelineno-0-89"> 89</a></span>
+<span class="normal"><a href="#__codelineno-0-90"> 90</a></span>
+<span class="normal"><a href="#__codelineno-0-91"> 91</a></span>
+<span class="normal"><a href="#__codelineno-0-92"> 92</a></span>
+<span class="normal"><a href="#__codelineno-0-93"> 93</a></span>
+<span class="normal"><a href="#__codelineno-0-94"> 94</a></span>
+<span class="normal"><a href="#__codelineno-0-95"> 95</a></span>
+<span class="normal"><a href="#__codelineno-0-96"> 96</a></span>
+<span class="normal"><a href="#__codelineno-0-97"> 97</a></span>
+<span class="normal"><a href="#__codelineno-0-98"> 98</a></span>
+<span class="normal"><a href="#__codelineno-0-99"> 99</a></span>
+<span class="normal"><a href="#__codelineno-0-100">100</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-88" name="__codelineno-0-88"></a><span class="k">def</span> <span class="nf">_configure_logger</span><span class="p">(</span><span class="n">level</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<a id="__codelineno-0-89" name="__codelineno-0-89"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Configures the logger.</span>
+<a id="__codelineno-0-90" name="__codelineno-0-90"></a>
+<a id="__codelineno-0-91" name="__codelineno-0-91"></a><span class="sd">    Since this configuration is global, there is no need to return the logger.</span>
+<a id="__codelineno-0-92" name="__codelineno-0-92"></a><span class="sd">    To use the logger in a file, add `logger = logging.getLogger(__name__)` at the top.</span>
+<a id="__codelineno-0-93" name="__codelineno-0-93"></a>
+<a id="__codelineno-0-94" name="__codelineno-0-94"></a><span class="sd">    Args:</span>
+<a id="__codelineno-0-95" name="__codelineno-0-95"></a><span class="sd">        level (int): The [logging level](https://docs.python.org/3/library/logging.html#logging-levels).</span>
+<a id="__codelineno-0-96" name="__codelineno-0-96"></a><span class="sd">    &quot;&quot;&quot;</span>  <span class="c1"># noqa</span>
+<a id="__codelineno-0-97" name="__codelineno-0-97"></a>    <span class="n">logging</span><span class="o">.</span><span class="n">basicConfig</span><span class="p">(</span>
+<a id="__codelineno-0-98" name="__codelineno-0-98"></a>        <span class="n">level</span><span class="o">=</span><span class="n">level</span><span class="p">,</span>
+<a id="__codelineno-0-99" name="__codelineno-0-99"></a>        <span class="nb">format</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">%(levelname)s</span><span class="s2"> - </span><span class="si">%(name)s</span><span class="s2">:</span><span class="si">%(lineno)s</span><span class="s2"> - </span><span class="si">%(message)s</span><span class="s2">&quot;</span><span class="p">,</span>
+<a id="__codelineno-0-100" name="__codelineno-0-100"></a>    <span class="p">)</span>
 </code></pre></div></td></tr></table></div>
       </details>
   </div>
@@ -1081,17 +1074,126 @@
 
 
 
-<h3 id="xlbudget.configure.pre_state_configuration" class="doc doc-heading">
-        <span class="doc doc-object-name doc-function-name">pre_state_configuration</span>
+<h3 id="xlbudget.configure._configure_logger_args" class="doc doc-heading">
+        <span class="doc doc-object-name doc-function-name">_configure_logger_args</span>
 
 
-<a href="#xlbudget.configure.pre_state_configuration" class="headerlink" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">pre_state_configuration</span><span class="p">()</span>
+<a href="#xlbudget.configure._configure_logger_args" class="headerlink" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">_configure_logger_args</span><span class="p">(</span><span class="n">parser</span><span class="p">)</span>
 </code></pre></div>
 
   <div class="doc doc-contents ">
   
-      <p>Configuration before state is setup.</p>
+      <p>Configures the argument parser for logger arguments.
+The log level configuration was adapted from
+<a href="https://stackoverflow.com/a/20663028">this Stack Overflow answer</a>.</p>
+
+  <p><strong>Parameters:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Default</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><code>parser</code></td>
+          <td>
+                <code><a class="autorefs autorefs-external" title="argparse.ArgumentParser" href="https://docs.python.org/3/library/argparse.html#argparse.ArgumentParser">ArgumentParser</a></code>
+          </td>
+          <td><p>The argument parser to update.</p></td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+      <details class="quote">
+        <summary>Source code in <code>xlbudget/configure.py</code></summary>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-56">56</a></span>
+<span class="normal"><a href="#__codelineno-0-57">57</a></span>
+<span class="normal"><a href="#__codelineno-0-58">58</a></span>
+<span class="normal"><a href="#__codelineno-0-59">59</a></span>
+<span class="normal"><a href="#__codelineno-0-60">60</a></span>
+<span class="normal"><a href="#__codelineno-0-61">61</a></span>
+<span class="normal"><a href="#__codelineno-0-62">62</a></span>
+<span class="normal"><a href="#__codelineno-0-63">63</a></span>
+<span class="normal"><a href="#__codelineno-0-64">64</a></span>
+<span class="normal"><a href="#__codelineno-0-65">65</a></span>
+<span class="normal"><a href="#__codelineno-0-66">66</a></span>
+<span class="normal"><a href="#__codelineno-0-67">67</a></span>
+<span class="normal"><a href="#__codelineno-0-68">68</a></span>
+<span class="normal"><a href="#__codelineno-0-69">69</a></span>
+<span class="normal"><a href="#__codelineno-0-70">70</a></span>
+<span class="normal"><a href="#__codelineno-0-71">71</a></span>
+<span class="normal"><a href="#__codelineno-0-72">72</a></span>
+<span class="normal"><a href="#__codelineno-0-73">73</a></span>
+<span class="normal"><a href="#__codelineno-0-74">74</a></span>
+<span class="normal"><a href="#__codelineno-0-75">75</a></span>
+<span class="normal"><a href="#__codelineno-0-76">76</a></span>
+<span class="normal"><a href="#__codelineno-0-77">77</a></span>
+<span class="normal"><a href="#__codelineno-0-78">78</a></span>
+<span class="normal"><a href="#__codelineno-0-79">79</a></span>
+<span class="normal"><a href="#__codelineno-0-80">80</a></span>
+<span class="normal"><a href="#__codelineno-0-81">81</a></span>
+<span class="normal"><a href="#__codelineno-0-82">82</a></span>
+<span class="normal"><a href="#__codelineno-0-83">83</a></span>
+<span class="normal"><a href="#__codelineno-0-84">84</a></span>
+<span class="normal"><a href="#__codelineno-0-85">85</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-56" name="__codelineno-0-56"></a><span class="k">def</span> <span class="nf">_configure_logger_args</span><span class="p">(</span><span class="n">parser</span><span class="p">:</span> <span class="n">ArgumentParser</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<a id="__codelineno-0-57" name="__codelineno-0-57"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Configures the argument parser for logger arguments.</span>
+<a id="__codelineno-0-58" name="__codelineno-0-58"></a><span class="sd">    The log level configuration was adapted from</span>
+<a id="__codelineno-0-59" name="__codelineno-0-59"></a><span class="sd">    [this Stack Overflow answer](https://stackoverflow.com/a/20663028).</span>
+<a id="__codelineno-0-60" name="__codelineno-0-60"></a>
+<a id="__codelineno-0-61" name="__codelineno-0-61"></a><span class="sd">    Args:</span>
+<a id="__codelineno-0-62" name="__codelineno-0-62"></a><span class="sd">        parser (ArgumentParser): The argument parser to update.</span>
+<a id="__codelineno-0-63" name="__codelineno-0-63"></a><span class="sd">    &quot;&quot;&quot;</span>
+<a id="__codelineno-0-64" name="__codelineno-0-64"></a>    <span class="n">group_log</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">add_argument_group</span><span class="p">(</span>
+<a id="__codelineno-0-65" name="__codelineno-0-65"></a>        <span class="s2">&quot;logger configuration&quot;</span><span class="p">,</span>
+<a id="__codelineno-0-66" name="__codelineno-0-66"></a>        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Arguments that override the default logger configuration.&quot;</span><span class="p">,</span>
+<a id="__codelineno-0-67" name="__codelineno-0-67"></a>    <span class="p">)</span>
+<a id="__codelineno-0-68" name="__codelineno-0-68"></a>    <span class="n">group_log_lvl</span> <span class="o">=</span> <span class="n">group_log</span><span class="o">.</span><span class="n">add_mutually_exclusive_group</span><span class="p">()</span>
+<a id="__codelineno-0-69" name="__codelineno-0-69"></a>    <span class="n">group_log_lvl</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+<a id="__codelineno-0-70" name="__codelineno-0-70"></a>        <span class="s2">&quot;-d&quot;</span><span class="p">,</span>
+<a id="__codelineno-0-71" name="__codelineno-0-71"></a>        <span class="s2">&quot;--debug&quot;</span><span class="p">,</span>
+<a id="__codelineno-0-72" name="__codelineno-0-72"></a>        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;print lots of debugging statements; can&#39;t use with -v/--verbose&quot;</span><span class="p">,</span>
+<a id="__codelineno-0-73" name="__codelineno-0-73"></a>        <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_const&quot;</span><span class="p">,</span>
+<a id="__codelineno-0-74" name="__codelineno-0-74"></a>        <span class="n">dest</span><span class="o">=</span><span class="s2">&quot;log_level&quot;</span><span class="p">,</span>
+<a id="__codelineno-0-75" name="__codelineno-0-75"></a>        <span class="n">const</span><span class="o">=</span><span class="n">logging</span><span class="o">.</span><span class="n">DEBUG</span><span class="p">,</span>
+<a id="__codelineno-0-76" name="__codelineno-0-76"></a>        <span class="n">default</span><span class="o">=</span><span class="n">logging</span><span class="o">.</span><span class="n">WARNING</span><span class="p">,</span>
+<a id="__codelineno-0-77" name="__codelineno-0-77"></a>    <span class="p">)</span>
+<a id="__codelineno-0-78" name="__codelineno-0-78"></a>    <span class="n">group_log_lvl</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+<a id="__codelineno-0-79" name="__codelineno-0-79"></a>        <span class="s2">&quot;-v&quot;</span><span class="p">,</span>
+<a id="__codelineno-0-80" name="__codelineno-0-80"></a>        <span class="s2">&quot;--verbose&quot;</span><span class="p">,</span>
+<a id="__codelineno-0-81" name="__codelineno-0-81"></a>        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;be verbose; can&#39;t use with -d/--debug&quot;</span><span class="p">,</span>
+<a id="__codelineno-0-82" name="__codelineno-0-82"></a>        <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_const&quot;</span><span class="p">,</span>
+<a id="__codelineno-0-83" name="__codelineno-0-83"></a>        <span class="n">dest</span><span class="o">=</span><span class="s2">&quot;log_level&quot;</span><span class="p">,</span>
+<a id="__codelineno-0-84" name="__codelineno-0-84"></a>        <span class="n">const</span><span class="o">=</span><span class="n">logging</span><span class="o">.</span><span class="n">INFO</span><span class="p">,</span>
+<a id="__codelineno-0-85" name="__codelineno-0-85"></a>    <span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+      </details>
+  </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+
+<h3 id="xlbudget.configure.setup" class="doc doc-heading">
+        <span class="doc doc-object-name doc-function-name">setup</span>
+
+
+<a href="#xlbudget.configure.setup" class="headerlink" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">setup</span><span class="p">()</span>
+</code></pre></div>
+
+  <div class="doc doc-contents ">
+  
+      <p>Package-level setup and configuration.</p>
 
   <p><strong>Returns:</strong></p>
   <table>
@@ -1104,38 +1206,44 @@
     <tbody>
         <tr>
           <td>
-                <code><a class="autorefs autorefs-internal" title="xlbudget.configure.PreStateConfiguration" href="#xlbudget.configure.PreStateConfiguration">PreStateConfiguration</a></code>
+                <code><a class="autorefs autorefs-external" title="argparse.Namespace" href="https://docs.python.org/3/library/argparse.html#argparse.Namespace">Namespace</a></code>
           </td>
-          <td><p>A[n] <code>PreStateConfiguration</code> containing configured items.</p></td>
+          <td><p>A[n] <code>Namespace</code> containing the parsed CLI arguments.</p></td>
         </tr>
     </tbody>
   </table>
 
       <details class="quote">
         <summary>Source code in <code>xlbudget/configure.py</code></summary>
-        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-29">29</a></span>
-<span class="normal"><a href="#__codelineno-0-30">30</a></span>
-<span class="normal"><a href="#__codelineno-0-31">31</a></span>
-<span class="normal"><a href="#__codelineno-0-32">32</a></span>
-<span class="normal"><a href="#__codelineno-0-33">33</a></span>
-<span class="normal"><a href="#__codelineno-0-34">34</a></span>
-<span class="normal"><a href="#__codelineno-0-35">35</a></span>
-<span class="normal"><a href="#__codelineno-0-36">36</a></span>
-<span class="normal"><a href="#__codelineno-0-37">37</a></span>
-<span class="normal"><a href="#__codelineno-0-38">38</a></span>
-<span class="normal"><a href="#__codelineno-0-39">39</a></span>
-<span class="normal"><a href="#__codelineno-0-40">40</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-29" name="__codelineno-0-29"></a><span class="k">def</span> <span class="nf">pre_state_configuration</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">PreStateConfiguration</span><span class="p">:</span>
-<a id="__codelineno-0-30" name="__codelineno-0-30"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Configuration before state is setup.</span>
-<a id="__codelineno-0-31" name="__codelineno-0-31"></a>
-<a id="__codelineno-0-32" name="__codelineno-0-32"></a><span class="sd">    Returns:</span>
-<a id="__codelineno-0-33" name="__codelineno-0-33"></a><span class="sd">        A[n] `PreStateConfiguration` containing configured items.</span>
-<a id="__codelineno-0-34" name="__codelineno-0-34"></a><span class="sd">    &quot;&quot;&quot;</span>
-<a id="__codelineno-0-35" name="__codelineno-0-35"></a>    <span class="n">parser</span> <span class="o">=</span> <span class="n">_configure_argument_parser</span><span class="p">()</span>
-<a id="__codelineno-0-36" name="__codelineno-0-36"></a>
-<a id="__codelineno-0-37" name="__codelineno-0-37"></a>    <span class="n">config</span> <span class="o">=</span> <span class="n">PreStateConfiguration</span><span class="p">(</span>
-<a id="__codelineno-0-38" name="__codelineno-0-38"></a>        <span class="n">parser</span><span class="o">=</span><span class="n">parser</span><span class="p">,</span>
-<a id="__codelineno-0-39" name="__codelineno-0-39"></a>    <span class="p">)</span>
-<a id="__codelineno-0-40" name="__codelineno-0-40"></a>    <span class="k">return</span> <span class="n">config</span>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-14">14</a></span>
+<span class="normal"><a href="#__codelineno-0-15">15</a></span>
+<span class="normal"><a href="#__codelineno-0-16">16</a></span>
+<span class="normal"><a href="#__codelineno-0-17">17</a></span>
+<span class="normal"><a href="#__codelineno-0-18">18</a></span>
+<span class="normal"><a href="#__codelineno-0-19">19</a></span>
+<span class="normal"><a href="#__codelineno-0-20">20</a></span>
+<span class="normal"><a href="#__codelineno-0-21">21</a></span>
+<span class="normal"><a href="#__codelineno-0-22">22</a></span>
+<span class="normal"><a href="#__codelineno-0-23">23</a></span>
+<span class="normal"><a href="#__codelineno-0-24">24</a></span>
+<span class="normal"><a href="#__codelineno-0-25">25</a></span>
+<span class="normal"><a href="#__codelineno-0-26">26</a></span>
+<span class="normal"><a href="#__codelineno-0-27">27</a></span>
+<span class="normal"><a href="#__codelineno-0-28">28</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-14" name="__codelineno-0-14"></a><span class="k">def</span> <span class="nf">setup</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Namespace</span><span class="p">:</span>
+<a id="__codelineno-0-15" name="__codelineno-0-15"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Package-level setup and configuration.</span>
+<a id="__codelineno-0-16" name="__codelineno-0-16"></a>
+<a id="__codelineno-0-17" name="__codelineno-0-17"></a><span class="sd">    Returns:</span>
+<a id="__codelineno-0-18" name="__codelineno-0-18"></a><span class="sd">        A[n] `Namespace` containing the parsed CLI arguments.</span>
+<a id="__codelineno-0-19" name="__codelineno-0-19"></a><span class="sd">    &quot;&quot;&quot;</span>
+<a id="__codelineno-0-20" name="__codelineno-0-20"></a>    <span class="n">parser</span> <span class="o">=</span> <span class="n">_configure_argument_parser</span><span class="p">()</span>
+<a id="__codelineno-0-21" name="__codelineno-0-21"></a>    <span class="n">args</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">()</span>
+<a id="__codelineno-0-22" name="__codelineno-0-22"></a>    <span class="n">_configure_logger</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">log_level</span><span class="p">)</span>
+<a id="__codelineno-0-23" name="__codelineno-0-23"></a>
+<a id="__codelineno-0-24" name="__codelineno-0-24"></a>    <span class="c1"># log args after call to _configure_logger</span>
+<a id="__codelineno-0-25" name="__codelineno-0-25"></a>    <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+<a id="__codelineno-0-26" name="__codelineno-0-26"></a>    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;parsed CLI arguments: </span><span class="si">{</span><span class="n">args</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<a id="__codelineno-0-27" name="__codelineno-0-27"></a>
+<a id="__codelineno-0-28" name="__codelineno-0-28"></a>    <span class="k">return</span> <span class="n">args</span>
 </code></pre></div></td></tr></table></div>
       </details>
   </div>
@@ -1193,13 +1301,13 @@
         
         
           
-          <a href="../state/" class="md-footer__link md-footer__link--next" aria-label="Next: state" rel="next">
+          <a href="../../../developer_guide/contributing/" class="md-footer__link md-footer__link--next" aria-label="Next: Contributing" rel="next">
             <div class="md-footer__title">
               <div class="md-ellipsis">
                 <span class="md-footer__direction">
                   Next
                 </span>
-                state
+                Contributing
               </div>
             </div>
             <div class="md-footer__button md-icon">
