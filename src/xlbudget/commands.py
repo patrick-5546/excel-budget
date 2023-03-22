@@ -24,38 +24,24 @@ class Command(ABC):
     @property
     @abstractmethod
     def name(self) -> str:
-        """The command's CLI name. Should be implemented as a class attribute"""
         pass
 
     @property
     @abstractmethod
     def aliases(self) -> List[str]:
-        """The command's CLI aliases. Should be implemented as a class attribute"""
         pass
 
     @classmethod
     @abstractmethod
     def configure_args(cls, subparsers: _SubParsersAction) -> None:
-        """Adds the command's CLI arguments to the argument parser.
-
-        Args:
-            subparsers (_SubParsersAction): The command `subparsers`.
-        """
         pass
 
     @abstractmethod
     def __init__(self, args: Namespace) -> None:
-        """Initializes the command instance, storing the relevant CLI arguments as
-        instance variables.
-
-        Args:
-            args (Namespace): The CLI arguments.
-        """
         self.path = args.path
 
     @abstractmethod
     def run(self) -> None:
-        """Runs the command."""
         pass
 
 
