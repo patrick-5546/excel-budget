@@ -45,7 +45,10 @@ class Command(ABC):
             parser (ArgumentParser): The argument parser.
         """
         parser.add_argument(
-            "-p", "--path", help="path to the xlbudget file", default=cls.default_path
+            "-p",
+            "--path",
+            help="path to the xlbudget file (default: %(default)s)",
+            default=cls.default_path,
         )
 
     @classmethod
