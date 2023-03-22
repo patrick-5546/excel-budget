@@ -16,6 +16,7 @@
         "mkdocs",
         "mkdocstrings",
         "mypy",
+        "openpyxl",
         "pymdownx",
         "pypa",
         "PYPI",
