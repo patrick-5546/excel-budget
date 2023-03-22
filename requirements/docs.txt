@@ -16,6 +16,8 @@ colorama==0.4.6
     # via
     #   griffe
     #   mkdocs-material
+et-xmlfile==1.1.0
+    # via openpyxl
 ghp-import==2.1.0
     # via mkdocs
 gitdb==4.0.10
@@ -78,10 +80,10 @@ mkdocstrings==0.20.0
     # via mkdocstrings-python
 mkdocstrings-python==0.8.3
     # via xlbudget (pyproject.toml)
+openpyxl==3.1.2
+    # via xlbudget (pyproject.toml)
 packaging==23.0
     # via mkdocs
-peppercorn==0.6
-    # via xlbudget (pyproject.toml)
 pygments==2.14.0
     # via mkdocs-material
 pymdown-extensions==9.10

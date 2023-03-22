@@ -22,6 +22,8 @@ cryptography==39.0.2
     # via secretstorage
 docutils==0.19
     # via readme-renderer
+et-xmlfile==1.1.0
+    # via openpyxl
 idna==3.4
     # via requests
 importlib-metadata==6.1.0
@@ -42,10 +44,10 @@ mdurl==0.1.2
     # via markdown-it-py
 more-itertools==9.1.0
     # via jaraco-classes
+openpyxl==3.1.2
+    # via xlbudget (pyproject.toml)
 packaging==23.0
     # via build
-peppercorn==0.6
-    # via xlbudget (pyproject.toml)
 pkginfo==1.9.6
     # via twine
 pycparser==2.21
