@@ -13,8 +13,6 @@ from typing import NamedTuple
 from .commands import get_command_classes
 from .state import State
 
-logger = logging.getLogger(__name__)
-
 
 class PreStateConfiguration(NamedTuple):
     """A named tuple containing items that can be configured before state is set up.
@@ -47,7 +45,10 @@ def post_state_configuration(state: State) -> None:
         state (State): The state.
     """
     _configure_logger(state.args.log_level)
-    logger.info(f"{state=}")  # log state after `_configure_logger` is called
+
+    # log state after `_configure_logger` is called
+    logger = logging.getLogger(__name__)
+    logger.info(f"{state=}")
 
 
 def _configure_argument_parser() -> ArgumentParser:

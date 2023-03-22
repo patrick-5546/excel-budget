@@ -5,16 +5,16 @@ Warning: Logger usage in this file
     The logger shouldn't be used in this file because it hasn't been configured yet
 """
 
-import logging
-import typing
 from argparse import Namespace
+from logging import getLogger
+from typing import NamedTuple
 
 from .commands import Command
 
-logger = logging.getLogger(__name__)
+logger = getLogger(__name__)
 
 
-class State(typing.NamedTuple):
+class State(NamedTuple):
     """A named tuple containing items that make up the state of the program.
 
     Attributes:
