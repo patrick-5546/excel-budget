@@ -6,10 +6,12 @@
 - Resolves #_issue_
 
 ### To Do
-<!-- If applicable, describe what needs to be done before this PR is ready to be reviewed -->
+<!-- If this PR is a work-in-progress:
+    - Describe what needs to be done before this PR is ready to be reviewed
+    - Create this PR as a draft -->
 - [ ] Update tests
 - [ ] Add log statements
 
 ### Verification
-<!-- If applicable, describe how this PR was (or will be) verified in a reproducible manner -->
+<!-- If applicable, describe how this PR was (or will be) verified in a reproducible manner (other than passing CI) -->
 - [ ] 

@@ -10,7 +10,7 @@ from typing import List, Type
 
 from openpyxl import Workbook
 
-from .xlfunctions import create_year_sheet
+import xlbudget.xlfunctions as xlf
 
 logger = getLogger(__name__)
 
@@ -18,9 +18,14 @@ logger = getLogger(__name__)
 class Command(ABC):
     """The abstract class that the command implementations implement.
 
+    Attributes: Class Attributes
+        default_path (str): The default path of the xlbudget file.
+
     Attributes:
         path (str): The path to the xlbudget file.
     """
+
+    default_path: str = "xlbudget.xlsx"
 
     @property
     @abstractmethod
@@ -31,6 +36,20 @@ class Command(ABC):
     @abstractmethod
     def aliases(self) -> List[str]:
         pass
+
+    @classmethod
+    def configure_common_args(cls, parser: ArgumentParser) -> None:
+        """Configures the arguments that are used by all commands.
+
+        Args:
+            parser (ArgumentParser): The argument parser.
+        """
+        parser.add_argument(
+            "-p",
+            "--path",
+            help="path to the xlbudget file (default: %(default)s)",
+            default=cls.default_path,
+        )
 
     @classmethod
     @abstractmethod
@@ -103,7 +122,7 @@ class Generate(Command):
         wb = Workbook()
         year = str(datetime.date.today().year)
         logger.info(f"creating {year} sheet")
-        create_year_sheet(wb, year)
+        xlf.create_year_sheet(wb, year)
         logger.info(f"saving to {self.path}")
         wb.save(self.path)
 
@@ -132,39 +151,6 @@ class Update(Command):
             aliases=cls.aliases,
             help="update an existing xlbudget file",
             cls=Update,
-        )
-
-    def __init__(self, args: Namespace) -> None:
-        pass
-
-    def run(self) -> None:
-        raise NotImplementedError
-
-
-class Validate(Command):
-    """The `validate` command validates an existing xlbudget file.
-
-    Attributes: Class Attributes
-        name (str): The command's CLI name.
-        aliases (List[str]): The command's CLI aliases.
-    """
-
-    name: str = "validate"
-    aliases: List[str] = ["v"]
-
-    @classmethod
-    def configure_args(cls, subparsers: _SubParsersAction) -> None:
-        """Configures the argument parser for the `validate` command.
-
-        Args:
-            subparsers (_SubParsersAction): The command `subparsers`.
-        """
-        _add_parser(
-            subparsers,
-            name=cls.name,
-            aliases=cls.aliases,
-            help="validate an existing xlbudget file",
-            cls=Validate,
         )
 
     def __init__(self, args: Namespace) -> None:

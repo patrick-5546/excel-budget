@@ -8,7 +8,7 @@ Warning: Logger usage in this file
 import logging
 from argparse import ArgumentParser, Namespace
 
-from .commands import get_command_classes
+from .commands import Command, get_command_classes
 
 
 def setup() -> Namespace:
@@ -36,10 +36,7 @@ def _configure_argument_parser() -> ArgumentParser:
     """
     parser = ArgumentParser()
 
-    parser.add_argument(
-        "-p", "--path", help="path to the xlbudget file", default="xlbudget.xlsx"
-    )
-
+    Command.configure_common_args(parser)
     _configure_logger_args(parser)
 
     cmd_subparsers = parser.add_subparsers(
