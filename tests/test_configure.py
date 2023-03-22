@@ -6,7 +6,7 @@ import pytest
 import xlbudget.configure as configure
 
 
-def test_configure_logger_args() -> None:
+def test__configure_logger_args() -> None:
     parser = argparse.ArgumentParser()
     configure._configure_logger_args(parser)
 
