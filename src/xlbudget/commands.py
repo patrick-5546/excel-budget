@@ -10,7 +10,11 @@ logger = getLogger(__name__)
 
 
 class Command(ABC):
-    """The abstract class that the command implementations implement."""
+    """The abstract class that the command implementations implement.
+
+    Attributes:
+        path (str): The path to the xlbudget file.
+    """
 
     @property
     @abstractmethod
@@ -42,7 +46,7 @@ class Command(ABC):
         Args:
             args (Namespace): The CLI arguments.
         """
-        pass
+        self.path = args.path
 
     @abstractmethod
     def run(self) -> None:
@@ -56,6 +60,9 @@ class Generate(Command):
     Attributes: Class Attributes
         name (str): The command's CLI name.
         aliases (List[str]): The command's CLI aliases.
+
+    Attributes:
+        force (bool): If True and file exists, will overwrite it.
     """
 
     name: str = "generate"
@@ -81,7 +88,10 @@ class Generate(Command):
         )
 
     def __init__(self, args: Namespace) -> None:
-        pass
+        super().__init__(args)
+        self.force = args.force
+
+        logger.info(f"instance variables: {vars(self)}")
 
     def run(self) -> None:
         raise NotImplementedError
