@@ -1,4 +1,4 @@
-"""The state of excelbudget.
+"""The state of xlbudget.
 
 Warning: Logger usage in this file
 

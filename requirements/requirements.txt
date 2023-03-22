@@ -5,4 +5,4 @@
 #    pip-compile --output-file=requirements/requirements.txt pyproject.toml
 #
 peppercorn==0.6
-    # via excelbudget (pyproject.toml)
+    # via xlbudget (pyproject.toml)

@@ -1,4 +1,4 @@
-"""Excelbudget: a personal bookkeeping assistant."""
+"""Xlbudget: a personal bookkeeping assistant."""
 
 from .configure import post_state_configuration, pre_state_configuration
 from .state import setup_state

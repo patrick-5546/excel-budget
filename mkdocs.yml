@@ -1,13 +1,13 @@
 # Project information
-site_name: Excelbudget Docs
-site_url: https://patrick-5546.github.io/excelbudget/
+site_name: Xlbudget Docs
+site_url: https://patrick-5546.github.io/xlbudget/
 site_author: Patrick Creighton
 site_description: >-
-  Documentation site for excelbudget, a personal bookkeeping assistant
+  Documentation site for xlbudget, a personal bookkeeping assistant
 
 # Repository
-repo_name: patrick-5546/excelbudget
-repo_url: https://github.com/patrick-5546/excelbudget
+repo_name: patrick-5546/xlbudget
+repo_url: https://github.com/patrick-5546/xlbudget
 edit_uri: "edit/main/docs/"
 
 # Configuration

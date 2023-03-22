@@ -3,7 +3,7 @@ from typing import Type
 
 import pytest
 
-import excelbudget.commands as commands
+import xlbudget.commands as commands
 
 AVAILABLE_COMMANDS = {
     commands.Generate,
