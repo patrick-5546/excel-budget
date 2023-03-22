@@ -58,7 +58,9 @@ def _configure_argument_parser() -> ArgumentParser:
     """
     parser = ArgumentParser()
 
-    parser.add_argument("-p", "--path", help="path to the xlbudget file")
+    parser.add_argument(
+        "-p", "--path", help="path to the xlbudget file", default="xlbudget.xlsx"
+    )
 
     _configure_logger_args(parser)
 
