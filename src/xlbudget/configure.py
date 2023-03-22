@@ -1,4 +1,4 @@
-"""The setup for xlbudget.
+"""The setup and configuration for xlbudget.
 
 Warning: Logger usage in this file
 
