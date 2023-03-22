@@ -20,3 +20,6 @@ coverage.json
 # due to docs
 .cache/
 site/
+
+# excel files
+*.xlsx
