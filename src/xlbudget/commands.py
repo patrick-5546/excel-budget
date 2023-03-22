@@ -3,7 +3,10 @@
 import sys
 from abc import ABC, abstractmethod
 from argparse import ArgumentParser, Namespace, _SubParsersAction
+from logging import getLogger
 from typing import List, Type
+
+logger = getLogger(__name__)
 
 
 class Command(ABC):
@@ -50,7 +53,7 @@ class Command(ABC):
 class Generate(Command):
     """The `generate` command generates a new xlbudget file.
 
-    Attributes:
+    Attributes: Class Attributes
         name (str): The command's CLI name.
         aliases (List[str]): The command's CLI aliases.
     """
@@ -87,7 +90,7 @@ class Generate(Command):
 class Update(Command):
     """The `update` command updates an existing xlbudget file.
 
-    Attributes:
+    Attributes: Class Attributes
         name (str): The command's CLI name.
         aliases (List[str]): The command's CLI aliases.
     """
@@ -120,7 +123,7 @@ class Update(Command):
 class Validate(Command):
     """The `validate` command validates an existing xlbudget file.
 
-    Attributes:
+    Attributes: Class Attributes
         name (str): The command's CLI name.
         aliases (List[str]): The command's CLI aliases.
     """

@@ -73,6 +73,8 @@ plugins:
             # heading options
             show_root_toc_entry: no
             show_category_heading: yes
+            # member options
+            filters: None
             # docstrings options
             docstring_style: google
             line_length: 88

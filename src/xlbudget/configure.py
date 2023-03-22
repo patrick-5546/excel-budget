@@ -1,53 +1,31 @@
-"""The configuration for xlbudget.
+"""The setup and configuration for xlbudget.
 
 Warning: Logger usage in this file
 
-    The logger can only be used after `_configure_logger` is called in
-    `post_state_configuration`
+    The logger can only be used after `_configure_logger` is called in `setup`.
 """
 
 import logging
-from argparse import ArgumentParser
-from typing import NamedTuple
+from argparse import ArgumentParser, Namespace
 
 from .commands import get_command_classes
-from .state import State
-
-logger = logging.getLogger(__name__)
 
 
-class PreStateConfiguration(NamedTuple):
-    """A named tuple containing items that can be configured before state is set up.
-
-    Attributes:
-        parser (ArgumentParser): The argument parser.
-    """
-
-    parser: ArgumentParser
-
-
-def pre_state_configuration() -> PreStateConfiguration:
-    """Configuration before state is setup.
+def setup() -> Namespace:
+    """Package-level setup and configuration.
 
     Returns:
-        A[n] `PreStateConfiguration` containing configured items.
+        A[n] `Namespace` containing the parsed CLI arguments.
     """
     parser = _configure_argument_parser()
+    args = parser.parse_args()
+    _configure_logger(args.log_level)
 
-    config = PreStateConfiguration(
-        parser=parser,
-    )
-    return config
+    # log args after call to _configure_logger
+    logger = logging.getLogger(__name__)
+    logger.debug(f"parsed CLI arguments: {args}")
 
-
-def post_state_configuration(state: State) -> None:
-    """Configuration after state is set up.
-
-    Args:
-        state (State): The state.
-    """
-    _configure_logger(state.args.log_level)
-    logger.info(f"{state=}")  # log state after `_configure_logger` is called
+    return args
 
 
 def _configure_argument_parser() -> ArgumentParser:
@@ -58,7 +36,9 @@ def _configure_argument_parser() -> ArgumentParser:
     """
     parser = ArgumentParser()
 
-    parser.add_argument("-p", "--path", help="path to the xlbudget file")
+    parser.add_argument(
+        "-p", "--path", help="path to the xlbudget file", default="xlbudget.xlsx"
+    )
 
     _configure_logger_args(parser)
 
@@ -116,5 +96,5 @@ def _configure_logger(level: int) -> None:
     """  # noqa
     logging.basicConfig(
         level=level,
-        format="%(name)s:%(funcName)s() - %(levelname)s - %(message)s",
+        format="%(levelname)s - %(name)s:%(lineno)s - %(message)s",
     )

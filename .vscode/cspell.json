@@ -23,7 +23,8 @@
         "Pytest",
         "testenv",
         "twemoji",
-        "venv"
+        "venv",
+        "xlbudget"
     ],
     "flagWords": [
         "hte"
