@@ -24,7 +24,6 @@ def test_generate_file_exists() -> None:
     parser = argparse.ArgumentParser()
     parser.set_defaults(path=test_file, force=False)
     args = parser.parse_args([])
-    cmd = commands.Generate(args)
 
     assert not os.path.exists(
         test_file
@@ -32,7 +31,7 @@ def test_generate_file_exists() -> None:
 
     open(test_file, "w").close()
     with pytest.raises(FileExistsError):
-        cmd.run()
+        commands.Generate(args)
     os.remove(test_file)
 
 
