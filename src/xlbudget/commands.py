@@ -91,7 +91,7 @@ class Generate(Command):
             name=cls.name,
             aliases=cls.aliases,
             help="generate a new xlbudget file",
-            cls=Generate,
+            cmd_cls=Generate,
         )
 
         parser.add_argument(
@@ -150,7 +150,7 @@ class Update(Command):
             name=cls.name,
             aliases=cls.aliases,
             help="update an existing xlbudget file",
-            cls=Update,
+            cmd_cls=Update,
         )
 
     def __init__(self, args: Namespace) -> None:
@@ -167,7 +167,7 @@ def get_command_classes() -> List[Type[Command]]:
         A[n] `List[Type[Command]]` of all command classes.
     """
     command_module = sys.modules[__name__]
-    return [getattr(command_module, cls.__name__) for cls in Command.__subclasses__()]
+    return [getattr(command_module, c.__name__) for c in Command.__subclasses__()]
 
 
 def _add_parser(
@@ -175,7 +175,7 @@ def _add_parser(
     name: str,
     aliases: List[str],
     help: str,
-    cls: Type[Command],
+    cmd_cls: Type[Command],
 ) -> ArgumentParser:
     """Adds an argument parser for a command. Any configuration that is common
     across commands should go here.
@@ -185,7 +185,7 @@ def _add_parser(
         name (str): The command name.
         aliases (List[str]): The command aliases.
         help (str): The command help message.
-        cls (Type[Command]): The command class.
+        cmd_cls (Type[Command]): The command class.
 
     Returns:
         A[n] `ArgumentParser` for a command.
@@ -193,6 +193,6 @@ def _add_parser(
     parser = subparsers.add_parser(name, aliases=aliases, help=help)
 
     # initialize the command with args.init(...)
-    parser.set_defaults(init=cls)
+    parser.set_defaults(init=cmd_cls)
 
     return parser
