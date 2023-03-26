@@ -32,6 +32,7 @@ def create_year_sheet(wb: Workbook, year: str):
         month = MONTH_NAME_0_IND[month_ind]
         logger.debug(f"creating {month} table")
 
+        # table title
         ws.cell(row=1, column=c_start, value=month)
         ws.merge_cells(
             start_row=1,
