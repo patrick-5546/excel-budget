@@ -58,7 +58,27 @@ class Command(ABC):
 
     @abstractmethod
     def __init__(self, args: Namespace) -> None:
+        self._check_xlbudget_path(args.path)
         self.path = args.path
+
+    @staticmethod
+    def _check_xlbudget_path(path: str) -> None:
+        """Check that `path` is a valid path to an xlbudget file.
+
+        Args:
+            path (str): The xlbudget path.
+
+        Raises:
+            ValueError: If `path` is not a path to an XLSX file.
+            FileNotFoundError: If `path` is not in an existing directory.
+        """
+        xlsx_ext = ".xlsx"
+        if not path.endswith(xlsx_ext):
+            raise ValueError(f"Path '{path}' does not end with '{xlsx_ext}'")
+
+        dir = os.path.dirname(path)
+        if dir and not os.path.isdir(dir):
+            raise FileNotFoundError(f"Directory '{dir}' does not exist")
 
     @abstractmethod
     def run(self) -> None:
