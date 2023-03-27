@@ -18,20 +18,20 @@ def test_command_config_args_is_classmethod(cmd_cls: Type[commands.Command]) -> 
     assert isinstance(inspect.getattr_static(cmd_cls, "configure_args"), classmethod)
 
 
-def test_command__check_xlbudget_path_invalid() -> None:
+def test_command__check_path_invalid() -> None:
     # when not an XLSX file
     with pytest.raises(ValueError):
         commands.Command._check_path("test.xls")
 
     # when not in an existing directory
-    new_dir = ".test_command__check_xlbudget_path"
+    new_dir = ".test_command__check_path"
     assert not os.path.exists(new_dir), f"Path {new_dir} exists, delete before running"
     with pytest.raises(FileNotFoundError):
         commands.Command._check_path(os.path.join(new_dir, "test.xlsx"))
 
 
 @pytest.mark.parametrize("path", ["test.xlsx", os.path.join("tests", "tests.xlsx")])
-def test_command__check_xlbudget_path_valid(path: str) -> None:
+def test_command__check_path_valid(path: str) -> None:
     print(path)
     try:
         commands.Command._check_path(path)
