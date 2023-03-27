@@ -10,7 +10,7 @@ from typing import List, Type
 
 from openpyxl import Workbook
 
-import xlbudget.xlfunctions as xlf
+import xlbudget.rwxlb as rwx
 
 logger = getLogger(__name__)
 
@@ -141,7 +141,7 @@ class Generate(Command):
         wb = Workbook()
         year = str(datetime.date.today().year)
         logger.info(f"creating {year} sheet")
-        xlf.create_year_sheet(wb, year)
+        rwx.create_year_sheet(wb, year)
         logger.info(f"saving to {self.path}")
         wb.save(self.path)
 

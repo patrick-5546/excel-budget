@@ -1,3 +1,5 @@
+"""Functions that read or write the xlbudget file."""
+
 import calendar
 from logging import getLogger
 
