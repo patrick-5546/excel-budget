@@ -1,7 +1,7 @@
 """Input file format definitions."""
 
 from argparse import Action
-from typing import NamedTuple, Tuple
+from typing import List, NamedTuple
 
 
 class InputFormat(NamedTuple):
@@ -9,26 +9,26 @@ class InputFormat(NamedTuple):
 
     Args:
         header (int): The 0-indexed row of the header in the input file.
-        names (Tuple[str]): The column names.
-        usecols (Tuple[int]): The indices of columns that map to `COL_NAMES`
+        names (List[str]): The column names.
+        usecols (List[int]): The indices of columns that map to `COL_NAMES`
     """
 
     header: int
-    names: Tuple[str]
-    usecols: Tuple[int]
+    names: List[str]
+    usecols: List[int]
 
 
 BMO_CC = InputFormat(
     header=2,
-    names=(
+    names=[
         "Item #",
         "Card #",
         "Transaction Date",
         "Posting Date",
         "Transaction Amount",
         "Description",
-    ),
-    usecols=(3, 5, 4),
+    ],
+    usecols=[3, 5, 4],
 )
 
 
