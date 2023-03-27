@@ -197,7 +197,7 @@ class Update(Command):
         if not input.endswith(csv_ext):
             raise ValueError(f"Input '{input}' does not end with '{csv_ext}'")
 
-        if os.path.isfile(input):
+        if not os.path.isfile(input):
             raise ValueError(f"Input '{input}' is not an existing file")
 
     def run(self) -> None:
