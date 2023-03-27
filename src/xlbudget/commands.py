@@ -10,8 +10,8 @@ from typing import List, Type
 
 from openpyxl import Workbook
 
+import xlbudget.inputformat as infmt
 import xlbudget.rwxlb as rwx
-from xlbudget.inputformat import GetInputFormats
 
 logger = getLogger(__name__)
 
@@ -180,8 +180,8 @@ class Update(Command):
         parser.add_argument("input", help="path to the input file")
         parser.add_argument(
             "format",
-            action=GetInputFormats,
-            choices=GetInputFormats.input_formats.keys(),
+            action=infmt.GetInputFormats,
+            choices=infmt.GetInputFormats.input_formats.keys(),
             help="select an input file format",
         )
 
@@ -213,7 +213,10 @@ class Update(Command):
             raise ValueError(f"Input '{input}' is not an existing file")
 
     def run(self) -> None:
-        raise NotImplementedError
+        logger.info(f"Parsing input file {self.input}")
+        df = infmt.parse_input(self.input, self.format)
+        logger.debug(f"input file: {df.shape=}, df.dtypes=\n{df.dtypes}")
+        logger.debug(f"df.head()=\n{df.head()}")
 
 
 def get_command_classes() -> List[Type[Command]]:
