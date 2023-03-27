@@ -14,13 +14,23 @@ isort==5.12.0
     # via xlbudget (pyproject.toml)
 mypy-extensions==1.0.0
     # via black
+numpy==1.24.2
+    # via pandas
 openpyxl==3.1.2
     # via xlbudget (pyproject.toml)
 packaging==23.0
     # via black
+pandas==1.5.3
+    # via xlbudget (pyproject.toml)
 pathspec==0.11.1
     # via black
-platformdirs==3.1.1
+platformdirs==3.2.0
     # via black
+python-dateutil==2.8.2
+    # via pandas
+pytz==2023.2
+    # via pandas
+six==1.16.0
+    # via python-dateutil
 tomli==2.0.1
     # via black

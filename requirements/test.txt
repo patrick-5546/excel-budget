@@ -34,6 +34,8 @@ mypy-extensions==1.0.0
     # via
     #   black
     #   mypy
+numpy==1.24.2
+    # via pandas
 openpyxl==3.1.2
     # via xlbudget (pyproject.toml)
 packaging==23.0
@@ -41,9 +43,13 @@ packaging==23.0
     #   black
     #   pytest
     #   pytest-sugar
+pandas==1.5.3
+    # via xlbudget (pyproject.toml)
+pandas-stubs==1.5.3.230321
+    # via xlbudget (pyproject.toml)
 pathspec==0.11.1
     # via black
-platformdirs==3.1.1
+platformdirs==3.2.0
     # via black
 pluggy==1.0.0
     # via pytest
@@ -60,6 +66,12 @@ pytest-cov==4.0.0
     # via xlbudget (pyproject.toml)
 pytest-sugar==0.9.6
     # via xlbudget (pyproject.toml)
+python-dateutil==2.8.2
+    # via pandas
+pytz==2023.2
+    # via pandas
+six==1.16.0
+    # via python-dateutil
 termcolor==2.2.0
     # via pytest-sugar
 tomli==2.0.1
@@ -69,7 +81,9 @@ tomli==2.0.1
     #   flake8-black
     #   mypy
     #   pytest
-types-openpyxl==3.1.0.0
+types-openpyxl==3.1.0.3
     # via xlbudget (pyproject.toml)
+types-pytz==2023.2.0.1
+    # via pandas-stubs
 typing-extensions==4.5.0
     # via mypy
