@@ -69,7 +69,7 @@ class Command(ABC):
             path (str): The xlbudget path.
 
         Raises:
-            ValueError: If `path` is not a path to an XLSX file.
+            ValueError: If `path` is not a XLSX file.
             FileNotFoundError: If `path` is not in an existing directory.
         """
         xlsx_ext = ".xlsx"
@@ -164,7 +164,7 @@ class Update(Command):
         Args:
             subparsers (_SubParsersAction): The command `subparsers`.
         """
-        _add_parser(
+        parser = _add_parser(
             subparsers,
             name=cls.name,
             aliases=cls.aliases,
@@ -172,8 +172,33 @@ class Update(Command):
             cmd_cls=Update,
         )
 
+        parser.add_argument("input", help="path to the input file")
+
     def __init__(self, args: Namespace) -> None:
-        pass
+        super().__init__(args)
+
+        self._check_input(args.input)
+        self.input = args.input
+
+        logger.debug(f"instance variables: {vars(self)}")
+
+    @staticmethod
+    def _check_input(input: str) -> None:
+        """Check that `input` is a valid path to an input file.
+
+        Args:
+            input (str): The input path.
+
+        Raises:
+            ValueError: If `input` is not a CSV file.
+            ValueError: If `input` is not an existing file.
+        """
+        csv_ext = ".csv"
+        if not input.endswith(csv_ext):
+            raise ValueError(f"Input '{input}' does not end with '{csv_ext}'")
+
+        if os.path.isfile(input):
+            raise ValueError(f"Input '{input}' is not an existing file")
 
     def run(self) -> None:
         raise NotImplementedError
