@@ -11,6 +11,7 @@ from typing import List, Type
 from openpyxl import Workbook
 
 import xlbudget.rwxlb as rwx
+from xlbudget.inputformat import GetInputFormats
 
 logger = getLogger(__name__)
 
@@ -152,6 +153,10 @@ class Update(Command):
     Attributes: Class Attributes
         name (str): The command's CLI name.
         aliases (List[str]): The command's CLI aliases.
+
+    Attributes:
+        input (str): The path to the input file.
+        format (inputformat.InputFormat): The input file format.
     """
 
     name: str = "update"
@@ -173,12 +178,19 @@ class Update(Command):
         )
 
         parser.add_argument("input", help="path to the input file")
+        parser.add_argument(
+            "format",
+            action=GetInputFormats,
+            choices=GetInputFormats.input_formats.keys(),
+            help="select an input file format",
+        )
 
     def __init__(self, args: Namespace) -> None:
         super().__init__(args)
 
         self._check_input(args.input)
         self.input = args.input
+        self.format = args.format
 
         logger.debug(f"instance variables: {vars(self)}")
 
