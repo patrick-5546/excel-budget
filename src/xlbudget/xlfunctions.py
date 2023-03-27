@@ -33,7 +33,7 @@ def create_year_sheet(wb: Workbook, year: str):
         logger.debug(f"creating {month} table")
 
         # table title
-        ws.cell(row=1, column=c_start, value=month)
+        ws.cell(row=1, column=c_start).value = month
         ws.merge_cells(
             start_row=1,
             start_column=c_start,
@@ -42,11 +42,8 @@ def create_year_sheet(wb: Workbook, year: str):
         )
 
         # table sum
-        sum = ws.cell(
-            row=1,
-            column=c_start + len(table_headers) - 1,
-            value=f"=SUM({month}[{table_headers[-1]}])",
-        )
+        sum = ws.cell(row=1, column=c_start + len(table_headers) - 1)
+        sum.value = f"=SUM({month}[{table_headers[-1]}])"
         sum.number_format = FORMAT_ACCOUNTING
         logger.debug(f"created sum cell {sum.coordinate}='{sum.value}'")
 
@@ -55,7 +52,7 @@ def create_year_sheet(wb: Workbook, year: str):
             c = c_start + i
 
             # header
-            ws.cell(row=2, column=c, value=table_headers[i])
+            ws.cell(row=2, column=c).value = table_headers[i]
 
             # formatting
             cell = ws.cell(row=3, column=c)
