@@ -1,7 +1,7 @@
 """Input file format definitions."""
 
 from argparse import Action
-from typing import List, NamedTuple
+from typing import Dict, List, NamedTuple
 
 
 class InputFormat(NamedTuple):
@@ -33,7 +33,14 @@ BMO_CC = InputFormat(
 
 
 class GetInputFormats(Action):
-    input_formats = {"BMO_CC": BMO_CC}
+    """Argparse action for the format argument.
+    Adapted from [this Stack Overflow answer](https://stackoverflow.com/a/50799463).
+
+    Attributes:
+        input_formats (Dict[str, InputFormat]): Maps format names to values.
+    """
+
+    input_formats: Dict[str, InputFormat] = {"BMO_CC": BMO_CC}
 
     def __call__(self, parser, namespace, values, option_string=None):
         setattr(namespace, self.dest, self.input_formats[values])
