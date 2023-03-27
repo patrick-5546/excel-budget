@@ -58,11 +58,11 @@ class Command(ABC):
 
     @abstractmethod
     def __init__(self, args: Namespace) -> None:
-        self._check_xlbudget_path(args.path)
+        self._check_path(args.path)
         self.path = args.path
 
     @staticmethod
-    def _check_xlbudget_path(path: str) -> None:
+    def _check_path(path: str) -> None:
         """Check that `path` is a valid path to an xlbudget file.
 
         Args:
