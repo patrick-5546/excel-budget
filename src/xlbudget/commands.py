@@ -149,7 +149,8 @@ class Generate(Command):
         # create workbook without any sheets
         wb = Workbook()
         ws = wb.active
-        wb.remove(ws)
+        # ignore type mismatch of active worksheet
+        wb.remove(ws)  # type: ignore[arg-type]
 
         year = datetime.date.today().year
         logger.info(f"Creating {year} sheet")
