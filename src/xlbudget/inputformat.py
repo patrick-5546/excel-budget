@@ -5,7 +5,7 @@ from typing import Dict, List, NamedTuple
 
 import pandas as pd
 
-from xlbudget.rwxlb import COL_NAMES
+from xlbudget.rwxlb import COL_NAMES, df_drop_duplicates
 
 
 class InputFormat(NamedTuple):
@@ -76,5 +76,7 @@ def parse_input(path: str, format: InputFormat) -> pd.DataFrame:
 
     # rename to match `COL_NAMES`
     df = df.set_axis(COL_NAMES, axis="columns")
+
+    df = df_drop_duplicates(df)
 
     return df
