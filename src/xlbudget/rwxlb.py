@@ -67,9 +67,8 @@ def create_year_sheet(wb: Workbook, year: int) -> None:
         year (int): The year.
     """
     index = 0
-    for sheetname in wb.sheetnames:
-        sheet_year = int(sheetname)
-        print(sheet_year, type(sheet_year))
+    for sheet_name in wb.sheetnames:
+        sheet_year = int(sheet_name)
         if year < sheet_year:
             break
         elif year == sheet_year:
@@ -83,7 +82,8 @@ def create_year_sheet(wb: Workbook, year: int) -> None:
     for c_start in range(1, (len(COL_NAMES) + 1) * num_tables + 1, len(COL_NAMES) + 1):
         month_ind = c_start // (len(COL_NAMES) + 1)
         month = MONTH_NAME_0_IND[month_ind]
-        logger.debug(f"creating {month} table")
+        table_name = _get_table_name(month, year)
+        logger.debug(f"creating {table_name} table")
 
         # table title
         ws.cell(row=1, column=c_start).value = month
@@ -96,7 +96,7 @@ def create_year_sheet(wb: Workbook, year: int) -> None:
 
         # table sum
         sum = ws.cell(row=1, column=c_start + len(COL_NAMES) - 1)
-        sum.value = f"=SUM({month}[{COL_NAMES[-1]}])"
+        sum.value = f"=SUM({table_name}[{COL_NAMES[-1]}])"
         sum.number_format = FORMAT_ACCOUNTING
         logger.debug(f"created sum cell {sum.coordinate}='{sum.value}'")
 
@@ -119,8 +119,8 @@ def create_year_sheet(wb: Workbook, year: int) -> None:
         c_start_ltr = get_column_letter(c_start)
         c_end_ltr = get_column_letter(c_start + len(COL_NAMES) - 1)
         ref = f"{c_start_ltr}2:{c_end_ltr}3"
-        logger.debug(f"table {ref=}")
-        tab = Table(displayName=month, ref=ref)
+        logger.debug(f"creating table {table_name} with {ref=}")
+        tab = Table(displayName=table_name, ref=ref)
 
         # add a default style with striped rows and banded columns
         style = TableStyleInfo(
@@ -152,29 +152,31 @@ def update_xlbudget(wb: Workbook, df: pd.DataFrame):
     # create year sheets as needed
     for year in range(oldest_date.year, newest_date.year + 1):
         if str(year) not in wb.sheetnames:
+            logger.info(f"Creating {year} sheet")
             create_year_sheet(wb, year)
 
     # initialize table positions dictionary
     # maps worksheet names to dictionaries that map table names to their position.
     table_pos: Dict[str, Dict[str, TablePosition]] = {}
     for year in range(oldest_date.year, newest_date.year + 1):
-        year_name = str(year)
-        table_pos[year_name] = {}
+        sheet_name = str(year)
+        table_pos[sheet_name] = {}
 
         start_month = oldest_date.month if year == oldest_date.year else 1
         end_month = newest_date.month if year == newest_date.year else 12
         for month in range(start_month, end_month + 1):
             month_name = calendar.month_name[month]
-            logger.debug(f"Initializing table {month_name} in sheet {year_name}")
-            ref = wb[year_name].tables[month_name].ref
-            table_pos[year_name][month_name] = TablePosition(ref)
+            table_name = _get_table_name(month=month_name, year=sheet_name)
+            logger.debug(f"Initializing table {table_name} in sheet {sheet_name}")
+            ref = wb[sheet_name].tables[table_name].ref
+            table_pos[sheet_name][table_name] = TablePosition(ref)
 
     # update df with transactions in wb
     logger.debug(f"{df.shape=} before checking existing transactions")
-    for year_name in table_pos.keys():
-        ws = wb[year_name]
+    for sheet_name in table_pos.keys():
+        ws = wb[sheet_name]
 
-        for month_name, pos in table_pos[year_name].items():
+        for pos in table_pos[sheet_name].values():
             is_populated = bool(ws.cell(row=pos.next_row, column=pos.first_col).value)
             if is_populated:
                 for r in range(pos.next_row, pos.initial_last_row + 1):
@@ -196,9 +198,9 @@ def update_xlbudget(wb: Workbook, df: pd.DataFrame):
         logger.debug(f"Writing transaction {row} to workbook")
 
         # get worksheet and table position
-        year_name = str(row.Date.year)
-        month_name = calendar.month_name[row.Date.month]
-        ws, pos = wb[year_name], table_pos[year_name][month_name]
+        sheet_name, month_name = str(row.Date.year), calendar.month_name[row.Date.month]
+        table_name = _get_table_name(month=month_name, year=sheet_name)
+        ws, pos = wb[sheet_name], table_pos[sheet_name][table_name]
 
         # set date cell
         date_cell = ws.cell(row=pos.next_row, column=pos.first_col)
@@ -216,9 +218,9 @@ def update_xlbudget(wb: Workbook, df: pd.DataFrame):
         pos.next_row += 1
 
     # update table refs
-    for year_name in table_pos.keys():
-        for month_name, pos in table_pos[year_name].items():
-            tab = wb[year_name].tables[month_name]
+    for sheet_name in table_pos.keys():
+        for table_name, pos in table_pos[sheet_name].items():
+            tab = wb[sheet_name].tables[table_name]
             ref = pos.get_ref()
             if ref != tab.ref:
                 logger.debug(
@@ -242,3 +244,7 @@ def df_drop_duplicates(df: pd.DataFrame) -> pd.DataFrame:
         logger.warn(f"Duplicate transactions exist:\n{duplicates}")
         return df[~duplicated]
     return df
+
+
+def _get_table_name(month, year):
+    return f"_{month}{year}"
