@@ -23,6 +23,7 @@ class Command(ABC):
         default_path (str): The default path of the xlbudget file.
 
     Attributes:
+        trial (bool): If True, the xlbudget file will not be generated/modified.
         path (str): The path to the xlbudget file.
     """
 
@@ -46,6 +47,12 @@ class Command(ABC):
             parser (ArgumentParser): The argument parser.
         """
         parser.add_argument(
+            "-t",
+            "--trial",
+            action="store_true",
+            help="try a command without generating/updating the xlbudget file",
+        )
+        parser.add_argument(
             "-p",
             "--path",
             help="path to the xlbudget file (default: %(default)s)",
@@ -59,6 +66,8 @@ class Command(ABC):
 
     @abstractmethod
     def __init__(self, args: Namespace) -> None:
+        self.trial = args.trial
+
         self._check_path(args.path)
         self.path = args.path
 
@@ -142,8 +151,11 @@ class Generate(Command):
         logger.info(f"Creating {year} sheet")
         create_year_sheet(wb, year)
 
-        logger.info(f"Saving to {self.path}")
-        wb.save(self.path)
+        if not self.trial:
+            logger.info(f"Saving xlbudget file to {self.path}")
+            wb.save(self.path)
+        else:
+            logger.info(f"Trial run: not saving xlbudget file to {self.path}")
 
 
 class Update(Command):
@@ -223,8 +235,11 @@ class Update(Command):
         logger.info("Updating xlbudget file")
         update_xlbudget(wb, df)
 
-        logger.info(f"Saving xlbudget file to {self.path}")
-        wb.save(self.path)
+        if not self.trial:
+            logger.info(f"Saving xlbudget file to {self.path}")
+            wb.save(self.path)
+        else:
+            logger.info(f"Trial run: not saving xlbudget file to {self.path}")
 
 
 def get_command_classes() -> List[Type[Command]]:
