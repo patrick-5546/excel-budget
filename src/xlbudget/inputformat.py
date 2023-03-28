@@ -35,7 +35,7 @@ BMO_CC = InputFormat(
         "Transaction Amount",
         "Description",
     ],
-    usecols=[3, 5, 4],
+    usecols=[2, 5, 4],
 )
 
 
