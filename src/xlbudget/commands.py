@@ -146,7 +146,11 @@ class Generate(Command):
         Raises:
             FileExistsError: If `self.force` is false and the file exists.
         """
+        # create workbook without any sheets
         wb = Workbook()
+        ws = wb.active
+        wb.remove(ws)
+
         year = datetime.date.today().year
         logger.info(f"Creating {year} sheet")
         create_year_sheet(wb, year)
