@@ -19,6 +19,7 @@ MONTH_NAME_0_IND = calendar.month_name[1:]
 
 COL_NAMES = ["Date", "Description", "Amount"]
 COL_FORMATS = [FORMAT_DATE, None, FORMAT_ACCOUNTING]
+COL_WIDTHS = [12, 20, 12]
 
 
 class TablePosition:
@@ -89,10 +90,13 @@ def create_year_sheet(wb: Workbook, year: str):
             # header
             ws.cell(row=2, column=c).value = COL_NAMES[i]
 
-            # formatting
+            # column format
             cell = ws.cell(row=3, column=c)
             if COL_FORMATS[i]:
                 cell.number_format = COL_FORMATS[i]
+
+            # column width
+            ws.column_dimensions[get_column_letter(c)].width = COL_WIDTHS[i]
 
         # create table
         c_start_ltr = get_column_letter(c_start)
