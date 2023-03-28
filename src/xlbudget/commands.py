@@ -8,10 +8,10 @@ from argparse import ArgumentParser, Namespace, _SubParsersAction
 from logging import getLogger
 from typing import List, Type
 
-from openpyxl import Workbook
+from openpyxl import Workbook, load_workbook
 
-import xlbudget.inputformat as infmt
-import xlbudget.rwxlb as rwx
+from xlbudget.inputformat import GetInputFormats, parse_input
+from xlbudget.rwxlb import create_year_sheet, update_xlbudget
 
 logger = getLogger(__name__)
 
@@ -137,13 +137,12 @@ class Generate(Command):
         Raises:
             FileExistsError: If `self.force` is false and the file exists.
         """
-        logger.info("generating an empty xlbudget file")
-
         wb = Workbook()
         year = str(datetime.date.today().year)
-        logger.info(f"creating {year} sheet")
-        rwx.create_year_sheet(wb, year)
-        logger.info(f"saving to {self.path}")
+        logger.info(f"Creating {year} sheet")
+        create_year_sheet(wb, year)
+
+        logger.info(f"Saving to {self.path}")
         wb.save(self.path)
 
 
@@ -180,8 +179,8 @@ class Update(Command):
         parser.add_argument("input", help="path to the input file")
         parser.add_argument(
             "format",
-            action=infmt.GetInputFormats,
-            choices=infmt.GetInputFormats.input_formats.keys(),
+            action=GetInputFormats,
+            choices=GetInputFormats.input_formats.keys(),
             help="select an input file format",
         )
 
@@ -214,9 +213,18 @@ class Update(Command):
 
     def run(self) -> None:
         logger.info(f"Parsing input file {self.input}")
-        df = infmt.parse_input(self.input, self.format)
+        df = parse_input(self.input, self.format)
         logger.debug(f"input file: {df.shape=}, df.dtypes=\n{df.dtypes}")
         logger.debug(f"df.head()=\n{df.head()}")
+
+        logger.info(f"Loading xlbudget file {self.path}")
+        wb = load_workbook(self.path)
+
+        logger.info("Updating xlbudget file")
+        update_xlbudget(wb, df)
+
+        logger.info(f"Saving xlbudget file to {self.path}")
+        wb.save(self.path)
 
 
 def get_command_classes() -> List[Type[Command]]:
