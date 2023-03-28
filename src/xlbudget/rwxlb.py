@@ -66,7 +66,18 @@ def create_year_sheet(wb: Workbook, year: int) -> None:
         wb (openpyxl.workbook.workbook.Workbook): The workbook to create the sheet in.
         year (int): The year.
     """
-    ws = wb.create_sheet(str(year))
+    index = 0
+    for sheetname in wb.sheetnames:
+        sheet_year = int(sheetname)
+        print(sheet_year, type(sheet_year))
+        if year < sheet_year:
+            break
+        elif year == sheet_year:
+            raise ValueError(f"Year sheet {year} already exists")
+
+        index += 1
+    logger.debug(f"Creating sheet {year} at {index=}")
+    ws = wb.create_sheet(str(year), index)
     num_tables = len(MONTH_NAME_0_IND)
 
     for c_start in range(1, (len(COL_NAMES) + 1) * num_tables + 1, len(COL_NAMES) + 1):
