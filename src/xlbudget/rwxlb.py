@@ -142,11 +142,7 @@ def update_xlbudget(wb: Workbook, df: pd.DataFrame):
         wb (openpyxl.workbook.workbook.Workbook): The xlbudget workbook.
         df (pd.DataFrame): The input file dataframe.
     """
-    # sort transactions to make the oldest transactions come first
-    df = df.sort_values(by=list(df.columns), ascending=True)
-
-    oldest_date = df.iloc[0].Date
-    newest_date = df.iloc[-1].Date
+    oldest_date, newest_date = df[df.columns[0]].agg(["min", "max"])
     logger.debug(f"{oldest_date=}, {newest_date=}")
 
     # create year sheets as needed
