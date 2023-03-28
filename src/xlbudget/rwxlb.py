@@ -25,8 +25,8 @@ COL_WIDTHS = [12, 20, 12]
 class TablePosition:
     """The state and bounds of a worksheet table."""
 
-    def __init__(self, range: str) -> None:
-        start, end = range.split(":")
+    def __init__(self, ref: str) -> None:
+        start, end = ref.split(":")
 
         self.__first_col, self.__header_row = coordinate_from_string(start)
         self.next_row = self.__header_row + 1
@@ -44,7 +44,7 @@ class TablePosition:
             f"first_col={self.first_col})"
         )
 
-    def get_range(self) -> str:
+    def get_ref(self) -> str:
         last_row = (
             self.__initial_last_row
             if self.__initial_last_row == self.next_row
@@ -125,14 +125,28 @@ def update_xlbudget(wb: Workbook, df: pd.DataFrame):
         wb (openpyxl.workbook.workbook.Workbook): The xlbudget workbook.
         df (pd.DataFrame): The input file dataframe.
     """
+    # sort transactions to make the oldest transactions come first
+    df = df.sort_values(by=COL_NAMES[0], ascending=True)
+
+    oldest_date = df.iloc[0].Date
+    newest_date = df.iloc[-1].Date
+    logger.debug(f"{oldest_date=}, {newest_date=}")
+
     # initialize table positions dictionary
     # maps worksheet names to dictionaries that map table names to their position.
     table_pos: Dict[str, Dict[str, TablePosition]] = {}
-    for ws in wb.worksheets:
-        table_pos[ws.title] = {}
-        for name, range in ws.tables.items():
-            logger.debug(f"Initializing position for table {name} in sheet {ws.title}")
-            table_pos[ws.title][name] = TablePosition(range)
+    for year in range(oldest_date.year, newest_date.year + 1):
+        year_name = str(year)
+        table_pos[year_name] = {}
+
+        start_month = oldest_date.month if year == oldest_date.year else 1
+        end_month = newest_date.month if year == newest_date.year else 12
+
+        for month in range(start_month, end_month + 1):
+            month_name = calendar.month_name[month]
+            logger.debug(f"Initializing table {month_name} in sheet {year_name}")
+            ref = wb[year_name].tables[month_name].ref
+            table_pos[year_name][month_name] = TablePosition(ref)
 
     # write input file to wb
     for row in df.itertuples(index=False):
@@ -158,13 +172,13 @@ def update_xlbudget(wb: Workbook, df: pd.DataFrame):
 
         pos.next_row += 1
 
-    # update table ranges
-    for ws in wb.worksheets:
-        for tab in ws.tables.values():
-            pos = table_pos[ws.title][tab.name]
-            range = pos.get_range()
-            if range != tab.ref:
+    # update table refs
+    for year_name in table_pos.keys():
+        for month_name, pos in table_pos[year_name].items():
+            tab = wb[year_name].tables[month_name]
+            ref = pos.get_ref()
+            if ref != tab.ref:
                 logger.debug(
-                    f"Updating range of table {tab.name} from {tab.ref} to {range}"
+                    f"Updating ref of table {tab.name} from {tab.ref} to {ref}"
                 )
-                tab.ref = pos.get_range()
+                tab.ref = pos.get_ref()
