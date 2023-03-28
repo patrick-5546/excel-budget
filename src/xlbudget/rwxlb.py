@@ -59,14 +59,14 @@ class TablePosition:
         return f"{self.__first_col}{self.__header_row}:{self.__last_col}{last_row}"
 
 
-def create_year_sheet(wb: Workbook, year: str):
+def create_year_sheet(wb: Workbook, year: int) -> None:
     """Creates a year sheet, with a table for each month.
 
     Args:
         wb (openpyxl.workbook.workbook.Workbook): The workbook to create the sheet in.
-        year (str): The year.
+        year (int): The year.
     """
-    ws = wb.create_sheet(year)
+    ws = wb.create_sheet(str(year))
     num_tables = len(MONTH_NAME_0_IND)
 
     for c_start in range(1, (len(COL_NAMES) + 1) * num_tables + 1, len(COL_NAMES) + 1):
@@ -137,6 +137,11 @@ def update_xlbudget(wb: Workbook, df: pd.DataFrame):
     oldest_date = df.iloc[0].Date
     newest_date = df.iloc[-1].Date
     logger.debug(f"{oldest_date=}, {newest_date=}")
+
+    # create year sheets as needed
+    for year in range(oldest_date.year, newest_date.year + 1):
+        if str(year) not in wb.sheetnames:
+            create_year_sheet(wb, year)
 
     # initialize table positions dictionary
     # maps worksheet names to dictionaries that map table names to their position.
