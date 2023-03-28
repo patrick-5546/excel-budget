@@ -47,7 +47,7 @@ class GetInputFormats(Action):
         input_formats (Dict[str, InputFormat]): Maps format names to values.
     """
 
-    input_formats: Dict[str, InputFormat] = {"BMO_CC": BMO_CC}
+    input_formats: Dict[str, InputFormat] = {fmt: globals()[fmt] for fmt in ("BMO_CC",)}
 
     def __call__(self, parser, namespace, values, option_string=None):
         setattr(namespace, self.dest, self.input_formats[values])
