@@ -23,7 +23,9 @@ COL_WIDTHS = [12, 20, 12]
 
 
 class TablePosition:
-    """The state and bounds of a worksheet table."""
+    """The state and bounds of a worksheet table.
+    Mangled variables and properties are used to create read-only fields.
+    """
 
     def __init__(self, ref: str) -> None:
         start, end = ref.split(":")
@@ -38,16 +40,20 @@ class TablePosition:
     def first_col(self) -> int:
         return self.__first_col_ind
 
+    @property
+    def initial_last_row(self) -> int:
+        return self.__initial_last_row
+
     def __repr__(self) -> str:
         return (
             f"{self.__class__.__name__}(next_row={self.next_row}, "
-            f"first_col={self.first_col})"
+            f"first_col={self.first_col}, initial_last_row={self.initial_last_row})"
         )
 
     def get_ref(self) -> str:
         last_row = (
-            self.__initial_last_row
-            if self.__initial_last_row == self.next_row
+            self.initial_last_row
+            if self.initial_last_row == self.next_row
             else self.next_row - 1
         )
         return f"{self.__first_col}{self.__header_row}:{self.__last_col}{last_row}"
@@ -126,7 +132,7 @@ def update_xlbudget(wb: Workbook, df: pd.DataFrame):
         df (pd.DataFrame): The input file dataframe.
     """
     # sort transactions to make the oldest transactions come first
-    df = df.sort_values(by=COL_NAMES[0], ascending=True)
+    df = df.sort_values(by=list(df.columns), ascending=True)
 
     oldest_date = df.iloc[0].Date
     newest_date = df.iloc[-1].Date
@@ -141,21 +147,42 @@ def update_xlbudget(wb: Workbook, df: pd.DataFrame):
 
         start_month = oldest_date.month if year == oldest_date.year else 1
         end_month = newest_date.month if year == newest_date.year else 12
-
         for month in range(start_month, end_month + 1):
             month_name = calendar.month_name[month]
             logger.debug(f"Initializing table {month_name} in sheet {year_name}")
             ref = wb[year_name].tables[month_name].ref
             table_pos[year_name][month_name] = TablePosition(ref)
 
-    # write input file to wb
+    # update df with transactions in wb
+    logger.debug(f"{df.shape=} before checking existing transactions")
+    for year_name in table_pos.keys():
+        ws = wb[year_name]
+
+        for month_name, pos in table_pos[year_name].items():
+            is_populated = bool(ws.cell(row=pos.next_row, column=pos.first_col).value)
+            if is_populated:
+                for r in range(pos.next_row, pos.initial_last_row + 1):
+                    transaction = []
+                    for i in range(len(COL_NAMES)):
+                        c = pos.first_col + i
+                        transaction.append(ws.cell(row=r, column=c).value)
+
+                    logger.debug(f"Appending {transaction=} to dataframe")
+                    # ignore mypy error and implicitly cast to df.dtypes
+                    df.loc[len(df)] = transaction  # type: ignore[call-overload]
+    df = df_drop_duplicates(df)
+    # re-sort transactions to make the oldest transactions come first
+    df = df.sort_values(by=list(df.columns), ascending=True)
+    logger.debug(f"{df.shape=} after checking existing transactions")
+
+    # write dataframe to wb
     for row in df.itertuples(index=False):
         logger.debug(f"Writing transaction {row} to workbook")
 
         # get worksheet and table position
-        year = str(row.Date.year)
-        month = calendar.month_name[row.Date.month]
-        ws, pos = wb[year], table_pos[year][month]
+        year_name = str(row.Date.year)
+        month_name = calendar.month_name[row.Date.month]
+        ws, pos = wb[year_name], table_pos[year_name][month_name]
 
         # set date cell
         date_cell = ws.cell(row=pos.next_row, column=pos.first_col)
@@ -182,3 +209,20 @@ def update_xlbudget(wb: Workbook, df: pd.DataFrame):
                     f"Updating ref of table {tab.name} from {tab.ref} to {ref}"
                 )
                 tab.ref = pos.get_ref()
+
+
+def df_drop_duplicates(df: pd.DataFrame) -> pd.DataFrame:
+    """Checks for duplicate rows, dropping them in place if any.
+
+    Args:
+        df (pd.DataFrame): The original dataframe.
+
+    Returns:
+        A[n] `pd.DataFrame` without any duplicate rows.
+    """
+    duplicated = df.duplicated()
+    duplicates = df[duplicated]
+    if not duplicates.empty:
+        logger.warn(f"Duplicate transactions exist:\n{duplicates}")
+        return df[~duplicated]
+    return df
