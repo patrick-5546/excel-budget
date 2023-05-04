@@ -5,7 +5,7 @@ from typing import Dict, List, NamedTuple
 
 import pandas as pd
 
-from xlbudget.rwxlb import COLUMNS, df_drop_duplicates, df_drop_ignores
+from xlbudget.rwxlb import COLUMNS, df_drop_ignores
 
 
 class InputFormat(NamedTuple):
@@ -63,6 +63,9 @@ def parse_input(path: str, format: InputFormat) -> pd.DataFrame:
         path (str): The path to the input file.
         format (InputFormat): The input file format.
 
+    Raises:
+        ValueError: If input file contains duplicate transactions.
+
     Returns:
         A[n] `pd.DataFrame` where the columns match the xlbudget file's column names.
     """
@@ -74,13 +77,14 @@ def parse_input(path: str, format: InputFormat) -> pd.DataFrame:
         skip_blank_lines=False,
     )
 
+    if df.duplicated().any():
+        raise ValueError("Input file contains duplicate transactions")
+
     # order to match `COLUMNS`
     df = df[format.get_usecols_names()]
 
     # rename to match `COLUMNS`
     df = df.set_axis([c.name for c in COLUMNS], axis="columns")
-
-    df = df_drop_duplicates(df)
 
     # drop ignored transactions
     for ignore in format.ignores:
