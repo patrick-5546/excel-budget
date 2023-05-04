@@ -52,7 +52,7 @@ BMO_ACCT = InputFormat(
         "Description",
     ],
     usecols=[2, 4, 3],
-    ignores=["TF"],
+    ignores=["[CW] TF"],
 )
 
 
