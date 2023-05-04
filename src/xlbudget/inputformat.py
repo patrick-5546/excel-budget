@@ -42,6 +42,20 @@ BMO_CC = InputFormat(
 )
 
 
+BMO_ACCT = InputFormat(
+    header=3,
+    names=[
+        "First Bank Card",
+        "Transaction Type",
+        "Date Posted",
+        "Transaction Amount",
+        "Description",
+    ],
+    usecols=[2, 4, 3],
+    ignores=["TF"],
+)
+
+
 class GetInputFormats(Action):
     """Argparse action for the format argument.
     Adapted from [this Stack Overflow answer](https://stackoverflow.com/a/50799463).
@@ -50,7 +64,9 @@ class GetInputFormats(Action):
         input_formats (Dict[str, InputFormat]): Maps format names to values.
     """
 
-    input_formats: Dict[str, InputFormat] = {fmt: globals()[fmt] for fmt in ("BMO_CC",)}
+    input_formats: Dict[str, InputFormat] = {
+        fmt: globals()[fmt] for fmt in ("BMO_CC", "BMO_ACCT")
+    }
 
     def __call__(self, parser, namespace, values, option_string=None):
         setattr(namespace, self.dest, self.input_formats[values])
