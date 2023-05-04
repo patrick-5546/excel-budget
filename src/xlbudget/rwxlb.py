@@ -2,7 +2,7 @@
 
 import calendar
 from logging import getLogger
-from typing import Dict
+from typing import Dict, NamedTuple
 
 import pandas as pd
 from openpyxl import Workbook
@@ -17,9 +17,18 @@ FORMAT_DATE = "MM/DD/YYYY"
 
 MONTH_NAME_0_IND = calendar.month_name[1:]
 
-COL_NAMES = ["Date", "Description", "Amount"]
-COL_FORMATS = [FORMAT_DATE, None, FORMAT_ACCOUNTING]
-COL_WIDTHS = [12, 20, 12]
+
+class ColumnSpecs(NamedTuple):
+    name: str
+    format: str
+    width: int
+
+
+COLUMNS = [
+    ColumnSpecs(name="Date", format=FORMAT_DATE, width=12),
+    ColumnSpecs(name="Description", format="", width=20),
+    ColumnSpecs(name="Amount", format=FORMAT_ACCOUNTING, width=12),
+]
 
 
 class TablePosition:
@@ -79,8 +88,8 @@ def create_year_sheet(wb: Workbook, year: int) -> None:
     ws = wb.create_sheet(str(year), index)
     num_tables = len(MONTH_NAME_0_IND)
 
-    for c_start in range(1, (len(COL_NAMES) + 1) * num_tables + 1, len(COL_NAMES) + 1):
-        month_ind = c_start // (len(COL_NAMES) + 1)
+    for c_start in range(1, (len(COLUMNS) + 1) * num_tables + 1, len(COLUMNS) + 1):
+        month_ind = c_start // (len(COLUMNS) + 1)
         month = MONTH_NAME_0_IND[month_ind]
         table_name = _get_table_name(month, year)
         logger.debug(f"creating {table_name} table")
@@ -91,33 +100,33 @@ def create_year_sheet(wb: Workbook, year: int) -> None:
             start_row=1,
             start_column=c_start,
             end_row=1,
-            end_column=c_start + len(COL_NAMES) - 2,
+            end_column=c_start + len(COLUMNS) - 2,
         )
 
         # table sum
-        sum = ws.cell(row=1, column=c_start + len(COL_NAMES) - 1)
-        sum.value = f"=SUM({table_name}[{COL_NAMES[-1]}])"
+        sum = ws.cell(row=1, column=c_start + len(COLUMNS) - 1)
+        sum.value = f"=SUM({table_name}[{COLUMNS[-1].name}])"
         sum.number_format = FORMAT_ACCOUNTING
         logger.debug(f"created sum cell {sum.coordinate}='{sum.value}'")
 
         # table header and formating
-        for i in range(len(COL_NAMES)):
+        for i in range(len(COLUMNS)):
             c = c_start + i
 
             # header
-            ws.cell(row=2, column=c).value = COL_NAMES[i]
+            ws.cell(row=2, column=c).value = COLUMNS[i].name
 
             # column format
             cell = ws.cell(row=3, column=c)
-            if COL_FORMATS[i]:
-                cell.number_format = COL_FORMATS[i]
+            if COLUMNS[i].format:
+                cell.number_format = COLUMNS[i].format
 
             # column width
-            ws.column_dimensions[get_column_letter(c)].width = COL_WIDTHS[i]
+            ws.column_dimensions[get_column_letter(c)].width = COLUMNS[i].width
 
         # create table
         c_start_ltr = get_column_letter(c_start)
-        c_end_ltr = get_column_letter(c_start + len(COL_NAMES) - 1)
+        c_end_ltr = get_column_letter(c_start + len(COLUMNS) - 1)
         ref = f"{c_start_ltr}2:{c_end_ltr}3"
         logger.debug(f"creating table {table_name} with {ref=}")
         tab = Table(displayName=table_name, ref=ref)
@@ -177,7 +186,7 @@ def update_xlbudget(wb: Workbook, df: pd.DataFrame):
             if is_populated:
                 for r in range(pos.next_row, pos.initial_last_row + 1):
                     transaction = []
-                    for i in range(len(COL_NAMES)):
+                    for i in range(len(COLUMNS)):
                         c = pos.first_col + i
                         transaction.append(ws.cell(row=r, column=c).value)
 

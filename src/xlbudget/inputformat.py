@@ -5,7 +5,7 @@ from typing import Dict, List, NamedTuple
 
 import pandas as pd
 
-from xlbudget.rwxlb import COL_NAMES, df_drop_duplicates
+from xlbudget.rwxlb import COLUMNS, df_drop_duplicates
 
 
 class InputFormat(NamedTuple):
@@ -14,7 +14,7 @@ class InputFormat(NamedTuple):
     Attributes:
         header (int): The 0-indexed row of the header in the input file.
         names (List[str]): The column names.
-        usecols (List[int]): The indices of columns that map to `COL_NAMES`
+        usecols (List[int]): The indices of columns that map to `COLUMNS`
     """
 
     header: int
@@ -61,7 +61,7 @@ def parse_input(path: str, format: InputFormat) -> pd.DataFrame:
         format (InputFormat): The input file format.
 
     Returns:
-        A[n] `pd.DataFrame` where the columns match the xlbudget file's `COL_NAMES`.
+        A[n] `pd.DataFrame` where the columns match the xlbudget file's column names.
     """
     df = pd.read_csv(
         path,
@@ -71,11 +71,11 @@ def parse_input(path: str, format: InputFormat) -> pd.DataFrame:
         skip_blank_lines=False,
     )
 
-    # order to match `COL_NAMES`
+    # order to match `COLUMNS`
     df = df[format.get_usecols_names()]
 
-    # rename to match `COL_NAMES`
-    df = df.set_axis(COL_NAMES, axis="columns")
+    # rename to match `COLUMNS`
+    df = df.set_axis([c.name for c in COLUMNS], axis="columns")
 
     df = df_drop_duplicates(df)
 
