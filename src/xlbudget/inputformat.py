@@ -98,6 +98,8 @@ def parse_input(path: str, format: InputFormat) -> pd.DataFrame:
     if df.duplicated().any():
         raise ValueError("Input file contains duplicate transactions")
 
+    df.columns = df.columns.str.strip()
+
     # order to match `COLUMNS`
     df = df[format.get_usecols_names()]
 
