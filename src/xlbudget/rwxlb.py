@@ -269,5 +269,22 @@ def df_drop_ignores(df: pd.DataFrame, ignore: str) -> pd.DataFrame:
     return df
 
 
+def df_drop_na(df: pd.DataFrame) -> pd.DataFrame:
+    """Checks for rows that contain only `na` values, dropping them in place if any.
+
+    Args:
+        df (pd.DataFrame): The original dataframe.
+
+    Returns:
+        A[n] `pd.DataFrame` without any rows that are entirely `na`.
+    """
+    na = df.isna().all(axis=1)
+    nas = df[na]
+    if not nas.empty:
+        logger.warn(f"Dropping rows that contain only `na` values:\n{nas}")
+        return df[~na]
+    return df
+
+
 def _get_table_name(month, year):
     return f"_{month}{year}"

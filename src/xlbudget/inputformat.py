@@ -5,7 +5,7 @@ from typing import Dict, List, NamedTuple
 
 import pandas as pd
 
-from xlbudget.rwxlb import COLUMNS, df_drop_ignores
+from xlbudget.rwxlb import COLUMNS, df_drop_ignores, df_drop_na
 
 
 class InputFormat(NamedTuple):
@@ -92,6 +92,8 @@ def parse_input(path: str, format: InputFormat) -> pd.DataFrame:
         parse_dates=[0],
         skip_blank_lines=False,
     )
+
+    df = df_drop_na(df)
 
     if df.duplicated().any():
         raise ValueError("Input file contains duplicate transactions")
