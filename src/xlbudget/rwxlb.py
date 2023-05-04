@@ -246,8 +246,26 @@ def df_drop_duplicates(df: pd.DataFrame) -> pd.DataFrame:
     duplicated = df.duplicated()
     duplicates = df[duplicated]
     if not duplicates.empty:
-        logger.warn(f"Duplicate transactions exist:\n{duplicates}")
+        logger.warn(f"Dropping duplicate transactions:\n{duplicates}")
         return df[~duplicated]
+    return df
+
+
+def df_drop_ignores(df: pd.DataFrame, ignore: str) -> pd.DataFrame:
+    """Checks for rows that start with `ignore`, dropping them in place if any.
+
+    Args:
+        df (pd.DataFrame): The original dataframe.
+        ignore (str): The string that begins descriptions to ignore.
+
+    Returns:
+        A[n] `pd.DataFrame` without any rows that start with `ignore`.
+    """
+    ignored = df["Description"].str.startswith(ignore)
+    ignores = df[ignored]
+    if not ignores.empty:
+        logger.warn(f"Dropping ignored transactions:\n{ignores}")
+        return df[~ignored]
     return df
 
 

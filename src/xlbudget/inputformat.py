@@ -5,7 +5,7 @@ from typing import Dict, List, NamedTuple
 
 import pandas as pd
 
-from xlbudget.rwxlb import COLUMNS, df_drop_duplicates
+from xlbudget.rwxlb import COLUMNS, df_drop_duplicates, df_drop_ignores
 
 
 class InputFormat(NamedTuple):
@@ -14,12 +14,14 @@ class InputFormat(NamedTuple):
     Attributes:
         header (int): The 0-indexed row of the header in the input file.
         names (List[str]): The column names.
-        usecols (List[int]): The indices of columns that map to `COLUMNS`
+        usecols (List[int]): The indices of columns that map to `COLUMNS`.
+        ignores (List[str]): Ignore transactions that start with these strings.
     """
 
     header: int
     names: List[str]
     usecols: List[int]
+    ignores: List[str]
 
     def get_usecols_names(self):
         return [self.names[i] for i in self.usecols]
@@ -36,6 +38,7 @@ BMO_CC = InputFormat(
         "Description",
     ],
     usecols=[2, 5, 4],
+    ignores=["TRSF FROM"],
 )
 
 
@@ -78,5 +81,9 @@ def parse_input(path: str, format: InputFormat) -> pd.DataFrame:
     df = df.set_axis([c.name for c in COLUMNS], axis="columns")
 
     df = df_drop_duplicates(df)
+
+    # drop ignored transactions
+    for ignore in format.ignores:
+        df = df_drop_ignores(df, ignore)
 
     return df
