@@ -32,12 +32,34 @@ class Command(ABC):
     @property
     @abstractmethod
     def name(self) -> str:
-        pass
+        """Ensures that the `name` class attribute is defined in subclasses.
+        Part 1/2 of the abstract attribute implementation of `name`.
+        Reference: https://stackoverflow.com/a/53417582.
+        """
+        raise NotImplementedError
+
+    def get_name(self) -> str:
+        """Used to access the `name` class attribute defined in subclasses.
+        Part 2/2 of the abstract attribute implementation of `name`.
+        Reference: https://stackoverflow.com/a/53417582.
+        """
+        return self.name
 
     @property
     @abstractmethod
     def aliases(self) -> List[str]:
-        pass
+        """Ensures that the `aliases` class attribute is defined in subclasses.
+        Part 1/2 of the abstract attribute implementation of `aliases`.
+        Reference: https://stackoverflow.com/a/53417582.
+        """
+        raise NotImplementedError
+
+    def get_aliases(self) -> List[str]:
+        """Used to access the `aliases` class attribute defined in subclasses.
+        Part 2/2 of the abstract attribute implementation of `aliases`.
+        Reference: https://stackoverflow.com/a/53417582.
+        """
+        return self.aliases
 
     @classmethod
     def configure_common_args(cls, parser: ArgumentParser) -> None:
