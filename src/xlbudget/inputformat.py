@@ -29,6 +29,19 @@ class InputFormat(NamedTuple):
 
 # define input formats below
 
+BMO_ACCT = InputFormat(
+    header=3,
+    names=[
+        "First Bank Card",
+        "Transaction Type",
+        "Date Posted",
+        "Transaction Amount",
+        "Description",
+    ],
+    usecols=[2, 4, 3],
+    ignores=["[CW] TF"],
+)
+
 BMO_CC = InputFormat(
     header=2,
     names=[
@@ -43,19 +56,6 @@ BMO_CC = InputFormat(
     ignores=["TRSF FROM"],
 )
 
-
-BMO_ACCT = InputFormat(
-    header=3,
-    names=[
-        "First Bank Card",
-        "Transaction Type",
-        "Date Posted",
-        "Transaction Amount",
-        "Description",
-    ],
-    usecols=[2, 4, 3],
-    ignores=["[CW] TF"],
-)
 
 # define input formats above
 
