@@ -27,6 +27,8 @@ class InputFormat(NamedTuple):
         return [self.names[i] for i in self.usecols]
 
 
+# define input formats below
+
 BMO_CC = InputFormat(
     header=2,
     names=[
@@ -55,6 +57,8 @@ BMO_ACCT = InputFormat(
     ignores=["[CW] TF"],
 )
 
+# define input formats above
+
 
 class GetInputFormats(Action):
     """Argparse action for the format argument.
@@ -65,7 +69,7 @@ class GetInputFormats(Action):
     """
 
     input_formats: Dict[str, InputFormat] = {
-        fmt: globals()[fmt] for fmt in ("BMO_CC", "BMO_ACCT")
+        n: globals()[n] for n in globals() if isinstance(globals()[n], InputFormat)
     }
 
     def __call__(self, parser, namespace, values, option_string=None):
