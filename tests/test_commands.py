@@ -1,5 +1,6 @@
 """Tests the commands infrastructure: everything besides run and trivial methods."""
 
+import os
 from argparse import Namespace
 from contextlib import nullcontext as does_not_raise
 from typing import ContextManager, NamedTuple, Type
@@ -45,14 +46,17 @@ def test_default_path() -> None:
     "path,expectation",
     [
         # raises `ValueError` when `path` is not a XLSX file
-        ("test.txt", pytest.raises(ValueError)),
-        ("tests/", pytest.raises(ValueError)),
-        ("test", pytest.raises(ValueError)),
+        ("README.md", pytest.raises(ValueError)),
+        ("file_dne", pytest.raises(ValueError)),
+        ("file_dne.txt", pytest.raises(ValueError)),
+        (f"{'tests'}{os.sep}", pytest.raises(ValueError)),
+        (f"{'dir_dne'}{os.sep}", pytest.raises(ValueError)),
         # raises `FileNotFoundError` if `path` is not in an existing directory
-        ("test/test.xlsx", pytest.raises(FileNotFoundError)),
-        ("tests/test/test.xlsx", pytest.raises(FileNotFoundError)),
+        (os.path.join("invalid", "path.xlsx"), pytest.raises(FileNotFoundError)),
+        (os.path.join("tests", "invld", "path.xlsx"), pytest.raises(FileNotFoundError)),
         # otherwise does not raise any error
-        ("test.xlsx", does_not_raise()),
+        ("valid_path.xlsx", does_not_raise()),
+        (os.path.join("tests", "valid_path.xlsx"), does_not_raise()),
     ],
 )
 def test_command__check_path(path: str, expectation: ContextManager) -> None:
@@ -126,13 +130,15 @@ def test_aliases(cmd_inst: commands.Command) -> None:
     "input,expectation",
     [
         # raises `ValueError` when `input` is not a CSV file
-        ("test.txt", pytest.raises(ValueError)),
-        ("tests/", pytest.raises(ValueError)),
-        ("test", pytest.raises(ValueError)),
+        ("README.md", pytest.raises(ValueError)),
+        ("file_dne", pytest.raises(ValueError)),
+        ("file_dne.txt", pytest.raises(ValueError)),
+        (f"{'tests'}{os.sep}", pytest.raises(ValueError)),
+        (f"{'dir_dne'}{os.sep}", pytest.raises(ValueError)),
         # raises `ValueError` if `input` is not in an existing file
-        ("test/test.csv", pytest.raises(ValueError)),
-        ("tests/test.csv", pytest.raises(ValueError)),
-        ("tests/test/test.csv", pytest.raises(ValueError)),
+        (os.path.join("invalid", "path.csv"), pytest.raises(ValueError)),
+        (os.path.join("tests", "invalid_path.csv"), pytest.raises(ValueError)),
+        (os.path.join("tests", "invalid", "path.csv"), pytest.raises(ValueError)),
         # otherwise does not raise any error
         ("tests/inputs/bmo_acct.csv", does_not_raise()),
     ],
