@@ -246,7 +246,7 @@ def df_drop_duplicates(df: pd.DataFrame) -> pd.DataFrame:
     duplicated = df.duplicated()
     duplicates = df[duplicated]
     if not duplicates.empty:
-        logger.warn(f"Dropping duplicate transactions:\n{duplicates}")
+        logger.warning(f"Dropping duplicate transactions:\n{duplicates}")
         return df[~duplicated]
     return df
 
@@ -264,7 +264,7 @@ def df_drop_ignores(df: pd.DataFrame, ignore: str) -> pd.DataFrame:
     ignored = df["Description"].str.startswith(ignore)
     ignores = df[ignored]
     if not ignores.empty:
-        logger.warn(f"Dropping ignored transactions:\n{ignores}")
+        logger.warning(f"Dropping ignored transactions:\n{ignores}")
         return df[~ignored]
     return df
 
@@ -281,7 +281,7 @@ def df_drop_na(df: pd.DataFrame) -> pd.DataFrame:
     na = df.isna().all(axis=1)
     nas = df[na]
     if not nas.empty:
-        logger.warn(f"Dropping rows that contain only `na` values:\n{nas}")
+        logger.warning(f"Dropping rows that contain only `na` values:\n{nas}")
         return df[~na]
     return df
 
