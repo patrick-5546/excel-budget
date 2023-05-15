@@ -23,7 +23,9 @@ COMMANDS = [
     CommandSpecs(class_=commands.Generate, args=Namespace(force=True, **COMMAND_ARGS)),
     CommandSpecs(
         class_=commands.Update,
-        args=Namespace(input="statement-2022.csv", format=BMO_CC, **COMMAND_ARGS),
+        args=Namespace(
+            input="tests/inputs/bmo_acct.csv", format=BMO_CC, **COMMAND_ARGS
+        ),
     ),
 ]
 COMMAND_INSTS = [c.class_(c.args) for c in COMMANDS]
@@ -44,7 +46,7 @@ def test_default_path() -> None:
     [
         # raises `ValueError` when `path` is not a XLSX file
         ("test.txt", pytest.raises(ValueError)),
-        ("test/", pytest.raises(ValueError)),
+        ("tests/", pytest.raises(ValueError)),
         ("test", pytest.raises(ValueError)),
         # raises `FileNotFoundError` if `path` is not in an existing directory
         ("test/test.xlsx", pytest.raises(FileNotFoundError)),
@@ -125,13 +127,14 @@ def test_aliases(cmd_inst: commands.Command) -> None:
     [
         # raises `ValueError` when `input` is not a CSV file
         ("test.txt", pytest.raises(ValueError)),
-        ("test/", pytest.raises(ValueError)),
+        ("tests/", pytest.raises(ValueError)),
         ("test", pytest.raises(ValueError)),
         # raises `ValueError` if `input` is not in an existing file
         ("test/test.csv", pytest.raises(ValueError)),
+        ("tests/test.csv", pytest.raises(ValueError)),
         ("tests/test/test.csv", pytest.raises(ValueError)),
         # otherwise does not raise any error
-        ("statement-2022.csv", does_not_raise()),
+        ("tests/inputs/bmo_acct.csv", does_not_raise()),
     ],
 )
 def test_update__check_input(input: str, expectation: ContextManager) -> None:

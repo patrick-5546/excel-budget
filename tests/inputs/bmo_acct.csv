@@ -1,0 +1,10 @@
+﻿Following data is valid as of 20230401151157 (Year/Month/Day/Hour/Minute/Second)
+
+
+First Bank Card,Transaction Type,Date Posted, Transaction Amount,Description
+
+
+'1234123412341234',DEBIT,20230312,-12.0,[CW]INTERAC ETRNSFR SENT     JOHN SMITH             20231234123ABC123        
+'1234123412341234',CREDIT,20230321,1500.0,[CW] TF 1234#1234-123                                                          
+'1234123412341234',CREDIT,20230322,21.0,[CW]INTERAC ETRNSFR AD RECVD JOHN SMITH              20231234124AB12CD        
+'1234123412341234',DEBIT,20230329,-123.45,[DS]CANADA          TXD/DIM                                                    
