@@ -195,7 +195,7 @@ def update_xlbudget(wb: Workbook, df: pd.DataFrame):
 
                     logger.debug(f"Appending {transaction=} to dataframe")
                     # ignore mypy error and implicitly cast to df.dtypes
-                    df.loc[len(df)] = transaction  # type: ignore[call-overload]
+                    df.loc[len(df) + 1] = transaction  # type: ignore[call-overload]
     df = df_drop_duplicates(df)
     # re-sort transactions to make the oldest transactions come first
     df = df.sort_values(by=list(df.columns), ascending=True)
