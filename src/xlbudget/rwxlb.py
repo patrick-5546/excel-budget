@@ -33,10 +33,11 @@ COLUMNS = [
 
 class TablePosition:
     """The state and bounds of a worksheet table.
-    Mangled variables and properties are used to create read-only fields.
+    Read-only fields were implemented with properties that return mangled variables.
     """
 
     def __init__(self, ref: str) -> None:
+        # excel ref format: "<top left cell coordinate>:<bottom right cell coordinate>"
         start, end = ref.split(":")
 
         self.__first_col, self.__header_row = coordinate_from_string(start)
