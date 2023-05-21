@@ -61,10 +61,12 @@ class TablePosition:
         )
 
     def get_ref(self) -> str:
+        # Excel tables must have at least 2 rows: 1 header and 1+ data. `last_row` is
+        # implemented as follows so that `next_row` can be incremented consistently.
         last_row = (
-            self.initial_last_row
-            if self.initial_last_row == self.next_row
-            else self.next_row - 1
+            self.next_row - 1
+            if self.next_row - 1 >= self.__header_row + 1
+            else self.__header_row + 1
         )
         return f"{self.__first_col}{self.__header_row}:{self.__last_col}{last_row}"
 
