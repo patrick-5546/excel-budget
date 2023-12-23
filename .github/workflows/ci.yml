@@ -152,12 +152,6 @@ jobs:
           cache: pip
           cache-dependency-path: '**/requirements/docs.txt'
 
-      - name: Cache downloaded files
-        uses: actions/cache@v3
-        with:
-          key: ${{ github.ref }}
-          path: .cache
-
       - name: Download HTML coverage report
         uses: actions/download-artifact@v3
         with:
@@ -180,6 +174,12 @@ jobs:
           git config user.name ci-bot
           git config user.email ci-bot@example.com
           mike deploy --push --update-aliases main latest
+
+      - name: Cache downloaded files
+        uses: actions/cache@v3
+        with:
+          key: ${{ github.ref }}
+          path: .cache
 
   docs-delete:
     name: Delete Docs version
