@@ -58,7 +58,7 @@ jobs:
       - name: "Make coverage badge"
         if: (matrix.python-version == '3.10') && (matrix.os == 'ubuntu-latest') && (github.repository == 'patrick-5546/xlbudget') && (github.ref == 'refs/heads/main')
         # https://gist.github.com/patrick-5546/845b19d91f3d03c94677f6fae6eb414c
-        uses: schneegans/dynamic-badges-action@v1.6.0
+        uses: schneegans/dynamic-badges-action@v1.7.0
         with:
           # GIST_TOKEN is a GitHub personal access token with scope "gist".
           auth: ${{ secrets.GIST_TOKEN }}
