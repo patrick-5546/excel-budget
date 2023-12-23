@@ -9,7 +9,6 @@
         "eamodio.gitlens",
         "github.vscode-github-actions",
         "kevinrose.vsc-python-indent",
-        "matangover.mypy",
         "ms-python.black-formatter",
         "ms-python.flake8",
         "ms-python.isort",

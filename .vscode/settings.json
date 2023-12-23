@@ -16,9 +16,6 @@
     "flake8.args": ["--append-config=.flake8"],
     "flake8.importStrategy": "fromEnvironment",
     "isort.args":["--profile", "black"],
-    "mypy.runUsingActiveInterpreter": true,
-    "mypy.targets": [],
-    "python.formatting.provider": "none",
     "python.testing.pytestArgs": [
         "-Wd",
         "--cov",
