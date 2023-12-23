@@ -1,21 +1,21 @@
 {
+    // general settings
     "cSpell.enabled": true,
     "editor.renderWhitespace": "trailing",
     "editor.rulers": [88],
 
+    // python settings
     "[python]": {
         "editor.defaultFormatter": "ms-python.black-formatter",
         "editor.formatOnSave": true,
         "editor.codeActionsOnSave": {
-            "source.organizeImports": true
+            "source.organizeImports": "explicit"
         },
     },
     "autoDocstring.customTemplatePath": ".vscode/google_docstring_custom_template.mustache",
     "flake8.args": ["--append-config=.flake8"],
-    "mypy.targets": [],
+    "flake8.importStrategy": "fromEnvironment",
     "isort.args":["--profile", "black"],
-    "mypy.runUsingActiveInterpreter": true,
-    "python.formatting.provider": "none",
     "python.testing.pytestArgs": [
         "-Wd",
         "--cov",
@@ -24,6 +24,7 @@
     ],
     "python.testing.pytestEnabled": true,
 
+    // yaml settings
     "yaml.schemas": {
         "https://squidfunk.github.io/mkdocs-material/schema.json": "mkdocs.yml"
     },
@@ -33,5 +34,10 @@
         "tag:yaml.org,2002:python/name:materialx.emoji.to_svg",
         "tag:yaml.org,2002:python/name:materialx.emoji.twemoji",
         "tag:yaml.org,2002:python/name:pymdownx.superfences.fence_code_format"
-    ]
+    ],
+
+    // markdown settings
+    "workbench.editorAssociations": {
+        "*.md": "default"
+    }
 }

@@ -3,11 +3,13 @@
         "bierner.markdown-preview-github-styles",
         "cameron.vscode-pytest",
         "christian-kohler.path-intellisense",
+        "cweijan.vscode-office",
         "davidanson.vscode-markdownlint",
         "dawhite.mustache",
         "eamodio.gitlens",
+        "github.vscode-github-actions",
+        "Gruntfuggly.todo-tree",
         "kevinrose.vsc-python-indent",
-        "matangover.mypy",
         "ms-python.black-formatter",
         "ms-python.flake8",
         "ms-python.isort",
@@ -19,7 +21,6 @@
         "streetsidesoftware.code-spell-checker",
         "tamasfe.even-better-toml",
         "visualstudioexptteam.vscodeintellicode",
-        "yzhang.markdown-all-in-one",
-        "grapecity.gc-excelviewer"
+        "yzhang.markdown-all-in-one"
     ]
 }

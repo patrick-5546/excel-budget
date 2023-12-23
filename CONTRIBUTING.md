@@ -40,6 +40,7 @@ Details about each environment are given below:
 - `docs-build`: builds the docs to ensure that they are in a valid state
 - `docs-serve`: runs the docs development server
 - `format`: runs the formatters
+- `update`: updates the [dependencies](#dependencies) without upgrading
 - `upgrade`: updates the [dependencies](#dependencies)
 
 #### Running Tox Environments
@@ -76,7 +77,8 @@ The pinned dependencies can be found in `requirements/`.
     - Add project dependencies to the `dependencies` list
     - Add [environment](#tox-environments)-specific dependencies to the corresponding list
       below `[project.optional-dependencies]`
-2. Run the `upgrade` tox environment: `tox -e upgrade`
+2. Run the `update` tox environment: `tox -e update`
+    - If you want to upgrade dependencies as well, run this instead: `tox -e upgrade`
 3. Verify that the tests still pass: `tox`
 4. If you are using the development environment, recreate it: `tox devenv -e dev .venv`
 5. Commit and push the changes

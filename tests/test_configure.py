@@ -10,13 +10,11 @@ def test__configure_logger_args() -> None:
     parser = argparse.ArgumentParser()
     configure._configure_logger_args(parser)
 
-    # -d/--debug should set log level to debug
     args = parser.parse_args(["--debug"])
-    assert args.log_level == logging.DEBUG
+    assert args.log_level == logging.DEBUG, "--debug should set log level to debug"
 
-    # -v/--verbose should set log level to verbose
     args = parser.parse_args(["--verbose"])
-    assert args.log_level == logging.INFO
+    assert args.log_level == logging.INFO, "--verbose should set log level to info"
 
     # should not be able to specify -d/--debug and -v/--verbose together
     with pytest.raises(SystemExit):

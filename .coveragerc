@@ -9,7 +9,6 @@ parallel = true
 relative_files = true
 source =
     xlbudget
-    tests
 omit = *__main__.py
 
 [report]
