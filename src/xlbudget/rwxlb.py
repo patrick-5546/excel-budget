@@ -77,24 +77,23 @@ def create_year_sheet(wb: Workbook, year: int) -> None:
     Args:
         wb (openpyxl.workbook.workbook.Workbook): The workbook to create the sheet in.
         year (int): The year.
+
+    Raises:
+        ValueError: If year sheet `year` already exists in the workbook `wb`.
     """
     index = 0
-    for sheet_name in wb.sheetnames:
-        sheet_year = int(sheet_name)
-        if year < sheet_year:
-            break
-        elif year == sheet_year:
-            raise ValueError(f"Year sheet {year} already exists")
+    year_str = str(year)
+    if year_str in wb.sheetnames:
+        raise ValueError(f"Year sheet {year_str} already exists")
 
-        index += 1
-    logger.debug(f"Creating sheet {year} at {index=}")
-    ws = wb.create_sheet(str(year), index)
+    logger.debug(f"Creating sheet {year_str} at {index=}")
+    ws = wb.create_sheet(year_str, index)
     num_tables = len(MONTH_NAME_0_IND)
 
     for c_start in range(1, (len(COLUMNS) + 1) * num_tables + 1, len(COLUMNS) + 1):
         month_ind = c_start // (len(COLUMNS) + 1)
         month = MONTH_NAME_0_IND[month_ind]
-        table_name = _get_table_name(month, year)
+        table_name = _get_table_name(month, year_str)
         logger.debug(f"creating {table_name} table")
 
         # table title
@@ -268,7 +267,7 @@ def df_drop_ignores(df: pd.DataFrame, ignore: str) -> pd.DataFrame:
     ignores = df[ignored]
     if not ignores.empty:
         logger.warning(f"Dropping ignored transactions:\n{ignores}")
-        return df[~ignored]
+        return df[~ignored].reset_index(drop=True)
     return df
 
 
@@ -285,9 +284,9 @@ def df_drop_na(df: pd.DataFrame) -> pd.DataFrame:
     nas = df[na]
     if not nas.empty:
         logger.warning(f"Dropping rows that contain only `na` values:\n{nas}")
-        return df[~na]
+        return df[~na].reset_index(drop=True)
     return df
 
 
-def _get_table_name(month, year):
+def _get_table_name(month: str, year: str):
     return f"_{month}{year}"
