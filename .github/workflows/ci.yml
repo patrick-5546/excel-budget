@@ -12,11 +12,6 @@ defaults:
   run:
     shell: bash
 
-# cancel in-progress runs for the current workflow
-concurrency:
-  group: "${{ github.workflow }}-${{ github.ref }}"
-  cancel-in-progress: true
-
 env:
   PIP_DISABLE_PIP_VERSION_CHECK: 1
 
