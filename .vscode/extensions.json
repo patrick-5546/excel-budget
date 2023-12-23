@@ -8,6 +8,7 @@
         "dawhite.mustache",
         "eamodio.gitlens",
         "github.vscode-github-actions",
+        "Gruntfuggly.todo-tree",
         "kevinrose.vsc-python-indent",
         "ms-python.black-formatter",
         "ms-python.flake8",

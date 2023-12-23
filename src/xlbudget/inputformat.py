@@ -99,6 +99,9 @@ def parse_input(path: str, format: InputFormat) -> pd.DataFrame:
 
     df = df_drop_na(df)
 
+    # TODO: write issues to make ignoring duplicate transactions interactive
+    # they might not be an error
+    # TODO: investigate autocompletions
     if df.duplicated().any():
         raise ValueError("Input file contains duplicate transactions")
 
