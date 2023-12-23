@@ -1026,6 +1026,7 @@ List all tox environments and their descriptions with <code>tox list</code>.</p>
 <li><code>docs-build</code>: builds the docs to ensure that they are in a valid state</li>
 <li><code>docs-serve</code>: runs the docs development server</li>
 <li><code>format</code>: runs the formatters</li>
+<li><code>update</code>: updates the <a href="#dependencies">dependencies</a> without upgrading</li>
 <li><code>upgrade</code>: updates the <a href="#dependencies">dependencies</a></li>
 </ul>
 <h4 id="running-tox-environments">Running Tox Environments<a class="headerlink" href="#running-tox-environments" title="Permanent link">&para;</a></h4>
@@ -1074,7 +1075,10 @@ The pinned dependencies can be found in <code>requirements/</code>.</p>
   below <code>[project.optional-dependencies]</code></li>
 </ul>
 </li>
-<li>Run the <code>upgrade</code> tox environment: <code>tox -e upgrade</code></li>
+<li>Run the <code>update</code> tox environment: <code>tox -e update</code><ul>
+<li>If you want to upgrade dependencies as well, run this instead: <code>tox -e upgrade</code></li>
+</ul>
+</li>
 <li>Verify that the tests still pass: <code>tox</code></li>
 <li>If you are using the development environment, recreate it: <code>tox devenv -e dev .venv</code></li>
 <li>Commit and push the changes</li>
