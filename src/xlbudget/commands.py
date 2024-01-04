@@ -171,12 +171,12 @@ class Update(Command):
             input (str): The input path.
 
         Raises:
-            ValueError: If `input` is not a CSV file.
+            ValueError: If `input` is not a CSV or TSV file.
             ValueError: If `input` is not an existing file.
         """
-        csv_ext = ".csv"
-        if not input.endswith(csv_ext):
-            raise ValueError(f"Input '{input}' does not end with '{csv_ext}'")
+        in_ext = (".csv", ".tsv")
+        if not input.endswith(in_ext):
+            raise ValueError(f"Input '{input}' does not end with one of '{in_ext}'")
 
         if not os.path.isfile(input):
             raise ValueError(f"Input '{input}' is not an existing file")

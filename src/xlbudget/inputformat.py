@@ -3,6 +3,7 @@
 from argparse import Action
 from typing import Dict, List, NamedTuple
 
+import numpy as np
 import pandas as pd
 
 from xlbudget.rwxlb import COLUMNS, df_drop_ignores, df_drop_na
@@ -14,22 +15,59 @@ class InputFormat(NamedTuple):
     Attributes:
         header (int): The 0-indexed row of the header in the input file.
         names (List[str]): The column names.
-        usecols (List[int]): The indices of columns that map to `COLUMNS`.
+        usecols (List[int]): The first len(`COLUMNS`) elements are indices of columns
+            that map to `COLUMNS`, there may indices after for columns required for
+            post-processing.
         ignores (List[str]): Ignore transactions that contain with these regex patterns.
+        post_processing (callable): The function to call after processing.
     """
 
     header: int
     names: List[str]
     usecols: List[int]
     ignores: List[str]
+    post_processing: callable = lambda df: df
 
     def get_usecols_names(self):
-        return [self.names[i] for i in self.usecols]
+        return [self.names[i] for i in self.usecols[:3]]
+
+
+# define post processing functions below
+
+
+def bmo_acct_post_processing(df: pd.DataFrame) -> pd.DataFrame:
+    """Creates the "Amount" column.
+
+    Args:
+        df (pd.DataFrame): The dataframe with "Amount" and "Money in" columns.
+
+    Returns:
+        A[n] `pd.DataFrame` that combines "Amount" and "Money in" to create "Amount".
+    """
+    df["Amount"] = df["Amount"].replace("[$,]", "", regex=True).astype(float)
+    df["Money in"] = df["Money in"].replace("[$,]", "", regex=True).astype(float)
+    df["Amount"] = np.where(df["Money in"].isna(), df["Amount"], df["Money in"])
+    df = df.drop("Money in", axis=1)
+    return df
 
 
 # define input formats below
 
 BMO_ACCT = InputFormat(
+    header=0,
+    names=[
+        "Date",
+        "Description",
+        "Amount",  # actually named "Money out", but matches after post-processing
+        "Money in",
+        "Balance",
+    ],
+    usecols=[0, 1, 2, 3],
+    ignores=[r"^TF.*(?:285|593|625)$"],
+    post_processing=bmo_acct_post_processing,
+)
+
+BMO_ACCT_CSV = InputFormat(
     header=3,
     names=[
         "First Bank Card",
@@ -89,13 +127,19 @@ def parse_input(path: str, format: InputFormat) -> pd.DataFrame:
     Returns:
         A[n] `pd.DataFrame` where the columns match the xlbudget file's column names.
     """
+    sep = "," if path.endswith(".csv") else "\t"
     df = pd.read_csv(
         path,
+        sep=sep,
+        index_col=False,
+        names=format.names,
         header=format.header,
         usecols=format.usecols,
         parse_dates=[0],
         skip_blank_lines=False,
     )
+
+    df = format.post_processing(df)
 
     df = df_drop_na(df)
 
