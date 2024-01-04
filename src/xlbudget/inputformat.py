@@ -120,7 +120,6 @@ def parse_input(path: str, format: InputFormat) -> pd.DataFrame:
     df["Description"] = df["Description"].str.strip()
 
     # drop ignored transactions
-    for ignore in format.ignores:
-        df = df_drop_ignores(df, ignore)
+    df = df_drop_ignores(df, "|".join(format.ignores))
 
     return df
