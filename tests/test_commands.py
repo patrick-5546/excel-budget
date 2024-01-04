@@ -21,7 +21,6 @@ COMMAND_ARGS = {
     "trial": True,
 }
 COMMANDS = [
-    CommandSpecs(class_=commands.Generate, args=Namespace(force=True, **COMMAND_ARGS)),
     CommandSpecs(
         class_=commands.Update,
         args=Namespace(

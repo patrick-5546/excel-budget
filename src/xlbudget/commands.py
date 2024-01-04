@@ -1,6 +1,5 @@
 """The commands, implemented as implementations of the abstract class `Command`."""
 
-import datetime
 import os
 import sys
 from abc import ABC, abstractmethod
@@ -11,7 +10,7 @@ from typing import List, Type
 from openpyxl import Workbook, load_workbook
 
 from xlbudget.inputformat import GetInputFormats, parse_input
-from xlbudget.rwxlb import create_year_sheet, update_xlbudget
+from xlbudget.rwxlb import update_xlbudget
 
 logger = getLogger(__name__)
 
@@ -23,7 +22,7 @@ class Command(ABC):
         default_path (str): The default path of the xlbudget file.
 
     Attributes:
-        trial (bool): If True, the xlbudget file will not be generated/modified.
+        trial (bool): If True, the xlbudget file will not be written to.
         path (str): The path to the xlbudget file.
     """
 
@@ -117,74 +116,6 @@ class Command(ABC):
         pass
 
 
-class Generate(Command):
-    """The `generate` command generates a new xlbudget file.
-
-    Attributes: Class Attributes
-        name (str): The command's CLI name.
-        aliases (List[str]): The command's CLI aliases.
-
-    Attributes:
-        force (bool): If True and file exists, will overwrite it.
-    """
-
-    name: str = "generate"
-    aliases: List[str] = ["g"]
-
-    @classmethod
-    def configure_args(cls, subparsers: _SubParsersAction) -> None:
-        """Configures the argument parser for the `generate` command.
-
-        Args:
-            subparsers (_SubParsersAction): The command `subparsers`.
-        """
-        parser = _add_parser(
-            subparsers,
-            name=cls.name,
-            aliases=cls.aliases,
-            help="generate a new xlbudget file",
-            cmd_cls=Generate,
-        )
-
-        parser.add_argument(
-            "-f", "--force", action="store_true", help="overwrite file if it exists"
-        )
-
-    def __init__(self, args: Namespace) -> None:
-        super().__init__(args)
-
-        if not args.force and os.path.exists(self.path):
-            raise FileExistsError(
-                f"File {self.path} exists, run with -f/--force to overwrite"
-            )
-
-        logger.debug(f"instance variables: {vars(self)}")
-
-    def run(self) -> None:
-        """Creates an empty xlbudget file populated with:
-
-        - A sheet for the current year.
-
-        Raises:
-            FileExistsError: If `self.force` is false and the file exists.
-        """
-        # create workbook without any sheets
-        wb = Workbook()
-        ws = wb.active
-        # ignore type mismatch of active worksheet
-        wb.remove(ws)  # type: ignore[arg-type]
-
-        year = datetime.date.today().year
-        logger.info(f"Creating {year} sheet")
-        create_year_sheet(wb, year)
-
-        if not self.trial:
-            logger.info(f"Saving xlbudget file to {self.path}")
-            wb.save(self.path)
-        else:
-            logger.info(f"Trial run: not saving xlbudget file to {self.path}")
-
-
 class Update(Command):
     """The `update` command updates an existing xlbudget file.
 
@@ -256,8 +187,15 @@ class Update(Command):
         logger.debug(f"input file: {df.shape=}, df.dtypes=\n{df.dtypes}")
         logger.debug(f"df.head()=\n{df.head()}")
 
-        logger.info(f"Loading xlbudget file {self.path}")
-        wb = load_workbook(self.path)
+        if os.path.exists(self.path):
+            logger.info(f"Loading xlbudget file {self.path}")
+            wb = load_workbook(self.path)
+        else:
+            logger.warning(f"xlbudget file {self.path} does not exist, creating")
+            wb = Workbook()
+            ws = wb.active
+            # ignore type mismatch of active worksheet
+            wb.remove(ws)  # type: ignore[arg-type]
 
         logger.info("Updating xlbudget file")
         update_xlbudget(wb, df)
