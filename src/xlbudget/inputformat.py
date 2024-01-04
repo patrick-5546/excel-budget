@@ -107,11 +107,14 @@ def parse_input(path: str, format: InputFormat) -> pd.DataFrame:
 
     df.columns = df.columns.str.strip()
 
-    # order to match `COLUMNS`
+    # order columns to match `COLUMNS`
     df = df[format.get_usecols_names()]
 
-    # rename to match `COLUMNS`
+    # rename columns to match `COLUMNS`
     df = df.set_axis([c.name for c in COLUMNS], axis="columns")
+
+    # sort rows by date
+    df = df.sort_values(by=df.columns[0])
 
     # drop ignored transactions
     for ignore in format.ignores:
