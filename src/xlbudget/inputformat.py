@@ -2,7 +2,7 @@
 
 from argparse import Action
 from logging import getLogger
-from typing import Dict, List, NamedTuple
+from typing import Callable, Dict, List, NamedTuple
 
 import numpy as np
 import pandas as pd
@@ -22,14 +22,14 @@ class InputFormat(NamedTuple):
             that map to `COLUMNS`, there may indices after for columns required for
             post-processing.
         ignores (List[str]): Ignore transactions that contain with these regex patterns.
-        post_processing (callable): The function to call after processing.
+        post_processing (Callable): The function to call after processing.
     """
 
     header: int
     names: List[str]
     usecols: List[int]
     ignores: List[str]
-    post_processing: callable = lambda df: df
+    post_processing: Callable = lambda df: df
 
     def get_usecols_names(self):
         return [self.names[i] for i in self.usecols[:3]]
@@ -38,7 +38,7 @@ class InputFormat(NamedTuple):
 # define post processing functions below
 
 
-def bmo_acct_post_processing(df: pd.DataFrame) -> pd.DataFrame:
+def bmo_acct_tsv_post_processing(df: pd.DataFrame) -> pd.DataFrame:
     """Creates the "Amount" column.
 
     Args:
@@ -57,20 +57,6 @@ def bmo_acct_post_processing(df: pd.DataFrame) -> pd.DataFrame:
 # define input formats below
 
 BMO_ACCT = InputFormat(
-    header=0,
-    names=[
-        "Date",
-        "Description",
-        "Amount",  # actually named "Money out", but matches after post-processing
-        "Money in",
-        "Balance",
-    ],
-    usecols=[0, 1, 2, 3],
-    ignores=[r"^TF.*(?:285|593|625)$"],
-    post_processing=bmo_acct_post_processing,
-)
-
-BMO_ACCT_CSV = InputFormat(
     header=3,
     names=[
         "First Bank Card",
@@ -81,6 +67,20 @@ BMO_ACCT_CSV = InputFormat(
     ],
     usecols=[2, 4, 3],
     ignores=[r"^\[CW\] TF.*(?:285|593|625)$"],
+)
+
+BMO_ACCT_TSV = InputFormat(
+    header=0,
+    names=[
+        "Date",
+        "Description",
+        "Amount",  # actually named "Money out", but matches after post-processing
+        "Money in",
+        "Balance",
+    ],
+    usecols=[0, 1, 2, 3],
+    ignores=[r"^TF.*(?:285|593|625)$"],
+    post_processing=bmo_acct_tsv_post_processing,
 )
 
 BMO_CC = InputFormat(
