@@ -1440,7 +1440,7 @@ Read-only fields were implemented with properties that return mangled variables.
 
   <div class="doc doc-contents ">
   
-      <p>Checks for rows that start with <code>ignore</code>, dropping them in place if any.</p>
+      <p>Checks for rows containing <code>ignore</code>, dropping them in place if any.</p>
 
   <p><strong>Parameters:</strong></p>
   <table>
@@ -1468,7 +1468,7 @@ Read-only fields were implemented with properties that return mangled variables.
           <td>
                 <code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a></code>
           </td>
-          <td><p>The string that begins descriptions to ignore.</p></td>
+          <td><p>The regex pattern that is in descriptions to ignore.</p></td>
           <td>
               <em>required</em>
           </td>
@@ -1489,7 +1489,7 @@ Read-only fields were implemented with properties that return mangled variables.
           <td>
                 <code><a class="autorefs autorefs-external" title="pandas" href="http://pandas.pydata.org/pandas-docs/stable/index.html#module-pandas">pd</a>.<a class="autorefs autorefs-external" title="pandas.DataFrame" href="http://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html#pandas.DataFrame">DataFrame</a></code>
           </td>
-          <td><p>A[n] <code>pd.DataFrame</code> without any rows that start with <code>ignore</code>.</p></td>
+          <td><p>A[n] <code>pd.DataFrame</code> without any rows containing <code>ignore</code>.</p></td>
         </tr>
     </tbody>
   </table>
@@ -1512,16 +1512,16 @@ Read-only fields were implemented with properties that return mangled variables.
 <span class="normal"><a href="#__codelineno-0-269">269</a></span>
 <span class="normal"><a href="#__codelineno-0-270">270</a></span>
 <span class="normal"><a href="#__codelineno-0-271">271</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-256" name="__codelineno-0-256"></a><span class="k">def</span> <span class="nf">df_drop_ignores</span><span class="p">(</span><span class="n">df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">ignore</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
-<a id="__codelineno-0-257" name="__codelineno-0-257"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Checks for rows that start with `ignore`, dropping them in place if any.</span>
+<a id="__codelineno-0-257" name="__codelineno-0-257"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Checks for rows containing `ignore`, dropping them in place if any.</span>
 <a id="__codelineno-0-258" name="__codelineno-0-258"></a>
 <a id="__codelineno-0-259" name="__codelineno-0-259"></a><span class="sd">    Args:</span>
 <a id="__codelineno-0-260" name="__codelineno-0-260"></a><span class="sd">        df (pd.DataFrame): The original dataframe.</span>
-<a id="__codelineno-0-261" name="__codelineno-0-261"></a><span class="sd">        ignore (str): The string that begins descriptions to ignore.</span>
+<a id="__codelineno-0-261" name="__codelineno-0-261"></a><span class="sd">        ignore (str): The regex pattern that is in descriptions to ignore.</span>
 <a id="__codelineno-0-262" name="__codelineno-0-262"></a>
 <a id="__codelineno-0-263" name="__codelineno-0-263"></a><span class="sd">    Returns:</span>
-<a id="__codelineno-0-264" name="__codelineno-0-264"></a><span class="sd">        A[n] `pd.DataFrame` without any rows that start with `ignore`.</span>
+<a id="__codelineno-0-264" name="__codelineno-0-264"></a><span class="sd">        A[n] `pd.DataFrame` without any rows containing `ignore`.</span>
 <a id="__codelineno-0-265" name="__codelineno-0-265"></a><span class="sd">    &quot;&quot;&quot;</span>
-<a id="__codelineno-0-266" name="__codelineno-0-266"></a>    <span class="n">ignored</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;Description&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">ignore</span><span class="p">)</span>
+<a id="__codelineno-0-266" name="__codelineno-0-266"></a>    <span class="n">ignored</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;Description&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">contains</span><span class="p">(</span><span class="n">ignore</span><span class="p">)</span>
 <a id="__codelineno-0-267" name="__codelineno-0-267"></a>    <span class="n">ignores</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">ignored</span><span class="p">]</span>
 <a id="__codelineno-0-268" name="__codelineno-0-268"></a>    <span class="k">if</span> <span class="ow">not</span> <span class="n">ignores</span><span class="o">.</span><span class="n">empty</span><span class="p">:</span>
 <a id="__codelineno-0-269" name="__codelineno-0-269"></a>        <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Dropping ignored transactions:</span><span class="se">\n</span><span class="si">{</span><span class="n">ignores</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
