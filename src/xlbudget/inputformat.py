@@ -1,12 +1,15 @@
 """Input file format definitions."""
 
 from argparse import Action
+from logging import getLogger
 from typing import Dict, List, NamedTuple
 
 import numpy as np
 import pandas as pd
 
 from xlbudget.rwxlb import COLUMNS, df_drop_ignores, df_drop_na
+
+logger = getLogger(__name__)
 
 
 class InputFormat(NamedTuple):
@@ -143,12 +146,6 @@ def parse_input(path: str, format: InputFormat) -> pd.DataFrame:
 
     df = df_drop_na(df)
 
-    # TODO: write issues to make ignoring duplicate transactions interactive
-    # they might not be an error
-    # TODO: investigate autocompletions
-    if df.duplicated().any():
-        raise ValueError("Input file contains duplicate transactions")
-
     df.columns = df.columns.str.strip()
 
     # order columns to match `COLUMNS`
@@ -165,5 +162,13 @@ def parse_input(path: str, format: InputFormat) -> pd.DataFrame:
 
     # drop ignored transactions
     df = df_drop_ignores(df, "|".join(format.ignores))
+
+    # TODO: write issues to make ignoring identical transactions interactive
+    # TODO: investigate autocompletions
+    if df.duplicated().any():
+        logger.warning(
+            "The following transactions are identical:\n"
+            f"{df[df.duplicated(keep=False)]}"
+        )
 
     return df
