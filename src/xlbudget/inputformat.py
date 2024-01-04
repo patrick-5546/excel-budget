@@ -1,8 +1,9 @@
 """Input file format definitions."""
 
+import sys
 from argparse import Action
 from logging import getLogger
-from typing import Callable, Dict, List, NamedTuple
+from typing import Callable, Dict, List, NamedTuple, Optional
 
 import numpy as np
 import pandas as pd
@@ -23,6 +24,7 @@ class InputFormat(NamedTuple):
             post-processing.
         ignores (List[str]): Ignore transactions that contain with these regex patterns.
         post_processing (Callable): The function to call after processing.
+        sep (str): The separator.
     """
 
     header: int
@@ -30,6 +32,7 @@ class InputFormat(NamedTuple):
     usecols: List[int]
     ignores: List[str]
     post_processing: Callable = lambda df: df
+    seperator: str = ","
 
     def get_usecols_names(self):
         return [self.names[i] for i in self.usecols[:3]]
@@ -81,6 +84,7 @@ BMO_ACCT_TSV = InputFormat(
     usecols=[0, 1, 2, 3],
     ignores=[r"^TF.*(?:285|593|625)$"],
     post_processing=bmo_acct_tsv_post_processing,
+    seperator="\t",
 )
 
 BMO_CC = InputFormat(
@@ -117,26 +121,28 @@ class GetInputFormats(Action):
         setattr(namespace, self.dest, self.input_formats[values])
 
 
-def parse_input(path: str, format: InputFormat) -> pd.DataFrame:
-    """Parses an input file.
+def parse_input(input: Optional[str], format: InputFormat) -> pd.DataFrame:
+    """Parses an input.
 
     Args:
-        path (str): The path to the input file.
-        format (InputFormat): The input file format.
+        input (Optional[str]): The path to the input file, if None parse from stdin.
+        format (InputFormat): The input format.
 
     Raises:
-        ValueError: If input file contains duplicate transactions.
+        ValueError: If input contains duplicate transactions.
 
     Returns:
         A[n] `pd.DataFrame` where the columns match the xlbudget file's column names.
     """
-    sep = "," if path.endswith(".csv") else "\t"
+    if input is None:
+        print("Paste your transactions here (CTRL+D twice to end):")
+
     df = pd.read_csv(
-        path,
-        sep=sep,
+        input if input is not None else sys.stdin,
+        sep=format.seperator,
         index_col=False,
         names=format.names,
-        header=format.header,
+        header=format.header if input is not None else 0,
         usecols=format.usecols,
         parse_dates=[0],
         skip_blank_lines=False,
@@ -155,7 +161,7 @@ def parse_input(path: str, format: InputFormat) -> pd.DataFrame:
     df = df.set_axis([c.name for c in COLUMNS], axis="columns")
 
     # sort rows by date
-    df = df.sort_values(by="Date")
+    df = df.sort_values(by=list(df.columns), ascending=True)
 
     # strip whitespace from descriptions
     df["Description"] = df["Description"].str.strip()

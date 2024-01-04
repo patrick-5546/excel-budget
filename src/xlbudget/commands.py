@@ -5,7 +5,7 @@ import sys
 from abc import ABC, abstractmethod
 from argparse import ArgumentParser, Namespace, _SubParsersAction
 from logging import getLogger
-from typing import List, Type
+from typing import List, Optional, Type
 
 from openpyxl import Workbook, load_workbook
 
@@ -124,7 +124,7 @@ class Update(Command):
         aliases (List[str]): The command's CLI aliases.
 
     Attributes:
-        input (str): The path to the input file.
+        input (Optional[str]): The path to the input file, otherwise paste in terminal.
         format (inputformat.InputFormat): The input file format.
     """
 
@@ -146,13 +146,13 @@ class Update(Command):
             cmd_cls=Update,
         )
 
-        parser.add_argument("input", help="path to the input file")
         parser.add_argument(
             "format",
             action=GetInputFormats,
             choices=GetInputFormats.input_formats.keys(),
-            help="select an input file format",
+            help="select an input format",
         )
+        parser.add_argument("-i", "--input", help="path to the input file")
 
     def __init__(self, args: Namespace) -> None:
         super().__init__(args)
@@ -164,16 +164,19 @@ class Update(Command):
         logger.debug(f"instance variables: {vars(self)}")
 
     @staticmethod
-    def _check_input(input: str) -> None:
-        """Check that `input` is a valid path to an input file.
+    def _check_input(input: Optional[str]) -> None:
+        """Check that `input` is `None` or a valid path to an input file.
 
         Args:
-            input (str): The input path.
+            input (Optional[str]): The input path.
 
         Raises:
-            ValueError: If `input` is not a CSV or TSV file.
-            ValueError: If `input` is not an existing file.
+            ValueError: If `input` is not None or a CSV or TSV file.
+            ValueError: If `input` is not None or an existing file.
         """
+        if input is None:
+            return
+
         in_ext = (".csv", ".tsv")
         if not input.endswith(in_ext):
             raise ValueError(f"Input '{input}' does not end with one of '{in_ext}'")
@@ -182,7 +185,7 @@ class Update(Command):
             raise ValueError(f"Input '{input}' is not an existing file")
 
     def run(self) -> None:
-        logger.info(f"Parsing input file {self.input}")
+        logger.info(f"Parsing input {self.input}")
         df = parse_input(self.input, self.format)
         logger.debug(f"input file: {df.shape=}, df.dtypes=\n{df.dtypes}")
         logger.debug(f"df.head()=\n{df.head()}")
