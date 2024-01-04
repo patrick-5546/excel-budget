@@ -15,7 +15,7 @@ class InputFormat(NamedTuple):
         header (int): The 0-indexed row of the header in the input file.
         names (List[str]): The column names.
         usecols (List[int]): The indices of columns that map to `COLUMNS`.
-        ignores (List[str]): Ignore transactions that start with these strings.
+        ignores (List[str]): Ignore transactions that contain with these regex patterns.
     """
 
     header: int
@@ -39,7 +39,7 @@ BMO_ACCT = InputFormat(
         "Description",
     ],
     usecols=[2, 4, 3],
-    ignores=["[CW] TF"],
+    ignores=[r"^\[CW\] TF.*(?:285|593|625)$"],
 )
 
 BMO_CC = InputFormat(
@@ -53,7 +53,7 @@ BMO_CC = InputFormat(
         "Description",
     ],
     usecols=[2, 5, 4],
-    ignores=["TRSF FROM"],
+    ignores=[r"^TRSF FROM.*285"],
 )
 
 
@@ -107,14 +107,19 @@ def parse_input(path: str, format: InputFormat) -> pd.DataFrame:
 
     df.columns = df.columns.str.strip()
 
-    # order to match `COLUMNS`
+    # order columns to match `COLUMNS`
     df = df[format.get_usecols_names()]
 
-    # rename to match `COLUMNS`
+    # rename columns to match `COLUMNS`
     df = df.set_axis([c.name for c in COLUMNS], axis="columns")
 
+    # sort rows by date
+    df = df.sort_values(by="Date")
+
+    # strip whitespace from descriptions
+    df["Description"] = df["Description"].str.strip()
+
     # drop ignored transactions
-    for ignore in format.ignores:
-        df = df_drop_ignores(df, ignore)
+    df = df_drop_ignores(df, "|".join(format.ignores))
 
     return df

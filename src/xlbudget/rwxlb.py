@@ -254,16 +254,16 @@ def df_drop_duplicates(df: pd.DataFrame) -> pd.DataFrame:
 
 
 def df_drop_ignores(df: pd.DataFrame, ignore: str) -> pd.DataFrame:
-    """Checks for rows that start with `ignore`, dropping them in place if any.
+    """Checks for rows containing `ignore`, dropping them in place if any.
 
     Args:
         df (pd.DataFrame): The original dataframe.
-        ignore (str): The string that begins descriptions to ignore.
+        ignore (str): The regex pattern that is in descriptions to ignore.
 
     Returns:
-        A[n] `pd.DataFrame` without any rows that start with `ignore`.
+        A[n] `pd.DataFrame` without any rows containing `ignore`.
     """
-    ignored = df["Description"].str.startswith(ignore)
+    ignored = df["Description"].str.contains(ignore)
     ignores = df[ignored]
     if not ignores.empty:
         logger.warning(f"Dropping ignored transactions:\n{ignores}")

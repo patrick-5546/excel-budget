@@ -23,3 +23,6 @@ site/
 
 # excel files
 *.xlsx
+
+# directory for statements
+statements/
