@@ -41,11 +41,11 @@ class InputFormat(NamedTuple):
 # define post processing functions below
 
 
-def bmo_acct_tsv_post_processing(df: pd.DataFrame) -> pd.DataFrame:
+def bmo_acct_web_post_processing(df: pd.DataFrame) -> pd.DataFrame:
     """Creates the "Amount" column.
 
     Args:
-        df (pd.DataFrame): The dataframe with "Amount" and "Money in" columns.
+        df (pd.DataFrame): The dataframe to process.
 
     Returns:
         A[n] `pd.DataFrame` that combines "Amount" and "Money in" to create "Amount".
@@ -57,7 +57,23 @@ def bmo_acct_tsv_post_processing(df: pd.DataFrame) -> pd.DataFrame:
     return df
 
 
+def bmo_cc_web_post_processing(df: pd.DataFrame) -> pd.DataFrame:
+    """Formats the "Money in/out" column.
+
+    Args:
+        df (pd.DataFrame): The dataframe to process.
+
+    Returns:
+        A[n] `pd.DataFrame` that converts "Money in/out" to a float.
+    """
+    df["Money in/out"] = (
+        df["Money in/out"].replace("[$,]", "", regex=True).astype(float)
+    )
+    return df
+
+
 # define input formats below
+
 
 BMO_ACCT = InputFormat(
     header=3,
@@ -72,7 +88,7 @@ BMO_ACCT = InputFormat(
     ignores=[r"^\[CW\] TF.*(?:285|593|625)$"],
 )
 
-BMO_ACCT_TSV = InputFormat(
+BMO_ACCT_WEB = InputFormat(
     header=0,
     names=[
         "Date",
@@ -83,7 +99,7 @@ BMO_ACCT_TSV = InputFormat(
     ],
     usecols=[0, 1, 2, 3],
     ignores=[r"^TF.*(?:285|593|625)$"],
-    post_processing=bmo_acct_tsv_post_processing,
+    post_processing=bmo_acct_web_post_processing,
     seperator="\t",
 )
 
@@ -99,6 +115,19 @@ BMO_CC = InputFormat(
     ],
     usecols=[2, 5, 4],
     ignores=[r"^TRSF FROM.*285"],
+)
+
+BMO_CC_WEB = InputFormat(
+    header=0,
+    names=[
+        "Transaction date",
+        "Description",
+        "Money in/out",
+    ],
+    usecols=[0, 1, 2],
+    ignores=[r"^TRSF FROM.*285"],
+    post_processing=bmo_cc_web_post_processing,
+    seperator="\t",
 )
 
 
@@ -135,20 +164,26 @@ def parse_input(input: Optional[str], format: InputFormat) -> pd.DataFrame:
         A[n] `pd.DataFrame` where the columns match the xlbudget file's column names.
     """
     if input is None:
-        print("Paste your transactions here (CTRL+D twice to end):")
+        print("Paste your transactions here (CTRL+D twice on a blank line to end):")
 
     df = pd.read_csv(
         input if input is not None else sys.stdin,
         sep=format.seperator,
         index_col=False,
         names=format.names,
-        header=format.header if input is not None else 0,
+        header=format.header if input is not None else None,
         usecols=format.usecols,
         parse_dates=[0],
         skip_blank_lines=False,
     )
 
+    if input is None:
+        print("---End of transactions---")
+
     df = format.post_processing(df)
+
+    # convert first column to datetime and replace any invalid values with NaT
+    df[df.columns[0]] = pd.to_datetime(df[df.columns[0]], errors="coerce")
 
     df = df_drop_na(df)
 
