@@ -2,20 +2,26 @@
 
 import calendar
 from logging import getLogger
-from typing import Dict, NamedTuple
+from typing import Dict, List, NamedTuple
 
 import pandas as pd
 from openpyxl import Workbook
+from openpyxl.chart import BarChart, Reference
+from openpyxl.styles import Alignment, Font
 from openpyxl.utils import get_column_letter
 from openpyxl.utils.cell import column_index_from_string, coordinate_from_string
 from openpyxl.worksheet.table import Table, TableStyleInfo
+from openpyxl.worksheet.worksheet import Worksheet
 
 logger = getLogger(__name__)
 
 FORMAT_ACCOUNTING = '_($* #,##0.00_);_($* (#,##0.00);_($* "-"??_);_(@_)'
 FORMAT_DATE = "MM/DD/YYYY"
+FORMAT_NUMBER = '_($* #,##0_);_($* (#,##0);_($* "-"??_);_(@_)'
 
 MONTH_NAME_0_IND = calendar.month_name[1:]
+MONTH_TABLES_ROW = 17
+MONTH_TABLES_COL = 6
 
 
 class ColumnSpecs(NamedTuple):
@@ -24,10 +30,16 @@ class ColumnSpecs(NamedTuple):
     width: int
 
 
-COLUMNS = [
+MONTH_COLUMNS = [
     ColumnSpecs(name="Date", format=FORMAT_DATE, width=12),
     ColumnSpecs(name="Description", format="", width=20),
     ColumnSpecs(name="Amount", format=FORMAT_ACCOUNTING, width=12),
+]
+SUMMARY_COLUMNS = [
+    ColumnSpecs(name="Month", format="", width=12),
+    ColumnSpecs(name="Incomes", format=FORMAT_ACCOUNTING, width=12),
+    ColumnSpecs(name="Expenses", format=FORMAT_ACCOUNTING, width=12),
+    ColumnSpecs(name="Net", format=FORMAT_ACCOUNTING, width=12),
 ]
 
 
@@ -47,6 +59,10 @@ class TablePosition:
         self.__last_col, self.__initial_last_row = coordinate_from_string(end)
 
     @property
+    def header_row(self) -> int:
+        return self.__header_row
+
+    @property
     def first_col(self) -> int:
         return self.__first_col_ind
 
@@ -57,7 +73,8 @@ class TablePosition:
     def __repr__(self) -> str:
         return (
             f"{self.__class__.__name__}(next_row={self.next_row}, "
-            f"first_col={self.first_col}, initial_last_row={self.initial_last_row})"
+            f"first_col={self.first_col}, initial_last_row={self.initial_last_row}, "
+            f"header_row={self.header_row})"
         )
 
     def get_ref(self) -> str:
@@ -65,10 +82,10 @@ class TablePosition:
         # implemented as follows so that `next_row` can be incremented consistently.
         last_row = (
             self.next_row - 1
-            if self.next_row - 1 >= self.__header_row + 1
-            else self.__header_row + 1
+            if self.next_row - 1 >= self.header_row + 1
+            else self.header_row + 1
         )
-        return f"{self.__first_col}{self.__header_row}:{self.__last_col}{last_row}"
+        return f"{self.__first_col}{self.header_row}:{self.__last_col}{last_row}"
 
 
 def create_year_sheet(wb: Workbook, year: int) -> None:
@@ -90,60 +107,144 @@ def create_year_sheet(wb: Workbook, year: int) -> None:
     ws = wb.create_sheet(year_str, index)
     num_tables = len(MONTH_NAME_0_IND)
 
-    for c_start in range(1, (len(COLUMNS) + 1) * num_tables + 1, len(COLUMNS) + 1):
-        month_ind = c_start // (len(COLUMNS) + 1)
+    for c_start in range(
+        MONTH_TABLES_COL,
+        (len(MONTH_COLUMNS) + 1) * num_tables + MONTH_TABLES_COL,
+        len(MONTH_COLUMNS) + 1,
+    ):
+        month_ind = (c_start - MONTH_TABLES_COL) // (len(MONTH_COLUMNS) + 1)
         month = MONTH_NAME_0_IND[month_ind]
-        table_name = _get_table_name(month, year_str)
+        table_name = _get_month_table_name(month, year_str)
         logger.debug(f"creating {table_name} table")
 
-        # table title
-        ws.cell(row=1, column=c_start).value = month
-        ws.merge_cells(
-            start_row=1,
-            start_column=c_start,
-            end_row=1,
-            end_column=c_start + len(COLUMNS) - 2,
+        _add_table(
+            ws, table_name, c_start, r_start=MONTH_TABLES_ROW, columns=MONTH_COLUMNS
         )
 
-        # table sum
-        sum = ws.cell(row=1, column=c_start + len(COLUMNS) - 1)
-        sum.value = f"=SUM({table_name}[{COLUMNS[-1].name}])"
-        sum.number_format = FORMAT_ACCOUNTING
-        logger.debug(f"created sum cell {sum.coordinate}='{sum.value}'")
+    logger.debug("Creating summary table")
+    summ_table_name = _get_summary_table_name(year_str)
+    _add_table(ws, summ_table_name, c_start=1, r_start=1, columns=SUMMARY_COLUMNS)
+    summ_tab = ws.tables[summ_table_name]
+    summ_tab_pos = TablePosition(ref=summ_tab.ref)
 
-        # table header and formating
-        for i in range(len(COLUMNS)):
-            c = c_start + i
+    for month in MONTH_NAME_0_IND:
+        month_table_name = _get_month_table_name(month, year_str)
+        table_range = f"{month_table_name}[{MONTH_COLUMNS[-1].name}]"
 
-            # header
-            ws.cell(row=2, column=c).value = COLUMNS[i].name
+        # set month cell
+        ws.cell(row=summ_tab_pos.next_row, column=summ_tab_pos.first_col).value = month
 
-            # column format
-            cell = ws.cell(row=3, column=c)
-            if COLUMNS[i].format:
-                cell.number_format = COLUMNS[i].format
-
-            # column width
-            ws.column_dimensions[get_column_letter(c)].width = COLUMNS[i].width
-
-        # create table
-        c_start_ltr = get_column_letter(c_start)
-        c_end_ltr = get_column_letter(c_start + len(COLUMNS) - 1)
-        ref = f"{c_start_ltr}2:{c_end_ltr}3"
-        logger.debug(f"creating table {table_name} with {ref=}")
-        tab = Table(displayName=table_name, ref=ref)
-
-        # add a default style with striped rows and banded columns
-        style = TableStyleInfo(
-            name="TableStyleMedium9",
-            showFirstColumn=False,
-            showLastColumn=False,
-            showRowStripes=True,
-            showColumnStripes=True,
+        # set incomes cell
+        incomes_cell = ws.cell(
+            row=summ_tab_pos.next_row, column=summ_tab_pos.first_col + 1
         )
-        tab.tableStyleInfo = style
+        incomes_cell.value = f'=SUMIFS({table_range}, {table_range}, ">0")'
+        incomes_cell.number_format = SUMMARY_COLUMNS[1].format
 
-        ws.add_table(tab)
+        # set expenses cell
+        expenses_cell = ws.cell(
+            row=summ_tab_pos.next_row, column=summ_tab_pos.first_col + 2
+        )
+        expenses_cell.value = f'=-SUMIFS({table_range}, {table_range}, "<=0")'
+        expenses_cell.number_format = SUMMARY_COLUMNS[2].format
+
+        # set net cell
+        net_cell = ws.cell(row=summ_tab_pos.next_row, column=summ_tab_pos.first_col + 3)
+        net_cell.value = f"={incomes_cell.coordinate}-{expenses_cell.coordinate}"
+        net_cell.number_format = SUMMARY_COLUMNS[3].format
+
+        summ_tab_pos.next_row += 1
+
+    summ_tab.ref = summ_tab_pos.get_ref()
+
+    # compute totals
+    # set month cell
+    ws.cell(row=summ_tab_pos.next_row, column=summ_tab_pos.first_col).value = "Total"
+
+    # set other cells and create charts
+    for i in range(1, len(SUMMARY_COLUMNS)):
+        cell = ws.cell(row=summ_tab_pos.next_row, column=summ_tab_pos.first_col + i)
+        cell.value = f"=SUM({summ_table_name}[{SUMMARY_COLUMNS[i].name}])"
+        cell.number_format = SUMMARY_COLUMNS[i].format
+
+        chart = BarChart()
+        data = Reference(
+            ws,
+            min_col=i + 1,
+            min_row=summ_tab_pos.header_row,
+            max_row=summ_tab_pos.next_row - 1,
+        )
+        cats = Reference(
+            ws,
+            min_col=summ_tab_pos.first_col,
+            min_row=summ_tab_pos.header_row + 1,
+            max_row=summ_tab_pos.next_row - 1,
+        )
+        chart.add_data(data, titles_from_data=True)
+        chart.set_categories(cats)
+        chart.legend = None
+        chart.y_axis.numFmt = FORMAT_NUMBER
+        chart.height = 7.5
+        chart.width = 8.5  # type: ignore[assignment]
+        start_col = MONTH_TABLES_COL + (i - 1) * (len(MONTH_COLUMNS) + 1)
+        anchor = f"{get_column_letter(start_col)}1"
+        ws.add_chart(chart, anchor)
+
+
+def _add_table(
+    ws: Worksheet,
+    table_name: str,
+    c_start: int,
+    r_start: int,
+    columns: List[ColumnSpecs],
+):
+    # table title
+    table_title = ws.cell(row=r_start, column=c_start)
+    table_title.value = table_name
+    table_title.font = Font(bold=True)
+    table_title.alignment = Alignment(horizontal="center")
+    ws.merge_cells(
+        start_row=r_start,
+        start_column=c_start,
+        end_row=r_start,
+        end_column=c_start + len(columns) - 1,
+    )
+
+    # table header and formating
+    header_row = r_start + 1
+    transactions_row = r_start + 2
+    for i in range(len(columns)):
+        c = c_start + i
+
+        # header
+        ws.cell(row=header_row, column=c).value = columns[i].name
+
+        # column format
+        cell = ws.cell(row=transactions_row, column=c)
+        if columns[i].format:
+            cell.number_format = columns[i].format
+
+        # column width
+        ws.column_dimensions[get_column_letter(c)].width = columns[i].width
+
+    # create table
+    c_start_ltr = get_column_letter(c_start)
+    c_end_ltr = get_column_letter(c_start + len(columns) - 1)
+    ref = f"{c_start_ltr}{header_row}:{c_end_ltr}{transactions_row}"
+    logger.debug(f"creating table {table_name} with {ref=}")
+    tab = Table(displayName=table_name, ref=ref)
+
+    # add a default style with striped rows and banded columns
+    style = TableStyleInfo(
+        name="TableStyleMedium9",
+        showFirstColumn=False,
+        showLastColumn=False,
+        showRowStripes=True,
+        showColumnStripes=True,
+    )
+    tab.tableStyleInfo = style
+
+    ws.add_table(tab)
 
 
 def update_xlbudget(wb: Workbook, df: pd.DataFrame):
@@ -173,7 +274,7 @@ def update_xlbudget(wb: Workbook, df: pd.DataFrame):
         end_month = newest_date.month if year == newest_date.year else 12
         for month in range(start_month, end_month + 1):
             month_name = calendar.month_name[month]
-            table_name = _get_table_name(month=month_name, year=sheet_name)
+            table_name = _get_month_table_name(month=month_name, year=sheet_name)
             logger.debug(f"Initializing table {table_name} in sheet {sheet_name}")
             ref = wb[sheet_name].tables[table_name].ref
             table_pos[sheet_name][table_name] = TablePosition(ref)
@@ -188,7 +289,7 @@ def update_xlbudget(wb: Workbook, df: pd.DataFrame):
             if is_populated:
                 for r in range(pos.next_row, pos.initial_last_row + 1):
                     transaction = []
-                    for i in range(len(COLUMNS)):
+                    for i in range(len(MONTH_COLUMNS)):
                         c = pos.first_col + i
                         transaction.append(ws.cell(row=r, column=c).value)
 
@@ -206,13 +307,13 @@ def update_xlbudget(wb: Workbook, df: pd.DataFrame):
 
         # get worksheet and table position
         sheet_name, month_name = str(row.Date.year), calendar.month_name[row.Date.month]
-        table_name = _get_table_name(month=month_name, year=sheet_name)
+        table_name = _get_month_table_name(month=month_name, year=sheet_name)
         ws, pos = wb[sheet_name], table_pos[sheet_name][table_name]
 
         # set date cell
         date_cell = ws.cell(row=pos.next_row, column=pos.first_col)
         date_cell.value = row.Date
-        date_cell.number_format = FORMAT_DATE
+        date_cell.number_format = MONTH_COLUMNS[0].format
 
         # set description cell
         ws.cell(row=pos.next_row, column=pos.first_col + 1).value = row.Description
@@ -220,7 +321,7 @@ def update_xlbudget(wb: Workbook, df: pd.DataFrame):
         # set amount cell
         amount_cell = ws.cell(row=pos.next_row, column=pos.first_col + 2)
         amount_cell.value = row.Amount
-        amount_cell.number_format = FORMAT_ACCOUNTING
+        amount_cell.number_format = MONTH_COLUMNS[2].format
 
         pos.next_row += 1
 
@@ -288,5 +389,9 @@ def df_drop_na(df: pd.DataFrame) -> pd.DataFrame:
     return df
 
 
-def _get_table_name(month: str, year: str):
+def _get_month_table_name(month: str, year: str):
     return f"_{month}{year}"
+
+
+def _get_summary_table_name(year: str):
+    return f"_Summary{year}"

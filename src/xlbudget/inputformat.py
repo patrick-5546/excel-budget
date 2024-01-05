@@ -9,7 +9,7 @@ from typing import Callable, Dict, List, NamedTuple, Optional
 import numpy as np
 import pandas as pd
 
-from xlbudget.rwxlb import COLUMNS, df_drop_ignores, df_drop_na
+from xlbudget.rwxlb import MONTH_COLUMNS, df_drop_ignores, df_drop_na
 
 logger = getLogger(__name__)
 
@@ -20,9 +20,9 @@ class InputFormat(NamedTuple):
     Attributes:
         header (int): The 0-indexed row of the header in the input file.
         names (List[str]): The column names.
-        usecols (List[int]): The first len(`COLUMNS`) elements are indices of columns
-            that map to `COLUMNS`, there may indices after for columns required for
-            post-processing.
+        usecols (List[int]): The first len(`MONTH_COLUMNS`) elements are indices of
+            columns that map to `MONTH_COLUMNS`, there may indices after for columns
+            required for post-processing.
         ignores (List[str]): Ignore transactions that contain with these regex patterns.
         pre_processing (Callable): The function to call before `pd.read_csv()`.
         post_processing (Callable): The function to call after `pd.read_csv()`.
@@ -265,11 +265,11 @@ def parse_input(
 
     df.columns = df.columns.str.strip()
 
-    # order columns to match `COLUMNS`
+    # order columns to match `MONTH_COLUMNS`
     df = df[format.get_usecols_names()]
 
-    # rename columns to match `COLUMNS`
-    df = df.set_axis([c.name for c in COLUMNS], axis="columns")
+    # rename columns to match `MONTH_COLUMNS`
+    df = df.set_axis([c.name for c in MONTH_COLUMNS], axis="columns")
 
     # sort rows by date
     df = df.sort_values(by=list(df.columns), ascending=True)
