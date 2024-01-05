@@ -16,6 +16,8 @@ FORMAT_ACCOUNTING = '_($* #,##0.00_);_($* (#,##0.00);_($* "-"??_);_(@_)'
 FORMAT_DATE = "MM/DD/YYYY"
 
 MONTH_NAME_0_IND = calendar.month_name[1:]
+MONTH_TABLES_ROW = 16
+MONTH_TABLES_COL = 6
 
 
 class ColumnSpecs(NamedTuple):
@@ -90,36 +92,42 @@ def create_year_sheet(wb: Workbook, year: int) -> None:
     ws = wb.create_sheet(year_str, index)
     num_tables = len(MONTH_NAME_0_IND)
 
-    for c_start in range(1, (len(COLUMNS) + 1) * num_tables + 1, len(COLUMNS) + 1):
-        month_ind = c_start // (len(COLUMNS) + 1)
+    for c_start in range(
+        MONTH_TABLES_COL,
+        (len(COLUMNS) + 1) * num_tables + MONTH_TABLES_COL,
+        len(COLUMNS) + 1,
+    ):
+        month_ind = (c_start - MONTH_TABLES_COL) // (len(COLUMNS) + 1)
         month = MONTH_NAME_0_IND[month_ind]
         table_name = _get_table_name(month, year_str)
         logger.debug(f"creating {table_name} table")
 
         # table title
-        ws.cell(row=1, column=c_start).value = month
+        ws.cell(row=MONTH_TABLES_ROW, column=c_start).value = month
         ws.merge_cells(
-            start_row=1,
+            start_row=MONTH_TABLES_ROW,
             start_column=c_start,
-            end_row=1,
+            end_row=MONTH_TABLES_ROW,
             end_column=c_start + len(COLUMNS) - 2,
         )
 
         # table sum
-        sum = ws.cell(row=1, column=c_start + len(COLUMNS) - 1)
+        sum = ws.cell(row=MONTH_TABLES_ROW, column=c_start + len(COLUMNS) - 1)
         sum.value = f"=SUM({table_name}[{COLUMNS[-1].name}])"
         sum.number_format = FORMAT_ACCOUNTING
         logger.debug(f"created sum cell {sum.coordinate}='{sum.value}'")
 
         # table header and formating
+        header_row = MONTH_TABLES_ROW + 1
+        transactions_row = MONTH_TABLES_ROW + 2
         for i in range(len(COLUMNS)):
             c = c_start + i
 
             # header
-            ws.cell(row=2, column=c).value = COLUMNS[i].name
+            ws.cell(row=header_row, column=c).value = COLUMNS[i].name
 
             # column format
-            cell = ws.cell(row=3, column=c)
+            cell = ws.cell(row=transactions_row, column=c)
             if COLUMNS[i].format:
                 cell.number_format = COLUMNS[i].format
 
@@ -129,7 +137,7 @@ def create_year_sheet(wb: Workbook, year: int) -> None:
         # create table
         c_start_ltr = get_column_letter(c_start)
         c_end_ltr = get_column_letter(c_start + len(COLUMNS) - 1)
-        ref = f"{c_start_ltr}2:{c_end_ltr}3"
+        ref = f"{c_start_ltr}{header_row}:{c_end_ltr}{transactions_row}"
         logger.debug(f"creating table {table_name} with {ref=}")
         tab = Table(displayName=table_name, ref=ref)
 
