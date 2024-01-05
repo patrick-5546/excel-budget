@@ -283,7 +283,7 @@ def df_drop_na(df: pd.DataFrame) -> pd.DataFrame:
     na = df.isna().all(axis=1)
     nas = df[na]
     if not nas.empty:
-        logger.warning(f"Dropping rows that contain only `na` values:\n{nas}")
+        logger.info(f"Dropping rows that contain only `na` values:\n{nas}")
         return df[~na].reset_index(drop=True)
     return df
 

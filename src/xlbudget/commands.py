@@ -5,11 +5,11 @@ import sys
 from abc import ABC, abstractmethod
 from argparse import ArgumentParser, Namespace, _SubParsersAction
 from logging import getLogger
-from typing import List, Type
+from typing import List, Optional, Type
 
 from openpyxl import Workbook, load_workbook
 
-from xlbudget.inputformat import GetInputFormats, parse_input
+from xlbudget.inputformat import GetInputFormats, InputFormat, parse_input
 from xlbudget.rwxlb import update_xlbudget
 
 logger = getLogger(__name__)
@@ -124,8 +124,10 @@ class Update(Command):
         aliases (List[str]): The command's CLI aliases.
 
     Attributes:
-        input (str): The path to the input file.
+        input (Optional[str]): The path to the input file, otherwise paste in terminal.
         format (inputformat.InputFormat): The input file format.
+        year (Optional[str]): The year all transactions were made, only relevant if
+            the input format is 'BMO_CC_ADOBE'.
     """
 
     name: str = "update"
@@ -146,44 +148,74 @@ class Update(Command):
             cmd_cls=Update,
         )
 
-        parser.add_argument("input", help="path to the input file")
+        # required arguments
         parser.add_argument(
             "format",
             action=GetInputFormats,
             choices=GetInputFormats.input_formats.keys(),
-            help="select an input file format",
+            help="select an input format",
+        )
+
+        # optional arguments
+        parser.add_argument("-i", "--input", help="path to the input file")
+        parser.add_argument(
+            "-y",
+            "--year",
+            help="year that all transactions were made, only relevant if input format "
+            "is 'BMO_CC_ADOBE'",
         )
 
     def __init__(self, args: Namespace) -> None:
         super().__init__(args)
 
-        self._check_input(args.input)
+        self._check_input(args.input, args.format, args.year)
         self.input = args.input
         self.format = args.format
+        self.year = args.year
 
         logger.debug(f"instance variables: {vars(self)}")
 
     @staticmethod
-    def _check_input(input: str) -> None:
-        """Check that `input` is a valid path to an input file.
+    def _check_input(
+        input: Optional[str], input_format: Optional[InputFormat], year: Optional[str]
+    ) -> None:
+        """Check that `input` and `year` are valid.
 
         Args:
-            input (str): The input path.
+            input (Optional[str]): The input path.
+            input_format (Optional[InputFormat]): The input format.
+            year (Optional[str]): The year of all transactions.
 
         Raises:
-            ValueError: If `input` is not a CSV file.
-            ValueError: If `input` is not an existing file.
+            ValueError: If `input` is not None and the wrong file extension or DNE.
+            ValueError: If `year` is None when `input_format` is 'BMO_CC_ADOBE'.
         """
-        csv_ext = ".csv"
-        if not input.endswith(csv_ext):
-            raise ValueError(f"Input '{input}' does not end with '{csv_ext}'")
+        if input is None:
+            return
+
+        in_ext = (".csv", ".tsv", ".txt")
+        if not input.endswith(in_ext):
+            raise ValueError(f"Input '{input}' does not end with one of '{in_ext}'")
 
         if not os.path.isfile(input):
             raise ValueError(f"Input '{input}' is not an existing file")
 
+        # get key from value: https://stackoverflow.com/a/13149770
+        if input_format is not None:
+            # validate year
+            format = list(GetInputFormats.input_formats.keys())[
+                list(GetInputFormats.input_formats.values()).index(input_format)
+            ]
+            if format == "BMO_CC_ADOBE" and year is None:
+                raise ValueError(f"Must specify 'year' argument when {format=}")
+
+            # validate input file type in more detail
+            if input_format.seperator == "\t" and not input.endswith(".tsv"):
+                raise ValueError(f"Input file should be TSV for {format=}")
+
     def run(self) -> None:
-        logger.info(f"Parsing input file {self.input}")
-        df = parse_input(self.input, self.format)
+        logger.info(f"Parsing input {self.input}")
+        df = parse_input(self.input, self.format, self.year)
         logger.debug(f"input file: {df.shape=}, df.dtypes=\n{df.dtypes}")
         logger.debug(f"df.head()=\n{df.head()}")
 

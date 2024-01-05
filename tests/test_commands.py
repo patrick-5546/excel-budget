@@ -24,7 +24,7 @@ COMMANDS = [
     CommandSpecs(
         class_=commands.Update,
         args=Namespace(
-            input="tests/inputs/bmo_acct.csv", format=BMO_CC, **COMMAND_ARGS
+            input="tests/inputs/bmo_acct.csv", format=BMO_CC, year=None, **COMMAND_ARGS
         ),
     ),
 ]
@@ -144,4 +144,4 @@ def test_aliases(cmd_inst: commands.Command) -> None:
 )
 def test_update__check_input(input: str, expectation: ContextManager) -> None:
     with expectation:
-        commands.Update._check_input(input)
+        commands.Update._check_input(input, input_format=None, year=None)
