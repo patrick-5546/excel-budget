@@ -179,7 +179,7 @@ class Update(Command):
     def _check_input(
         input: Optional[str], input_format: Optional[InputFormat], year: Optional[str]
     ) -> None:
-        """Check that `input` is `None` or a valid path to an input file.
+        """Check that `input` and `year` are valid.
 
         Args:
             input (Optional[str]): The input path.
@@ -187,9 +187,8 @@ class Update(Command):
             year (Optional[str]): The year of all transactions.
 
         Raises:
-            ValueError: If `input` is not None or a CSV, TSV, or TXT file.
-            ValueError: If `input` is not None or an existing file.
-            ValueError: If `format` is 'BMO_CC_ADOBE' and `year` is None.
+            ValueError: If `input` is not None and the wrong file extension or DNE.
+            ValueError: If `year` is None when `input_format` is 'BMO_CC_ADOBE'.
         """
         if input is None:
             return
@@ -203,11 +202,16 @@ class Update(Command):
 
         # get key from value: https://stackoverflow.com/a/13149770
         if input_format is not None:
+            # validate year
             format = list(GetInputFormats.input_formats.keys())[
                 list(GetInputFormats.input_formats.values()).index(input_format)
             ]
             if format == "BMO_CC_ADOBE" and year is None:
                 raise ValueError(f"Must specify 'year' argument when {format=}")
+
+            # validate input file type in more detail
+            if input_format.seperator == "\t" and not input.endswith(".tsv"):
+                raise ValueError(f"Input file should be TSV for {format=}")
 
     def run(self) -> None:
         logger.info(f"Parsing input {self.input}")
