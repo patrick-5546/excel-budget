@@ -32,6 +32,12 @@ MONTH_COLUMNS = [
     ColumnSpecs(name="Description", format="", width=20),
     ColumnSpecs(name="Amount", format=FORMAT_ACCOUNTING, width=12),
 ]
+SUMMARY_COLUMNS = [
+    ColumnSpecs(name="Month", format="", width=12),
+    ColumnSpecs(name="Incomes", format=FORMAT_ACCOUNTING, width=12),
+    ColumnSpecs(name="Expenses", format=FORMAT_ACCOUNTING, width=12),
+    ColumnSpecs(name="Net", format=FORMAT_ACCOUNTING, width=12),
+]
 
 
 class TablePosition:
@@ -100,7 +106,7 @@ def create_year_sheet(wb: Workbook, year: int) -> None:
     ):
         month_ind = (c_start - MONTH_TABLES_COL) // (len(MONTH_COLUMNS) + 1)
         month = MONTH_NAME_0_IND[month_ind]
-        table_name = _get_table_name(month, year_str)
+        table_name = _get_month_table_name(month, year_str)
         logger.debug(f"creating {table_name} table")
 
         # table title
@@ -121,6 +127,42 @@ def create_year_sheet(wb: Workbook, year: int) -> None:
         _add_table(
             ws, table_name, c_start, r_start=MONTH_TABLES_ROW, columns=MONTH_COLUMNS
         )
+
+    logger.debug("Creating summary table")
+    summ_table_name = _get_summary_table_name(year_str)
+    _add_table(ws, summ_table_name, c_start=1, r_start=1, columns=SUMMARY_COLUMNS)
+    summ_tab = ws.tables[summ_table_name]
+    summ_tab_pos = TablePosition(ref=summ_tab.ref)
+
+    for month in MONTH_NAME_0_IND:
+        month_table_name = _get_month_table_name(month, year_str)
+        table_range = f"{month_table_name}[{MONTH_COLUMNS[-1].name}]"
+
+        # set month cell
+        ws.cell(row=summ_tab_pos.next_row, column=summ_tab_pos.first_col).value = month
+
+        # set incomes cell
+        incomes_cell = ws.cell(
+            row=summ_tab_pos.next_row, column=summ_tab_pos.first_col + 1
+        )
+        incomes_cell.value = f'=SUMIFS({table_range}, {table_range}, ">0")'
+        incomes_cell.number_format = SUMMARY_COLUMNS[1].format
+
+        # set expenses cell
+        expenses_cell = ws.cell(
+            row=summ_tab_pos.next_row, column=summ_tab_pos.first_col + 2
+        )
+        expenses_cell.value = f'=-SUMIFS({table_range}, {table_range}, "<=0")'
+        expenses_cell.number_format = SUMMARY_COLUMNS[2].format
+
+        # set net cell
+        net_cell = ws.cell(row=summ_tab_pos.next_row, column=summ_tab_pos.first_col + 3)
+        net_cell.value = f"={incomes_cell.coordinate}-{expenses_cell.coordinate}"
+        net_cell.number_format = SUMMARY_COLUMNS[3].format
+
+        summ_tab_pos.next_row += 1
+
+    summ_tab.ref = summ_tab_pos.get_ref()
 
 
 def _add_table(
@@ -194,7 +236,7 @@ def update_xlbudget(wb: Workbook, df: pd.DataFrame):
         end_month = newest_date.month if year == newest_date.year else 12
         for month in range(start_month, end_month + 1):
             month_name = calendar.month_name[month]
-            table_name = _get_table_name(month=month_name, year=sheet_name)
+            table_name = _get_month_table_name(month=month_name, year=sheet_name)
             logger.debug(f"Initializing table {table_name} in sheet {sheet_name}")
             ref = wb[sheet_name].tables[table_name].ref
             table_pos[sheet_name][table_name] = TablePosition(ref)
@@ -227,13 +269,13 @@ def update_xlbudget(wb: Workbook, df: pd.DataFrame):
 
         # get worksheet and table position
         sheet_name, month_name = str(row.Date.year), calendar.month_name[row.Date.month]
-        table_name = _get_table_name(month=month_name, year=sheet_name)
+        table_name = _get_month_table_name(month=month_name, year=sheet_name)
         ws, pos = wb[sheet_name], table_pos[sheet_name][table_name]
 
         # set date cell
         date_cell = ws.cell(row=pos.next_row, column=pos.first_col)
         date_cell.value = row.Date
-        date_cell.number_format = FORMAT_DATE
+        date_cell.number_format = MONTH_COLUMNS[0].format
 
         # set description cell
         ws.cell(row=pos.next_row, column=pos.first_col + 1).value = row.Description
@@ -241,7 +283,7 @@ def update_xlbudget(wb: Workbook, df: pd.DataFrame):
         # set amount cell
         amount_cell = ws.cell(row=pos.next_row, column=pos.first_col + 2)
         amount_cell.value = row.Amount
-        amount_cell.number_format = FORMAT_ACCOUNTING
+        amount_cell.number_format = MONTH_COLUMNS[2].format
 
         pos.next_row += 1
 
@@ -309,5 +351,9 @@ def df_drop_na(df: pd.DataFrame) -> pd.DataFrame:
     return df
 
 
-def _get_table_name(month: str, year: str):
+def _get_month_table_name(month: str, year: str):
     return f"_{month}{year}"
+
+
+def _get_summary_table_name(year: str):
+    return f"_{year}"

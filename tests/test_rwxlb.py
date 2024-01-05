@@ -121,4 +121,4 @@ def test_df_drop_na(input_df, expected_df):
     ],
 )
 def test_get_table_name(month, year, expected):
-    assert rwxlb._get_table_name(month, year) == expected
+    assert rwxlb._get_month_table_name(month, year) == expected
