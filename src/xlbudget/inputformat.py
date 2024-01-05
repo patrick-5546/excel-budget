@@ -3,6 +3,7 @@
 import io
 import sys
 from argparse import Action
+from datetime import datetime
 from logging import getLogger
 from typing import Callable, Dict, List, NamedTuple, Optional
 
@@ -33,7 +34,7 @@ class InputFormat(NamedTuple):
     names: List[str]
     usecols: List[int]
     ignores: List[str]
-    pre_processing: Callable = lambda input, _: input
+    pre_processing: Callable = lambda input, year: input
     post_processing: Callable = lambda df: df
     seperator: str = ","
 
@@ -65,31 +66,29 @@ def bmo_cc_adobe_pre_processing(_input: Optional[str], year: str) -> io.StringIO
 
     rows = []
     i = 0
+    is_header = True
     while i < len(lines):
-        elements = lines[i : i + 4]
+        elems = lines[i : i + 4]
 
-        # add year to dates
-        elements[0] += f" {year}"
-        elements[1] += f" {year}"
+        # reformat dates and add year
+        if not is_header:
+            elems[0] = year + datetime.strptime(elems[0], "%b. %d").strftime("-%m-%d")
+            elems[1] = year + datetime.strptime(elems[1], "%b. %d").strftime("-%m-%d")
 
         # add negative sign to amounts that are not credited (CR on next line)
         if i + 4 < len(lines) and lines[i + 4] == "CR":
             i += 5
         else:
-            # check if amount is a float (header will not be float)
-            is_float = True
-            try:
-                float(elements[-1])
-            except ValueError:
-                is_float = False
-
-            if is_float:
-                elements[-1] = "-" + elements[-1]
+            if not is_header:
+                elems[-1] = "-" + elems[-1]
 
             i += 4
 
-        row = ",".join(elements) + "\n"
+        row = "\t".join(elems) + "\n"
         rows.append(row)
+
+        if is_header:
+            is_header = False
 
     new_input = "".join(rows)
     return io.StringIO(new_input)
@@ -142,7 +141,7 @@ BMO_ACCT = InputFormat(
         "Description",
     ],
     usecols=[2, 4, 3],
-    ignores=[r"^\[CW\] TF.*(?:285|593|625)$"],
+    ignores=[r"^\[CW\] TF.*(?:285|493|593|625)$"],
 )
 
 BMO_ACCT_WEB = InputFormat(
@@ -155,7 +154,7 @@ BMO_ACCT_WEB = InputFormat(
         "Balance",
     ],
     usecols=[0, 1, 2, 3],
-    ignores=[r"^TF.*(?:285|593|625)$"],
+    ignores=[r"^TF.*(?:285|493|593|625)$"],
     post_processing=bmo_acct_web_post_processing,
     seperator="\t",
 )
@@ -171,7 +170,7 @@ BMO_CC = InputFormat(
         "Description",
     ],
     usecols=[2, 5, 4],
-    ignores=[r"^TRSF FROM.*285"],
+    ignores=[r"^TRSF FROM.*(?:285|493|593)$"],
 )
 
 BMO_CC_WEB = InputFormat(
@@ -182,7 +181,7 @@ BMO_CC_WEB = InputFormat(
         "Money in/out",
     ],
     usecols=[0, 1, 2],
-    ignores=[r"^TRSF FROM.*285"],
+    ignores=[r"^TRSF FROM.*(?:285|493|593)$"],
     post_processing=bmo_cc_web_post_processing,
     seperator="\t",
 )
@@ -196,8 +195,9 @@ BMO_CC_ADOBE = InputFormat(
         "Amount",
     ],
     usecols=[0, 2, 3],
-    ignores=[r"^TRSF FROM.*285"],
+    ignores=[r"^TRSF FROM.*(?:285|493|593)$"],
     pre_processing=bmo_cc_adobe_pre_processing,
+    seperator="\t",
 )
 
 

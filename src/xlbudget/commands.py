@@ -210,7 +210,10 @@ class Update(Command):
                 raise ValueError(f"Must specify 'year' argument when {format=}")
 
             # validate input file type in more detail
-            if input_format.seperator == "\t" and not input.endswith(".tsv"):
+            if input.endswith(".csv") and not input_format.seperator == ",":
+                raise ValueError(f"Input file should be CSV for {format=}")
+
+            if input.endswith(".tsv") and not input_format.seperator == "\t":
                 raise ValueError(f"Input file should be TSV for {format=}")
 
     def run(self) -> None:
