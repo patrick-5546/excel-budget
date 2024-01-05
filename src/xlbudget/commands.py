@@ -9,7 +9,7 @@ from typing import List, Optional, Type
 
 from openpyxl import Workbook, load_workbook
 
-from xlbudget.inputformat import GetInputFormats, parse_input
+from xlbudget.inputformat import GetInputFormats, InputFormat, parse_input
 from xlbudget.rwxlb import update_xlbudget
 
 logger = getLogger(__name__)
@@ -126,6 +126,8 @@ class Update(Command):
     Attributes:
         input (Optional[str]): The path to the input file, otherwise paste in terminal.
         format (inputformat.InputFormat): The input file format.
+        year (Optional[str]): The year all transactions were made, only relevant if
+            the input format is 'BMO_CC_ADOBE'.
     """
 
     name: str = "update"
@@ -146,47 +148,70 @@ class Update(Command):
             cmd_cls=Update,
         )
 
+        # required arguments
         parser.add_argument(
             "format",
             action=GetInputFormats,
             choices=GetInputFormats.input_formats.keys(),
             help="select an input format",
         )
+
+        # optional arguments
         parser.add_argument("-i", "--input", help="path to the input file")
+        parser.add_argument(
+            "-y",
+            "--year",
+            help="year that all transactions were made, only relevant if input format "
+            "is 'BMO_CC_ADOBE'",
+        )
 
     def __init__(self, args: Namespace) -> None:
         super().__init__(args)
 
-        self._check_input(args.input)
+        self._check_input(args.input, args.format, args.year)
         self.input = args.input
         self.format = args.format
+        self.year = args.year
 
         logger.debug(f"instance variables: {vars(self)}")
 
     @staticmethod
-    def _check_input(input: Optional[str]) -> None:
+    def _check_input(
+        input: Optional[str], input_format: Optional[InputFormat], year: Optional[str]
+    ) -> None:
         """Check that `input` is `None` or a valid path to an input file.
 
         Args:
             input (Optional[str]): The input path.
+            input_format (Optional[InputFormat]): The input format.
+            year (Optional[str]): The year of all transactions.
 
         Raises:
-            ValueError: If `input` is not None or a CSV or TSV file.
+            ValueError: If `input` is not None or a CSV, TSV, or TXT file.
             ValueError: If `input` is not None or an existing file.
+            ValueError: If `format` is 'BMO_CC_ADOBE' and `year` is None.
         """
         if input is None:
             return
 
-        in_ext = (".csv", ".tsv")
+        in_ext = (".csv", ".tsv", ".txt")
         if not input.endswith(in_ext):
             raise ValueError(f"Input '{input}' does not end with one of '{in_ext}'")
 
         if not os.path.isfile(input):
             raise ValueError(f"Input '{input}' is not an existing file")
 
+        # get key from value: https://stackoverflow.com/a/13149770
+        if input_format is not None:
+            format = list(GetInputFormats.input_formats.keys())[
+                list(GetInputFormats.input_formats.values()).index(input_format)
+            ]
+            if format == "BMO_CC_ADOBE" and year is None:
+                raise ValueError(f"Must specify 'year' argument when {format=}")
+
     def run(self) -> None:
         logger.info(f"Parsing input {self.input}")
-        df = parse_input(self.input, self.format)
+        df = parse_input(self.input, self.format, self.year)
         logger.debug(f"input file: {df.shape=}, df.dtypes=\n{df.dtypes}")
         logger.debug(f"df.head()=\n{df.head()}")
 

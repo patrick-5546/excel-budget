@@ -63,7 +63,7 @@ def test_inputformat_get_usecols_names(input_format: inputformat.InputFormat) ->
 )
 def test_parse_input(test_file: str, input_format: inputformat.InputFormat) -> None:
     with does_not_raise():
-        df = inputformat.parse_input(test_file, input_format)
+        df = inputformat.parse_input(test_file, input_format, year=None)
     assert not df.isna().all(axis=1).any(), f"df from {test_file} has NaN rows"
     assert not df.duplicated().any(), f"df from {test_file} contains duplicates"
     assert (
