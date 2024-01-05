@@ -1130,9 +1130,9 @@ Adapted from <a href="https://stackoverflow.com/a/50799463">this Stack Overflow 
           <td>
                 <code><a class="autorefs autorefs-external" title="typing.List" href="https://docs.python.org/3/library/typing.html#typing.List">List</a>[<a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#int">int</a>]</code>
           </td>
-          <td><p>The first len(<code>COLUMNS</code>) elements are indices of columns
-that map to <code>COLUMNS</code>, there may indices after for columns required for
-post-processing.</p></td>
+          <td><p>The first len(<code>MONTH_COLUMNS</code>) elements are indices of
+columns that map to <code>MONTH_COLUMNS</code>, there may indices after for columns
+required for post-processing.</p></td>
         </tr>
         <tr>
           <td><code>ignores</code></td>
@@ -1198,9 +1198,9 @@ post-processing.</p></td>
 <a id="__codelineno-0-20" name="__codelineno-0-20"></a><span class="sd">    Attributes:</span>
 <a id="__codelineno-0-21" name="__codelineno-0-21"></a><span class="sd">        header (int): The 0-indexed row of the header in the input file.</span>
 <a id="__codelineno-0-22" name="__codelineno-0-22"></a><span class="sd">        names (List[str]): The column names.</span>
-<a id="__codelineno-0-23" name="__codelineno-0-23"></a><span class="sd">        usecols (List[int]): The first len(`COLUMNS`) elements are indices of columns</span>
-<a id="__codelineno-0-24" name="__codelineno-0-24"></a><span class="sd">            that map to `COLUMNS`, there may indices after for columns required for</span>
-<a id="__codelineno-0-25" name="__codelineno-0-25"></a><span class="sd">            post-processing.</span>
+<a id="__codelineno-0-23" name="__codelineno-0-23"></a><span class="sd">        usecols (List[int]): The first len(`MONTH_COLUMNS`) elements are indices of</span>
+<a id="__codelineno-0-24" name="__codelineno-0-24"></a><span class="sd">            columns that map to `MONTH_COLUMNS`, there may indices after for columns</span>
+<a id="__codelineno-0-25" name="__codelineno-0-25"></a><span class="sd">            required for post-processing.</span>
 <a id="__codelineno-0-26" name="__codelineno-0-26"></a><span class="sd">        ignores (List[str]): Ignore transactions that contain with these regex patterns.</span>
 <a id="__codelineno-0-27" name="__codelineno-0-27"></a><span class="sd">        pre_processing (Callable): The function to call before `pd.read_csv()`.</span>
 <a id="__codelineno-0-28" name="__codelineno-0-28"></a><span class="sd">        post_processing (Callable): The function to call after `pd.read_csv()`.</span>
@@ -1809,11 +1809,11 @@ post-processing.</p></td>
 <a id="__codelineno-0-265" name="__codelineno-0-265"></a>
 <a id="__codelineno-0-266" name="__codelineno-0-266"></a>    <span class="n">df</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
 <a id="__codelineno-0-267" name="__codelineno-0-267"></a>
-<a id="__codelineno-0-268" name="__codelineno-0-268"></a>    <span class="c1"># order columns to match `COLUMNS`</span>
+<a id="__codelineno-0-268" name="__codelineno-0-268"></a>    <span class="c1"># order columns to match `MONTH_COLUMNS`</span>
 <a id="__codelineno-0-269" name="__codelineno-0-269"></a>    <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="nb">format</span><span class="o">.</span><span class="n">get_usecols_names</span><span class="p">()]</span>
 <a id="__codelineno-0-270" name="__codelineno-0-270"></a>
-<a id="__codelineno-0-271" name="__codelineno-0-271"></a>    <span class="c1"># rename columns to match `COLUMNS`</span>
-<a id="__codelineno-0-272" name="__codelineno-0-272"></a>    <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">set_axis</span><span class="p">([</span><span class="n">c</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">COLUMNS</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="s2">&quot;columns&quot;</span><span class="p">)</span>
+<a id="__codelineno-0-271" name="__codelineno-0-271"></a>    <span class="c1"># rename columns to match `MONTH_COLUMNS`</span>
+<a id="__codelineno-0-272" name="__codelineno-0-272"></a>    <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">set_axis</span><span class="p">([</span><span class="n">c</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">MONTH_COLUMNS</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="s2">&quot;columns&quot;</span><span class="p">)</span>
 <a id="__codelineno-0-273" name="__codelineno-0-273"></a>
 <a id="__codelineno-0-274" name="__codelineno-0-274"></a>    <span class="c1"># sort rows by date</span>
 <a id="__codelineno-0-275" name="__codelineno-0-275"></a>    <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">),</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
