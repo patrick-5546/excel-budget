@@ -150,6 +150,16 @@ def create_year_sheet(wb: Workbook, year: int) -> None:
 
     summ_tab.ref = summ_tab_pos.get_ref()
 
+    # compute totals
+    # set month cell
+    ws.cell(row=summ_tab_pos.next_row, column=summ_tab_pos.first_col).value = "Total"
+
+    # set other cells
+    for i in range(1, len(SUMMARY_COLUMNS)):
+        cell = ws.cell(row=summ_tab_pos.next_row, column=summ_tab_pos.first_col + i)
+        cell.value = f"=SUM({summ_table_name}[{SUMMARY_COLUMNS[i].name}])"
+        cell.number_format = SUMMARY_COLUMNS[i].format
+
 
 def _add_table(
     ws: Worksheet,
