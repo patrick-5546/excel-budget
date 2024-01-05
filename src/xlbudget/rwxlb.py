@@ -2,13 +2,14 @@
 
 import calendar
 from logging import getLogger
-from typing import Dict, NamedTuple
+from typing import Dict, List, NamedTuple
 
 import pandas as pd
 from openpyxl import Workbook
 from openpyxl.utils import get_column_letter
 from openpyxl.utils.cell import column_index_from_string, coordinate_from_string
 from openpyxl.worksheet.table import Table, TableStyleInfo
+from openpyxl.worksheet.worksheet import Worksheet
 
 logger = getLogger(__name__)
 
@@ -26,7 +27,7 @@ class ColumnSpecs(NamedTuple):
     width: int
 
 
-COLUMNS = [
+MONTH_COLUMNS = [
     ColumnSpecs(name="Date", format=FORMAT_DATE, width=12),
     ColumnSpecs(name="Description", format="", width=20),
     ColumnSpecs(name="Amount", format=FORMAT_ACCOUNTING, width=12),
@@ -94,10 +95,10 @@ def create_year_sheet(wb: Workbook, year: int) -> None:
 
     for c_start in range(
         MONTH_TABLES_COL,
-        (len(COLUMNS) + 1) * num_tables + MONTH_TABLES_COL,
-        len(COLUMNS) + 1,
+        (len(MONTH_COLUMNS) + 1) * num_tables + MONTH_TABLES_COL,
+        len(MONTH_COLUMNS) + 1,
     ):
-        month_ind = (c_start - MONTH_TABLES_COL) // (len(COLUMNS) + 1)
+        month_ind = (c_start - MONTH_TABLES_COL) // (len(MONTH_COLUMNS) + 1)
         month = MONTH_NAME_0_IND[month_ind]
         table_name = _get_table_name(month, year_str)
         logger.debug(f"creating {table_name} table")
@@ -108,50 +109,62 @@ def create_year_sheet(wb: Workbook, year: int) -> None:
             start_row=MONTH_TABLES_ROW,
             start_column=c_start,
             end_row=MONTH_TABLES_ROW,
-            end_column=c_start + len(COLUMNS) - 2,
+            end_column=c_start + len(MONTH_COLUMNS) - 2,
         )
 
         # table sum
-        sum = ws.cell(row=MONTH_TABLES_ROW, column=c_start + len(COLUMNS) - 1)
-        sum.value = f"=SUM({table_name}[{COLUMNS[-1].name}])"
+        sum = ws.cell(row=MONTH_TABLES_ROW, column=c_start + len(MONTH_COLUMNS) - 1)
+        sum.value = f"=SUM({table_name}[{MONTH_COLUMNS[-1].name}])"
         sum.number_format = FORMAT_ACCOUNTING
         logger.debug(f"created sum cell {sum.coordinate}='{sum.value}'")
 
-        # table header and formating
-        header_row = MONTH_TABLES_ROW + 1
-        transactions_row = MONTH_TABLES_ROW + 2
-        for i in range(len(COLUMNS)):
-            c = c_start + i
-
-            # header
-            ws.cell(row=header_row, column=c).value = COLUMNS[i].name
-
-            # column format
-            cell = ws.cell(row=transactions_row, column=c)
-            if COLUMNS[i].format:
-                cell.number_format = COLUMNS[i].format
-
-            # column width
-            ws.column_dimensions[get_column_letter(c)].width = COLUMNS[i].width
-
-        # create table
-        c_start_ltr = get_column_letter(c_start)
-        c_end_ltr = get_column_letter(c_start + len(COLUMNS) - 1)
-        ref = f"{c_start_ltr}{header_row}:{c_end_ltr}{transactions_row}"
-        logger.debug(f"creating table {table_name} with {ref=}")
-        tab = Table(displayName=table_name, ref=ref)
-
-        # add a default style with striped rows and banded columns
-        style = TableStyleInfo(
-            name="TableStyleMedium9",
-            showFirstColumn=False,
-            showLastColumn=False,
-            showRowStripes=True,
-            showColumnStripes=True,
+        _add_table(
+            ws, table_name, c_start, r_start=MONTH_TABLES_ROW, columns=MONTH_COLUMNS
         )
-        tab.tableStyleInfo = style
 
-        ws.add_table(tab)
+
+def _add_table(
+    ws: Worksheet,
+    table_name: str,
+    c_start: int,
+    r_start: int,
+    columns: List[ColumnSpecs],
+):
+    # table header and formating
+    header_row = r_start + 1
+    transactions_row = r_start + 2
+    for i in range(len(columns)):
+        c = c_start + i
+
+        # header
+        ws.cell(row=header_row, column=c).value = columns[i].name
+
+        # column format
+        cell = ws.cell(row=transactions_row, column=c)
+        if columns[i].format:
+            cell.number_format = columns[i].format
+
+        # column width
+        ws.column_dimensions[get_column_letter(c)].width = columns[i].width
+
+    # create table
+    c_start_ltr = get_column_letter(c_start)
+    c_end_ltr = get_column_letter(c_start + len(columns) - 1)
+    ref = f"{c_start_ltr}{header_row}:{c_end_ltr}{transactions_row}"
+    logger.debug(f"creating table {table_name} with {ref=}")
+    tab = Table(displayName=table_name, ref=ref)
+
+    # add a default style with striped rows and banded columns
+    style = TableStyleInfo(
+        name="TableStyleMedium9",
+        showFirstColumn=False,
+        showLastColumn=False,
+        showRowStripes=True,
+        showColumnStripes=True,
+    )
+    tab.tableStyleInfo = style
+
+    ws.add_table(tab)
 
 
 def update_xlbudget(wb: Workbook, df: pd.DataFrame):
@@ -196,7 +209,7 @@ def update_xlbudget(wb: Workbook, df: pd.DataFrame):
             if is_populated:
                 for r in range(pos.next_row, pos.initial_last_row + 1):
                     transaction = []
-                    for i in range(len(COLUMNS)):
+                    for i in range(len(MONTH_COLUMNS)):
                         c = pos.first_col + i
                         transaction.append(ws.cell(row=r, column=c).value)
 

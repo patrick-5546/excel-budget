@@ -5,7 +5,7 @@ from typing import List, NamedTuple
 import pytest
 
 import xlbudget.inputformat as inputformat
-from xlbudget.rwxlb import COLUMNS
+from xlbudget.rwxlb import MONTH_COLUMNS
 
 
 class InputFormatSpecs(NamedTuple):
@@ -31,7 +31,7 @@ INPUT_FORMATS = [
     )
     for n in {"BMO_ACCT", "BMO_CC"}
 ]
-XLB_COL_NAMES = [c.name for c in COLUMNS]
+XLB_COL_NAMES = [c.name for c in MONTH_COLUMNS]
 
 
 @pytest.mark.parametrize("input_format_spec", INPUT_FORMATS)

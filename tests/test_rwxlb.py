@@ -6,7 +6,7 @@ import xlbudget.rwxlb as rwxlb
 
 
 def test_columns() -> None:
-    for i, c in enumerate(rwxlb.COLUMNS):
+    for i, c in enumerate(rwxlb.MONTH_COLUMNS):
         assert isinstance(
             c, rwxlb.ColumnSpecs
         ), f"column {i} type isn't `ColumnSpecs`: {c}"
