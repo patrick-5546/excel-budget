@@ -6,6 +6,7 @@ from typing import Dict, List, NamedTuple
 
 import pandas as pd
 from openpyxl import Workbook
+from openpyxl.styles import Alignment, Font
 from openpyxl.utils import get_column_letter
 from openpyxl.utils.cell import column_index_from_string, coordinate_from_string
 from openpyxl.worksheet.table import Table, TableStyleInfo
@@ -109,21 +110,6 @@ def create_year_sheet(wb: Workbook, year: int) -> None:
         table_name = _get_month_table_name(month, year_str)
         logger.debug(f"creating {table_name} table")
 
-        # table title
-        ws.cell(row=MONTH_TABLES_ROW, column=c_start).value = month
-        ws.merge_cells(
-            start_row=MONTH_TABLES_ROW,
-            start_column=c_start,
-            end_row=MONTH_TABLES_ROW,
-            end_column=c_start + len(MONTH_COLUMNS) - 2,
-        )
-
-        # table sum
-        sum = ws.cell(row=MONTH_TABLES_ROW, column=c_start + len(MONTH_COLUMNS) - 1)
-        sum.value = f"=SUM({table_name}[{MONTH_COLUMNS[-1].name}])"
-        sum.number_format = FORMAT_ACCOUNTING
-        logger.debug(f"created sum cell {sum.coordinate}='{sum.value}'")
-
         _add_table(
             ws, table_name, c_start, r_start=MONTH_TABLES_ROW, columns=MONTH_COLUMNS
         )
@@ -172,6 +158,18 @@ def _add_table(
     r_start: int,
     columns: List[ColumnSpecs],
 ):
+    # table title
+    table_title = ws.cell(row=r_start, column=c_start)
+    table_title.value = table_name
+    table_title.font = Font(bold=True)
+    table_title.alignment = Alignment(horizontal="center")
+    ws.merge_cells(
+        start_row=r_start,
+        start_column=c_start,
+        end_row=r_start,
+        end_column=c_start + len(columns) - 1,
+    )
+
     # table header and formating
     header_row = r_start + 1
     transactions_row = r_start + 2
@@ -356,4 +354,4 @@ def _get_month_table_name(month: str, year: str):
 
 
 def _get_summary_table_name(year: str):
-    return f"_{year}"
+    return f"_Summary{year}"
