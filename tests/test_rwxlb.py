@@ -17,9 +17,10 @@ def test_TablePosition() -> None:
     vars = [d for d in dir(t) if not d.startswith("_") and not callable(getattr(t, d))]
 
     # variables
-    num_vars = 3  # hardcoded: update manually
+    num_vars = 4  # hardcoded: update manually
     assert len(vars) == num_vars, "not all variables are tested"
     assert t.first_col == 1, "`first_col` value unexpected"
+    assert t.header_row == 2, "`header_row` value unexpected"
     assert t.next_row == 3, "`next_row` value unexpected"
     assert t.initial_last_row == 4, "`initial_last_row` value unexpected"
 

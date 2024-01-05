@@ -73,7 +73,8 @@ class TablePosition:
     def __repr__(self) -> str:
         return (
             f"{self.__class__.__name__}(next_row={self.next_row}, "
-            f"first_col={self.first_col}, initial_last_row={self.initial_last_row})"
+            f"first_col={self.first_col}, initial_last_row={self.initial_last_row}, "
+            f"header_row={self.header_row})"
         )
 
     def get_ref(self) -> str:
@@ -184,7 +185,7 @@ def create_year_sheet(wb: Workbook, year: int) -> None:
         chart.legend = None
         chart.y_axis.numFmt = FORMAT_NUMBER
         chart.height = 7.5
-        chart.width = 8.5
+        chart.width = 8.5  # type: ignore[assignment]
         start_col = MONTH_TABLES_COL + (i - 1) * (len(MONTH_COLUMNS) + 1)
         anchor = f"{get_column_letter(start_col)}1"
         ws.add_chart(chart, anchor)
