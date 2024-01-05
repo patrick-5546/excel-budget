@@ -6,6 +6,7 @@ from typing import Dict, List, NamedTuple
 
 import pandas as pd
 from openpyxl import Workbook
+from openpyxl.chart import BarChart, Reference
 from openpyxl.styles import Alignment, Font
 from openpyxl.utils import get_column_letter
 from openpyxl.utils.cell import column_index_from_string, coordinate_from_string
@@ -16,9 +17,10 @@ logger = getLogger(__name__)
 
 FORMAT_ACCOUNTING = '_($* #,##0.00_);_($* (#,##0.00);_($* "-"??_);_(@_)'
 FORMAT_DATE = "MM/DD/YYYY"
+FORMAT_NUMBER = '_($* #,##0_);_($* (#,##0);_($* "-"??_);_(@_)'
 
 MONTH_NAME_0_IND = calendar.month_name[1:]
-MONTH_TABLES_ROW = 16
+MONTH_TABLES_ROW = 17
 MONTH_TABLES_COL = 6
 
 
@@ -57,6 +59,10 @@ class TablePosition:
         self.__last_col, self.__initial_last_row = coordinate_from_string(end)
 
     @property
+    def header_row(self) -> int:
+        return self.__header_row
+
+    @property
     def first_col(self) -> int:
         return self.__first_col_ind
 
@@ -75,10 +81,10 @@ class TablePosition:
         # implemented as follows so that `next_row` can be incremented consistently.
         last_row = (
             self.next_row - 1
-            if self.next_row - 1 >= self.__header_row + 1
-            else self.__header_row + 1
+            if self.next_row - 1 >= self.header_row + 1
+            else self.header_row + 1
         )
-        return f"{self.__first_col}{self.__header_row}:{self.__last_col}{last_row}"
+        return f"{self.__first_col}{self.header_row}:{self.__last_col}{last_row}"
 
 
 def create_year_sheet(wb: Workbook, year: int) -> None:
@@ -154,11 +160,34 @@ def create_year_sheet(wb: Workbook, year: int) -> None:
     # set month cell
     ws.cell(row=summ_tab_pos.next_row, column=summ_tab_pos.first_col).value = "Total"
 
-    # set other cells
+    # set other cells and create charts
     for i in range(1, len(SUMMARY_COLUMNS)):
         cell = ws.cell(row=summ_tab_pos.next_row, column=summ_tab_pos.first_col + i)
         cell.value = f"=SUM({summ_table_name}[{SUMMARY_COLUMNS[i].name}])"
         cell.number_format = SUMMARY_COLUMNS[i].format
+
+        chart = BarChart()
+        data = Reference(
+            ws,
+            min_col=i + 1,
+            min_row=summ_tab_pos.header_row,
+            max_row=summ_tab_pos.next_row - 1,
+        )
+        cats = Reference(
+            ws,
+            min_col=summ_tab_pos.first_col,
+            min_row=summ_tab_pos.header_row + 1,
+            max_row=summ_tab_pos.next_row - 1,
+        )
+        chart.add_data(data, titles_from_data=True)
+        chart.set_categories(cats)
+        chart.legend = None
+        chart.y_axis.numFmt = FORMAT_NUMBER
+        chart.height = 7.5
+        chart.width = 8.5
+        start_col = MONTH_TABLES_COL + (i - 1) * (len(MONTH_COLUMNS) + 1)
+        anchor = f"{get_column_letter(start_col)}1"
+        ws.add_chart(chart, anchor)
 
 
 def _add_table(
